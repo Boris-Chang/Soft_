@@ -170,6 +170,52 @@
 					</generator>
 				</configuration>
 			</plugin>
+
+			<plugin>
+				<groupId>com.github.gantsign.maven</groupId>
+				<artifactId>ktlint-maven-plugin</artifactId>
+				<version>1.9.0</version>
+				<executions>
+					<execution>
+						<phase>generate-sources</phase>
+						<id>format-and-check</id>
+						<goals>
+							<goal>format</goal>
+							<goal>ktlint</goal>
+							<goal>check</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>check</id>
+						<phase>verify</phase>
+						<goals>
+							<goal>check</goal>
+						</goals>
+					</execution>
+
+				</executions>
+			</plugin>
+
+			<plugin>
+				<groupId>io.github.phillipuniverse</groupId>
+				<artifactId>githook-maven-plugin</artifactId>
+				<version>1.0.5</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>install</goal>
+						</goals>
+						<configuration>
+							<hooks>
+								<pre-commit>
+									echo running lint
+									(cd Backend; mvn ktlint:ktlint)
+								</pre-commit>
+							</hooks>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
 		</plugins>
 	</build>
 

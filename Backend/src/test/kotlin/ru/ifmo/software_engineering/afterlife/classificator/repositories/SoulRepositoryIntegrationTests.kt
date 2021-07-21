@@ -14,13 +14,13 @@ import kotlin.test.assertEquals
 @SpringBootTest
 class SoulRepositoryIntegrationTests {
     @Autowired
-    lateinit var dsl: DSLContext;
+    lateinit var dsl: DSLContext
     @Autowired
     lateinit var soulRepository: SoulRepository
 
     @Test
     fun insertOne_soulPassed_createsNewSoul() = runBlocking {
-        //Arrange
+        // Arrange
         val soulToInsert = Soul(
             0,
             RandomGenerator.generateRandomString(10),
@@ -28,10 +28,10 @@ class SoulRepositoryIntegrationTests {
             Date()
         )
 
-        //Act
+        // Act
         val result = soulRepository.insertOne(soulToInsert)
 
-        //Assert
+        // Assert
         assertEquals(soulToInsert.copy(id = result.id), result)
 
         val count = dsl.selectFrom(Souls.SOULS)
