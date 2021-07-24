@@ -1,0 +1,18 @@
+/* You can add global styles to this file, and also import other style files */
+/* Application-wide Styles */
+body {
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+  background-color: #f0f8ff;
+  padding-top: 60px;
+  height: 100%;
+}
+
+body * {
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Importing Bootstrap SCSS file. */
+@import '~bootstrap/scss/bootstrap';
