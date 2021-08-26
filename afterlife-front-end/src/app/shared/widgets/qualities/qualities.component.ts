@@ -12,7 +12,7 @@ export class QualitiesComponent implements OnInit {
 
   chartOptions: Highcharts.Options = {
     title: {
-      text: "Температура Точка сбора"
+      text: "Температура точка сбора"
     },
     xAxis: {
       title: {
