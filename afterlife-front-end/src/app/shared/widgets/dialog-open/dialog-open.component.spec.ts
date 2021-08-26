@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { BannerBarComponent } from './banner-bar.component';
+import { DialogOpenComponent } from './dialog-open.component';
 
-describe('BannerBarComponent', () => {
-  let component: BannerBarComponent;
-  let fixture: ComponentFixture<BannerBarComponent>;
+describe('DialogOpenComponent', () => {
+  let component: DialogOpenComponent;
+  let fixture: ComponentFixture<DialogOpenComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ BannerBarComponent ]
+      declarations: [ DialogOpenComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(BannerBarComponent);
+    fixture = TestBed.createComponent(DialogOpenComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
