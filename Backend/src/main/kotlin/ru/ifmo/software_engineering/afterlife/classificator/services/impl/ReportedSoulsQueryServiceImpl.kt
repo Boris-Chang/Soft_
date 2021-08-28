@@ -11,4 +11,5 @@ class ReportedSoulsQueryServiceImpl(
 ) : ReportedSoulsQueryService {
     override suspend fun getAllReportedSouls(): List<ReportedSoul> =
         repository.getReportedSouls()
+            .sortedByDescending { it.lastUpdate }
 }

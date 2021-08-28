@@ -8,9 +8,11 @@ import ru.ifmo.software_engineering.afterlife.classificator.database.mappers.Sou
 import ru.ifmo.software_engineering.afterlife.classificator.domain.ReportedSoul
 import ru.ifmo.software_engineering.afterlife.classificator.domain.Soul
 import ru.ifmo.software_engineering.afterlife.classificator.repositories.SoulRepository
-import ru.ifmo.software_engineering.afterlife.database.tables.GoodnessReports
-import ru.ifmo.software_engineering.afterlife.database.tables.SinsReports
-import ru.ifmo.software_engineering.afterlife.database.tables.Souls
+import ru.ifmo.software_engineering.afterlife.database.tables.GoodnessEvidences.GOODNESS_EVIDENCES
+import ru.ifmo.software_engineering.afterlife.database.tables.GoodnessReports.GOODNESS_REPORTS
+import ru.ifmo.software_engineering.afterlife.database.tables.SinsReports.SINS_REPORTS
+import ru.ifmo.software_engineering.afterlife.database.tables.Souls.SOULS
+import ru.ifmo.software_engineering.afterlife.database.tables.SinEvidences.SIN_EVIDENCES
 import java.time.LocalDateTime
 import java.time.ZoneId
 
@@ -21,8 +23,8 @@ class SoulRepositoryImpl(
     private val reportedSoulMapper: ReportedSoulMapper
 ) : SoulRepository {
     override suspend fun insertOne(soul: Soul): Soul {
-        return this.dsl.insertInto(Souls.SOULS)
-            .columns(Souls.SOULS.FIRST_NAME, Souls.SOULS.LAST_NAME, Souls.SOULS.DATE_OF_DEATH)
+        return this.dsl.insertInto(SOULS)
+            .columns(SOULS.FIRST_NAME, SOULS.LAST_NAME, SOULS.DATE_OF_DEATH)
             .values(
                 soul.firstName,
                 soul.lastName,
@@ -35,21 +37,20 @@ class SoulRepositoryImpl(
     }
 
     override suspend fun getReportedSouls(): List<ReportedSoul> {
-        return this.dsl.select().from(Souls.SOULS)
-            .leftJoin(SinsReports.SINS_REPORTS)
-            .on(SinsReports.SINS_REPORTS.SOUL_ID.eq(Souls.SOULS.ID))
-            .leftJoin(GoodnessReports.GOODNESS_REPORTS)
-            .on(GoodnessReports.GOODNESS_REPORTS.SOUL_ID.eq(Souls.SOULS.ID))
-            .fetchAsync()
-            .await()
-            .map {
+        return this.dsl.select().from(SOULS)
+            .leftJoin(SINS_REPORTS).on(SINS_REPORTS.SOUL_ID.eq(SOULS.ID))
+            .leftJoin(GOODNESS_REPORTS).on(GOODNESS_REPORTS.SOUL_ID.eq(SOULS.ID))
+            .leftJoin(SIN_EVIDENCES).on(SIN_EVIDENCES.SINNED_BY_SOUL_ID.eq(SOULS.ID))
+            .leftJoin(GOODNESS_EVIDENCES).on(GOODNESS_EVIDENCES.DONE_BY_SOUL_ID.eq(SOULS.ID))
+            .fetchAsync().await()
+            .intoGroups{
                 Triple(
-                    it.into(Souls.SOULS),
-                    if (it[SinsReports.SINS_REPORTS.ID] != null)
-                        it.into(SinsReports.SINS_REPORTS)
+                    it.into(SOULS),
+                    if (it[SINS_REPORTS.ID] != null)
+                        it.into(SINS_REPORTS)
                     else null,
-                    if (it[GoodnessReports.GOODNESS_REPORTS.ID] != null)
-                        it.into(GoodnessReports.GOODNESS_REPORTS)
+                    if (it[GOODNESS_REPORTS.ID] != null)
+                        it.into(GOODNESS_REPORTS)
                     else null
                 )
             }
