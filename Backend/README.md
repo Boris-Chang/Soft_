@@ -18,5 +18,10 @@
 ### Startup spring boot application
 `mvn spring-boot:run`
 
-After that REST API will be available. **Swagger documentation** can be found on:
+After that REST API will be available. 
+
+To access **Swagger documentation** open:
 `http://localhost:8080/swagger-ui/index.html`
+And type:
+`/v3/api-docs`
+in the input

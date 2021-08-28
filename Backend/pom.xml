@@ -19,6 +19,7 @@
 		<spring.version>2.5.2</spring.version>
 		<jooq.version>3.15.1</jooq.version>
 		<kotlinx.coroutines>1.5.1</kotlinx.coroutines>
+		<springdoc.version>1.5.2</springdoc.version>
 
 		<!--Properties for JOOQ Codegen plugin-->
 		<db.driver>org.postgresql.Driver</db.driver>
@@ -45,11 +46,15 @@
 			<groupId>org.springframework.data</groupId>
 			<artifactId>spring-data-commons</artifactId>
 		</dependency>
-
 		<dependency>
 			<groupId>org.springdoc</groupId>
 			<artifactId>springdoc-openapi-ui</artifactId>
-			<version>1.5.2</version>
+			<version>${springdoc.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springdoc</groupId>
+			<artifactId>springdoc-openapi-kotlin</artifactId>
+			<version>${springdoc.version}</version>
 		</dependency>
 
 		<dependency>
