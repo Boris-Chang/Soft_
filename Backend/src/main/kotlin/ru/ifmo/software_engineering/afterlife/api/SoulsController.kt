@@ -2,6 +2,7 @@ package ru.ifmo.software_engineering.afterlife.api
 
 import org.springframework.web.bind.annotation.*
 import ru.ifmo.software_engineering.afterlife.classificator.domain.ReportedSoul
+import ru.ifmo.software_engineering.afterlife.classificator.domain.ReportedSoulsQueryFilter
 import ru.ifmo.software_engineering.afterlife.classificator.domain.Soul
 import ru.ifmo.software_engineering.afterlife.classificator.services.ReportedSoulsQueryService
 import ru.ifmo.software_engineering.afterlife.classificator.services.SoulRegistrar
@@ -18,7 +19,7 @@ class SoulsController(
     }
 
     @GetMapping
-    suspend fun getSouls(): List<ReportedSoul> {
-        return this.soulsQueryService.getAllReportedSouls()
+    suspend fun getSouls(@RequestParam("report-filter") reportFilter: ReportedSoulsQueryFilter?): List<ReportedSoul> {
+        return this.soulsQueryService.getAllReportedSouls(reportFilter)
     }
 }

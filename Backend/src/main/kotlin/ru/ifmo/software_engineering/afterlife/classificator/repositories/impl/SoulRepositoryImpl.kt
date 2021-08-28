@@ -2,10 +2,13 @@ package ru.ifmo.software_engineering.afterlife.classificator.repositories.impl
 
 import kotlinx.coroutines.future.await
 import org.jooq.DSLContext
+import org.jooq.Record
+import org.jooq.SelectOnConditionStep
 import org.springframework.stereotype.Repository
 import ru.ifmo.software_engineering.afterlife.classificator.database.mappers.ReportedSoulMapper
 import ru.ifmo.software_engineering.afterlife.classificator.database.mappers.SoulMapper
 import ru.ifmo.software_engineering.afterlife.classificator.domain.ReportedSoul
+import ru.ifmo.software_engineering.afterlife.classificator.domain.ReportedSoulsQueryFilter
 import ru.ifmo.software_engineering.afterlife.classificator.domain.Soul
 import ru.ifmo.software_engineering.afterlife.classificator.repositories.SoulRepository
 import ru.ifmo.software_engineering.afterlife.database.tables.GoodnessEvidences.GOODNESS_EVIDENCES
@@ -36,12 +39,13 @@ class SoulRepositoryImpl(
             .await()
     }
 
-    override suspend fun getReportedSouls(): List<ReportedSoul> {
+    override suspend fun getReportedSouls(filter: ReportedSoulsQueryFilter?): List<ReportedSoul> {
         return this.dsl.select().from(SOULS)
             .leftJoin(SINS_REPORTS).on(SINS_REPORTS.SOUL_ID.eq(SOULS.ID))
             .leftJoin(GOODNESS_REPORTS).on(GOODNESS_REPORTS.SOUL_ID.eq(SOULS.ID))
             .leftJoin(SIN_EVIDENCES).on(SIN_EVIDENCES.SINNED_BY_SOUL_ID.eq(SOULS.ID))
             .leftJoin(GOODNESS_EVIDENCES).on(GOODNESS_EVIDENCES.DONE_BY_SOUL_ID.eq(SOULS.ID))
+            .whereReportedSoulInFilter(filter)
             .fetchAsync().await()
             .intoGroups{
                 Triple(
@@ -56,4 +60,17 @@ class SoulRepositoryImpl(
             }
             .map { reportedSoulMapper.map(it) }
     }
+
+    private fun SelectOnConditionStep<Record>.whereReportedSoulInFilter(filter: ReportedSoulsQueryFilter?) =
+        when (filter) {
+            null -> this.where()
+            ReportedSoulsQueryFilter.REPORT_NOT_UPLOADED ->
+                this.where(SINS_REPORTS.ID.isNull, GOODNESS_REPORTS.ID.isNull)
+            ReportedSoulsQueryFilter.SINS_REPORT_NOT_UPLOADED ->
+                this.where(SINS_REPORTS.ID.isNull)
+            ReportedSoulsQueryFilter.GOODNESS_REPORT_NOT_UPLOADED ->
+                this.where(GOODNESS_REPORTS.ID.isNull)
+            ReportedSoulsQueryFilter.ALL_UPLOADED ->
+                this.where(GOODNESS_REPORTS.ID.isNotNull, SINS_REPORTS.ID.isNotNull)
+        }
 }
