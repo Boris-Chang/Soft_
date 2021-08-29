@@ -33,7 +33,7 @@ sealed class CsvParserImpl<T>(
     }
 
     private fun <T> CsvRowParser<T>.parseRows(rows: Iterable<Array<String>>): Validated<CsvParseException, List<T>> {
-        //Add header row number to number of row
+        // Add header row number to number of row
         val offset = 1
 
         return rows.withIndex().traverseEither { (i, row) ->
@@ -42,8 +42,8 @@ sealed class CsvParserImpl<T>(
     }
 }
 
-class GoodnessEvidencesCsvParser(rowParserProvider: CsvRowParserProvider<GoodnessEvidence>)
-    : CsvParserImpl<GoodnessEvidence>(rowParserProvider)
+class GoodnessEvidencesCsvParser(rowParserProvider: CsvRowParserProvider<GoodnessEvidence>) :
+    CsvParserImpl<GoodnessEvidence>(rowParserProvider)
 
-class SinEvidencesCsvParser(rowParserProvider: CsvRowParserProvider<SinEvidence>)
-    : CsvParserImpl<SinEvidence>(rowParserProvider)
+class SinEvidencesCsvParser(rowParserProvider: CsvRowParserProvider<SinEvidence>) :
+    CsvParserImpl<SinEvidence>(rowParserProvider)

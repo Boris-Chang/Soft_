@@ -1,6 +1,6 @@
 package ru.ifmo.software_engineering.afterlife.core.models
 
-data class PageRequest (
+data class PageRequest(
     val pageNumber: Int,
     val pageSize: Int = DEFAULT_PAGE_SIZE
 ) {

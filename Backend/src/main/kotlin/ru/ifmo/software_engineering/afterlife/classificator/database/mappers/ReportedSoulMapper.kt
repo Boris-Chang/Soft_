@@ -1,13 +1,12 @@
 package ru.ifmo.software_engineering.afterlife.classificator.database.mappers
 
 import org.jooq.Record
-import org.jooq.Result
 import org.jooq.RecordMapper
+import org.jooq.Result
 import org.springframework.stereotype.Component
 import ru.ifmo.software_engineering.afterlife.classificator.domain.*
 import ru.ifmo.software_engineering.afterlife.database.tables.records.*
 import ru.ifmo.software_engineering.afterlife.users.domain.User
-import java.time.ZoneId
 
 @Component
 class ReportedSoulMapper(
@@ -17,13 +16,13 @@ class ReportedSoulMapper(
 ) {
     fun map(
         records: Map.Entry<
-                           Triple<SoulsRecord, SinsReportsRecord?, GoodnessReportsRecord?>,
-                           Result<Record>>
+            Triple<SoulsRecord, SinsReportsRecord?, GoodnessReportsRecord?>,
+            Result<Record>>
     ): ReportedSoul {
         val soul = this.soulMapper.map(records.key.first)!!
 
         val sinEvidences = records.value
-            .map{ this.sinEvidenceMapper.map(it) }
+            .map { this.sinEvidenceMapper.map(it) }
             .filterNotNull()
         val goodnessEvidences = records.value
             .map { this.goodnessEvidenceMapper.map(it) }
@@ -45,7 +44,7 @@ class ReportedSoulMapper(
             soul,
             sinEvidences,
             User(1, "Admin"),
-            this.uploadedAt.atZone(ZoneId.of("UTC")),
+            this.uploadedAt.toZonedDateTime(),
         )
     }
 
@@ -55,8 +54,7 @@ class ReportedSoulMapper(
             soul,
             goodnessEvidences,
             User(1, "Admin"),
-            this.uploadedAt.atZone(ZoneId.of("UTC")),
+            this.uploadedAt.toZonedDateTime(),
         )
-
     }
 }

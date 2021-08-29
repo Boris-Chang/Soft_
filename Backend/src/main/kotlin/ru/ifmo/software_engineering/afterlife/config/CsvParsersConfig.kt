@@ -15,7 +15,9 @@ class CsvParsersConfig {
                 GoodnessCsvRowParserProvider.GoodnessCsvHeaderNames(
                     "Goodness Kind",
                     "Date",
-                )))
+                )
+            )
+        )
 
     @Bean
     fun sinEvidencesParser(): CsvParser<SinEvidence> =

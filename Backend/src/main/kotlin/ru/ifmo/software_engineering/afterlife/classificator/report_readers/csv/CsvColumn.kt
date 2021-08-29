@@ -19,11 +19,12 @@ interface CsvColumn<T> {
         }
 }
 
-class DateCsvColumn(override val index: Int, override val name: String): CsvColumn<ZonedDateTime> {
+class DateCsvColumn(override val index: Int, override val name: String) : CsvColumn<ZonedDateTime> {
     override fun parseCell(row: List<String>, rowNum: Int): Validated<CsvParseException, ZonedDateTime> {
         val rawCellValue = getRawCellValue(row)
             ?: return Validated.Invalid(
-                CsvParseException("Value for \"$name\" column not provided", rowNum, this.index))
+                CsvParseException("Value for \"$name\" column not provided", rowNum, this.index)
+            )
         return rawCellValue.tryParseDateRfc3339()
             ?.let {
                 Validated.Valid(it)
@@ -52,9 +53,8 @@ class OptionalColumn<T>(private val column: CsvColumn<T>) : CsvColumn<T?> {
 
     override fun parseCell(row: List<String>, rowNum: Int): Validated<CsvParseException, T?> {
         return if (column.index < 0 || column.index >= row.size ||
-                   name.isEmpty() || row[column.index].isEmpty()
+            name.isEmpty() || row[column.index].isEmpty()
         ) Validated.Valid(null)
         else this.column.parseCell(row, rowNum)
     }
-
 }

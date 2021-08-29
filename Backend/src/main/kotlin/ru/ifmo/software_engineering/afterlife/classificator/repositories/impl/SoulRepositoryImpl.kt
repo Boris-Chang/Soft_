@@ -15,12 +15,10 @@ import ru.ifmo.software_engineering.afterlife.core.models.PageRequest
 import ru.ifmo.software_engineering.afterlife.core.models.PagedResult
 import ru.ifmo.software_engineering.afterlife.database.tables.GoodnessEvidences.GOODNESS_EVIDENCES
 import ru.ifmo.software_engineering.afterlife.database.tables.GoodnessReports.GOODNESS_REPORTS
+import ru.ifmo.software_engineering.afterlife.database.tables.SinEvidences.SIN_EVIDENCES
 import ru.ifmo.software_engineering.afterlife.database.tables.SinsReports.SINS_REPORTS
 import ru.ifmo.software_engineering.afterlife.database.tables.Souls.SOULS
-import ru.ifmo.software_engineering.afterlife.database.tables.SinEvidences.SIN_EVIDENCES
 import ru.ifmo.software_engineering.afterlife.utils.jooq.paged
-import java.time.LocalDateTime
-import java.time.ZoneId
 
 @Repository
 class SoulRepositoryImpl(
@@ -34,7 +32,7 @@ class SoulRepositoryImpl(
             .values(
                 soul.firstName,
                 soul.lastName,
-                LocalDateTime.ofInstant(soul.dateOfDeath.toInstant(), ZoneId.of("UTC"))
+                soul.dateOfDeath.toOffsetDateTime()
             )
             .returning()
             .fetchAsync()
@@ -58,7 +56,7 @@ class SoulRepositoryImpl(
             .fetchAsync().await()
 
         val reportedSouls = results
-            .intoGroups{
+            .intoGroups {
                 Triple(
                     it.into(SOULS),
                     if (it[SINS_REPORTS.ID] != null)
@@ -78,14 +76,14 @@ class SoulRepositoryImpl(
         )
     }
 
-    private fun<T : Record> SelectFromStep<T>.fromReportedSouls() =
+    private fun <T : Record> SelectFromStep<T>.fromReportedSouls() =
         this.from(SOULS)
             .leftJoin(SINS_REPORTS).on(SINS_REPORTS.SOUL_ID.eq(SOULS.ID))
             .leftJoin(GOODNESS_REPORTS).on(GOODNESS_REPORTS.SOUL_ID.eq(SOULS.ID))
             .leftJoin(SIN_EVIDENCES).on(SIN_EVIDENCES.SINNED_BY_SOUL_ID.eq(SOULS.ID))
             .leftJoin(GOODNESS_EVIDENCES).on(GOODNESS_EVIDENCES.DONE_BY_SOUL_ID.eq(SOULS.ID))
 
-    private fun<T : Record> SelectWhereStep<T>.whereReportedSoulInFilter(filter: ReportedSoulsQueryFilter?) =
+    private fun <T : Record> SelectWhereStep<T>.whereReportedSoulInFilter(filter: ReportedSoulsQueryFilter?) =
         when (filter) {
             null -> this.where()
             ReportedSoulsQueryFilter.REPORT_NOT_UPLOADED ->

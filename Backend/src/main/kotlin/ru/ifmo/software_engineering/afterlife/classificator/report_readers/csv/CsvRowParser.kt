@@ -28,19 +28,21 @@ class GoodnessCsvRowParserProvider(
 
     private fun getDateColumn(header: List<String>): CsvColumn<ZonedDateTime>? {
         val headerIndex = header.indexOf(this.headerNames.dateColumn)
-        return if (headerIndex < 0 )  null
+        return if (headerIndex < 0) null
         else DateCsvColumn(
             headerIndex,
-            this.headerNames.dateColumn)
+            this.headerNames.dateColumn
+        )
     }
 
     private fun getGoodnessKindColumn(header: List<String>): CsvColumn<GoodnessKind>? {
         val headerIndex = header.indexOf(this.headerNames.kindColumn)
-        return if (headerIndex < 0 )  null
+        return if (headerIndex < 0) null
         else EnumCsvColumn(
             headerIndex,
             this.headerNames.kindColumn,
-            GoodnessKind::class)
+            GoodnessKind::class
+        )
     }
 
     override fun provideRowParser(header: List<String>): Validated<CsvParseException, CsvRowParser<GoodnessEvidence>> {
@@ -92,7 +94,7 @@ class SinCsvRowParserProvider(private val headerNames: SinCsvHeaderNames) : CsvR
 }
 
 class GoodnessCsvRowParser(
-    val dateColumn : CsvColumn<ZonedDateTime>,
+    val dateColumn: CsvColumn<ZonedDateTime>,
     val goodnessKindColumn: CsvColumn<GoodnessKind>
 ) : CsvRowParser<GoodnessEvidence> {
     override val columns: List<CsvColumn<*>>

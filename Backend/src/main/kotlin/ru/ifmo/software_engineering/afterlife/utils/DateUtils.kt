@@ -11,7 +11,7 @@ val UtcZone: ZoneId = ZoneId.of("UTC")
 fun String.tryParseDateRfc3339(): ZonedDateTime? =
     try {
         ZonedDateTime.parse(this, DateTimeFormatter.ISO_DATE_TIME)
-    } catch (e: DateTimeParseException)  {
+    } catch (e: DateTimeParseException) {
         null
     }
 

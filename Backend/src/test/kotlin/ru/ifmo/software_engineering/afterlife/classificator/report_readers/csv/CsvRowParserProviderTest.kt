@@ -14,7 +14,8 @@ class CsvRowParserProviderTest {
         val emptyHeader = emptyList<String>()
 
         val provider = GoodnessCsvRowParserProvider(
-            GoodnessCsvRowParserProvider.GoodnessCsvHeaderNames(header[1], header[0]))
+            GoodnessCsvRowParserProvider.GoodnessCsvHeaderNames(header[1], header[0])
+        )
 
         val successfulParser = provider.provideRowParser(header)
         val missingKindFailure = provider.provideRowParser(missingKindHeader)
@@ -46,7 +47,8 @@ class CsvRowParserProviderTest {
         val emptyHeader = emptyList<String>()
 
         val provider = SinCsvRowParserProvider(
-            SinCsvRowParserProvider.SinCsvHeaderNames(header[0], header[1], header[2]))
+            SinCsvRowParserProvider.SinCsvHeaderNames(header[0], header[1], header[2])
+        )
 
         val successfulParser = provider.provideRowParser(header)
         val missingKindFailure = provider.provideRowParser(missingKindHeader)
@@ -71,5 +73,4 @@ class CsvRowParserProviderTest {
             }
         }
     }
-
 }

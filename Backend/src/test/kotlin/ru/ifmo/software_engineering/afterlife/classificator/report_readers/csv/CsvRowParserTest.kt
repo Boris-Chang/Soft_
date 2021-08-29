@@ -68,7 +68,7 @@ class CsvRowParserTest {
             on {
                 parseCell(row, rowNum)
             } doReturn Validated.Valid(now)
-    }
+        }
         val kindColumn: CsvColumn<GoodnessKind> = mock {
             on {
                 parseCell(row, rowNum)

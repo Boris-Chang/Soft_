@@ -31,7 +31,8 @@ class SoulsController(
         pageNumber: Int = 0,
 
         @RequestParam(
-            "page-size", required = false, defaultValue = PageRequest.DEFAULT_PAGE_SIZE.toString())
+            "page-size", required = false, defaultValue = PageRequest.DEFAULT_PAGE_SIZE.toString()
+        )
         pageSize: Int?,
 
     ): PagedResult<ReportedSoul> {
@@ -41,6 +42,7 @@ class SoulsController(
 
         return this.soulsQueryService.getAllReportedSouls(
             reportFilter,
-            pageRequest)
+            pageRequest
+        )
     }
 }
