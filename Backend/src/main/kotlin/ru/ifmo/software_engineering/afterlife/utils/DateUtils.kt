@@ -1,19 +1,19 @@
 package ru.ifmo.software_engineering.afterlife.utils
 
-import java.text.ParseException
-import java.text.SimpleDateFormat
 import java.time.LocalDateTime
-import java.time.ZoneOffset
-import java.util.*
+import java.time.ZoneId
+import java.time.ZonedDateTime
+import java.time.format.DateTimeFormatter
+import java.time.format.DateTimeParseException
 
-private val rfc3339Format = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssXXX")
+val UtcZone: ZoneId = ZoneId.of("UTC")
 
-fun LocalDateTime.toDateUtc(): Date =
-    Date.from(this.toInstant(ZoneOffset.UTC))
-
-fun String.tryParseDateRfc3339(): Date? =
+fun String.tryParseDateRfc3339(): ZonedDateTime? =
     try {
-        rfc3339Format.parse(this)
-    } catch (e: ParseException)  {
+        ZonedDateTime.parse(this, DateTimeFormatter.ISO_DATE_TIME)
+    } catch (e: DateTimeParseException)  {
         null
     }
+
+fun ZonedDateTime.toUtc(): LocalDateTime =
+    LocalDateTime.ofInstant(this.toInstant(), UtcZone)

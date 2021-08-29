@@ -7,7 +7,7 @@ import ru.ifmo.software_engineering.afterlife.classificator.domain.GoodnessEvide
 import ru.ifmo.software_engineering.afterlife.classificator.domain.GoodnessKind
 import ru.ifmo.software_engineering.afterlife.classificator.domain.SinEvidence
 import ru.ifmo.software_engineering.afterlife.classificator.domain.SinKind
-import java.util.*
+import java.time.ZonedDateTime
 
 interface CsvRowParser<T> {
     val columns: List<CsvColumn<*>>
@@ -26,7 +26,7 @@ class GoodnessCsvRowParserProvider(
         val dateColumn: String,
     )
 
-    private fun getDateColumn(header: List<String>): CsvColumn<Date>? {
+    private fun getDateColumn(header: List<String>): CsvColumn<ZonedDateTime>? {
         val headerIndex = header.indexOf(this.headerNames.dateColumn)
         return if (headerIndex < 0 )  null
         else DateCsvColumn(
@@ -66,7 +66,7 @@ class SinCsvRowParserProvider(private val headerNames: SinCsvHeaderNames) : CsvR
         Validated.Valid(SinCsvRowParser(dateCol, kindCol, atonedAtCol))
     } ?: Validated.Invalid(CsvParseException("Not all headers provided", 0, 0))
 
-    private fun getDateColumn(header: List<String>): CsvColumn<Date>? {
+    private fun getDateColumn(header: List<String>): CsvColumn<ZonedDateTime>? {
         val headerIndex = header.indexOf(this.headerNames.dateColumn)
 
         return if (headerIndex >= 0)
@@ -75,15 +75,15 @@ class SinCsvRowParserProvider(private val headerNames: SinCsvHeaderNames) : CsvR
     }
 
     private fun getKindColumn(header: List<String>): CsvColumn<SinKind>? {
-        val headerIndex = header.indexOf(this.headerNames.dateColumn)
+        val headerIndex = header.indexOf(this.headerNames.sinKindColumn)
 
         return if (headerIndex >= 0)
             EnumCsvColumn(headerIndex, header[headerIndex], SinKind::class)
         else null
     }
 
-    private fun getAtonedAtColumn(header: List<String>): CsvColumn<Date?>? {
-        val headerIndex = header.indexOf(this.headerNames.dateColumn)
+    private fun getAtonedAtColumn(header: List<String>): CsvColumn<ZonedDateTime?>? {
+        val headerIndex = header.indexOf(this.headerNames.atonedAtColumn)
 
         return if (headerIndex >= 0)
             OptionalColumn(DateCsvColumn(headerIndex, header[headerIndex]))
@@ -92,8 +92,8 @@ class SinCsvRowParserProvider(private val headerNames: SinCsvHeaderNames) : CsvR
 }
 
 class GoodnessCsvRowParser(
-    private val dateColumn : CsvColumn<Date>,
-    private val goodnessKindColumn: CsvColumn<GoodnessKind>
+    val dateColumn : CsvColumn<ZonedDateTime>,
+    val goodnessKindColumn: CsvColumn<GoodnessKind>
 ) : CsvRowParser<GoodnessEvidence> {
     override val columns: List<CsvColumn<*>>
         get() = listOf(goodnessKindColumn, dateColumn)
@@ -107,9 +107,9 @@ class GoodnessCsvRowParser(
 }
 
 class SinCsvRowParser(
-    private val dateColumn: CsvColumn<Date>,
-    private val kindColumn: CsvColumn<SinKind>,
-    private val atonedAtColumn: CsvColumn<Date?>
+    val dateColumn: CsvColumn<ZonedDateTime>,
+    val kindColumn: CsvColumn<SinKind>,
+    val atonedAtColumn: CsvColumn<ZonedDateTime?>
 ) : CsvRowParser<SinEvidence> {
     override val columns: List<CsvColumn<*>> = listOf(dateColumn, kindColumn, atonedAtColumn)
 

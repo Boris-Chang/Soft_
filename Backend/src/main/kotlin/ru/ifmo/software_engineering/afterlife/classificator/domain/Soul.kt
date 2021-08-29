@@ -2,7 +2,7 @@ package ru.ifmo.software_engineering.afterlife.classificator.domain
 
 import com.fasterxml.jackson.annotation.JsonProperty
 import io.swagger.v3.oas.annotations.media.Schema
-import java.util.*
+import java.time.ZonedDateTime
 
 data class Soul(
     @Schema(readOnly = true)
@@ -10,5 +10,5 @@ data class Soul(
     val id: Long,
     val firstName: String,
     val lastName: String,
-    val dateOfDeath: Date,
+    val dateOfDeath: ZonedDateTime,
 )

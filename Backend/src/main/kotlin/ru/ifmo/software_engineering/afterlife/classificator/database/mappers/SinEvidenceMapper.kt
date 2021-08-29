@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component
 import ru.ifmo.software_engineering.afterlife.classificator.domain.SinEvidence
 import ru.ifmo.software_engineering.afterlife.classificator.domain.SinKind
 import ru.ifmo.software_engineering.afterlife.database.tables.SinEvidences.SIN_EVIDENCES
-import ru.ifmo.software_engineering.afterlife.utils.toDateUtc
+import java.time.ZoneId
 
 @Component
 class SinEvidenceMapper : RecordMapper<Record, SinEvidence> {
@@ -20,8 +20,8 @@ class SinEvidenceMapper : RecordMapper<Record, SinEvidence> {
         return SinEvidence(
             sinRecord.id,
             SinKind.valueOf(sinRecord.kind.literal),
-            sinRecord.dateOfSin.toDateUtc(),
-            sinRecord.attonedAt?.toDateUtc()
+            sinRecord.dateOfSin.atZone(ZoneId.of("UTC")),
+            sinRecord.attonedAt?.atZone(ZoneId.of("UTC"))
         )
     }
 }

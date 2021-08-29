@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component
 import ru.ifmo.software_engineering.afterlife.classificator.domain.*
 import ru.ifmo.software_engineering.afterlife.database.tables.records.*
 import ru.ifmo.software_engineering.afterlife.users.domain.User
-import ru.ifmo.software_engineering.afterlife.utils.toDateUtc
+import java.time.ZoneId
 
 @Component
 class ReportedSoulMapper(
@@ -45,7 +45,7 @@ class ReportedSoulMapper(
             soul,
             sinEvidences,
             User(1, "Admin"),
-            this.uploadedAt.toDateUtc(),
+            this.uploadedAt.atZone(ZoneId.of("UTC")),
         )
     }
 
@@ -55,7 +55,7 @@ class ReportedSoulMapper(
             soul,
             goodnessEvidences,
             User(1, "Admin"),
-            this.uploadedAt.toDateUtc(),
+            this.uploadedAt.atZone(ZoneId.of("UTC")),
         )
 
     }

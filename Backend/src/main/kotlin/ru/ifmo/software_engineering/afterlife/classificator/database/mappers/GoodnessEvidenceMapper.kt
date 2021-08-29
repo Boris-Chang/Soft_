@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component
 import ru.ifmo.software_engineering.afterlife.classificator.domain.GoodnessEvidence
 import ru.ifmo.software_engineering.afterlife.classificator.domain.GoodnessKind
 import ru.ifmo.software_engineering.afterlife.database.tables.GoodnessEvidences.GOODNESS_EVIDENCES
-import ru.ifmo.software_engineering.afterlife.utils.toDateUtc
+import java.time.ZoneId
 
 @Component
 class GoodnessEvidenceMapper : RecordMapper<Record, GoodnessEvidence> {
@@ -20,7 +20,7 @@ class GoodnessEvidenceMapper : RecordMapper<Record, GoodnessEvidence> {
         return GoodnessEvidence(
             goodnessRecord.id,
             GoodnessKind.valueOf(goodnessRecord.kind.literal),
-            goodnessRecord.dateOfGoodDeedEvidence.toDateUtc(),
+            goodnessRecord.dateOfGoodDeedEvidence.atZone(ZoneId.of("UTC")),
         )
     }
 }

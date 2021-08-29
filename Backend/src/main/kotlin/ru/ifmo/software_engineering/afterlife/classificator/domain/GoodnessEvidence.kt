@@ -1,6 +1,6 @@
 package ru.ifmo.software_engineering.afterlife.classificator.domain
 
-import java.util.*
+import java.time.ZonedDateTime
 
 enum class GoodnessKind {
     //  Нарушения обета по чужой вине
@@ -34,5 +34,5 @@ enum class GoodnessKind {
 data class GoodnessEvidence(
     val id: Long,
     val kind: GoodnessKind,
-    val dateOfGoodDeedEvidence: Date,
+    val dateOfGoodDeedEvidence: ZonedDateTime,
 )

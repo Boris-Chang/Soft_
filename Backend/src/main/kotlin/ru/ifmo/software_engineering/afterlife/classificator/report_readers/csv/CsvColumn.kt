@@ -3,7 +3,7 @@ package ru.ifmo.software_engineering.afterlife.classificator.report_readers.csv
 import arrow.core.Validated
 import ru.ifmo.software_engineering.afterlife.utils.enumValueOrNull
 import ru.ifmo.software_engineering.afterlife.utils.tryParseDateRfc3339
-import java.util.*
+import java.time.ZonedDateTime
 import kotlin.reflect.KClass
 
 interface CsvColumn<T> {
@@ -19,8 +19,8 @@ interface CsvColumn<T> {
         }
 }
 
-class DateCsvColumn(override val index: Int, override val name: String): CsvColumn<Date> {
-    override fun parseCell(row: List<String>, rowNum: Int): Validated<CsvParseException, Date> {
+class DateCsvColumn(override val index: Int, override val name: String): CsvColumn<ZonedDateTime> {
+    override fun parseCell(row: List<String>, rowNum: Int): Validated<CsvParseException, ZonedDateTime> {
         val rawCellValue = getRawCellValue(row)
             ?: return Validated.Invalid(
                 CsvParseException("Value for \"$name\" column not provided", rowNum, this.index))
