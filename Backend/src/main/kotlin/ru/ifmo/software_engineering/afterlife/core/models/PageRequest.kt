@@ -7,7 +7,6 @@ data class PageRequest (
     companion object {
         const val DEFAULT_PAGE_SIZE = 100
 
-        fun default(): PageRequest =
-            PageRequest(0)
+        fun default(): PageRequest = PageRequest(0)
     }
 }

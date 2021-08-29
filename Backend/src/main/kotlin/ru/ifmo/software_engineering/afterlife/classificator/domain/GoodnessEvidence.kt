@@ -35,5 +35,4 @@ data class GoodnessEvidence(
     val id: Long,
     val kind: GoodnessKind,
     val dateOfGoodDeedEvidence: Date,
-    val doneBy: Soul,
 )

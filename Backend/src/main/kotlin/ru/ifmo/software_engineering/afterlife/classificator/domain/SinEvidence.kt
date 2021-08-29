@@ -31,6 +31,5 @@ data class SinEvidence(
     val id: Long,
     val kind: SinKind,
     val dateOfSin: Date,
-    val sinnedBy: Soul,
     val attonedAt: Date? = null,
 )
