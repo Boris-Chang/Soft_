@@ -5,56 +5,41 @@ import org.jooq.RecordMapper
 import org.jooq.Result
 import org.springframework.stereotype.Component
 import ru.ifmo.software_engineering.afterlife.classificator.domain.*
+import ru.ifmo.software_engineering.afterlife.database.tables.GoodnessEvidences.GOODNESS_EVIDENCES
+import ru.ifmo.software_engineering.afterlife.database.tables.SinEvidences.SIN_EVIDENCES
 import ru.ifmo.software_engineering.afterlife.database.tables.records.*
-import ru.ifmo.software_engineering.afterlife.users.domain.User
 
 @Component
 class ReportedSoulMapper(
     private val soulMapper: RecordMapper<SoulsRecord, Soul>,
-    private val sinEvidenceMapper: RecordMapper<Record, SinEvidence>,
-    private val goodnessEvidenceMapper: RecordMapper<Record, GoodnessEvidence>
+    private val sinEvidenceMapper: RecordMapper<SinEvidencesRecord, SinEvidence>,
+    private val goodnessEvidenceMapper: RecordMapper<GoodnessEvidencesRecord, GoodnessEvidence>,
+    private val sinsReportMapper: RecordMapper<SinsReportsRecord, SinsReport>,
+    private val goodnessReportMapper: RecordMapper<GoodnessReportsRecord, GoodnessReport>
 ) {
     fun map(
         records: Map.Entry<
             Triple<SoulsRecord, SinsReportsRecord?, GoodnessReportsRecord?>,
             Result<Record>>
     ): ReportedSoul {
-        val soul = this.soulMapper.map(records.key.first)!!
+        val (soulRecord, sinsReportRecord, goodnessReportRecord) = records.key
+
+        val soul = this.soulMapper.map(soulRecord)!!
 
         val sinEvidences = records.value
-            .map { this.sinEvidenceMapper.map(it) }
+            .map { this.sinEvidenceMapper.map(it.into(SIN_EVIDENCES)) }
             .filterNotNull()
         val goodnessEvidences = records.value
-            .map { this.goodnessEvidenceMapper.map(it) }
+            .map { this.goodnessEvidenceMapper.map(it.into(GOODNESS_EVIDENCES)) }
             .filterNotNull()
 
-        val sinsReportRecord = records.key.second
-        val goodnessReportRecord = records.key.third
+        val sinsReport = this.sinsReportMapper
+            .map(sinsReportRecord)
+            ?.copy(soul = soul, sins = sinEvidences)
+        val goodnessReport = this.goodnessReportMapper
+            .map(goodnessReportRecord)
+            ?.copy(soul = soul, goodnessEvidences = goodnessEvidences)
 
-        return ReportedSoul(
-            soul,
-            sinsReportRecord?.toModel(soul, sinEvidences),
-            goodnessReportRecord?.toModel(soul, goodnessEvidences),
-        )
-    }
-
-    private fun SinsReportsRecord.toModel(soul: Soul, sinEvidences: List<SinEvidence>): SinsReport {
-        return SinsReport(
-            this.id,
-            soul,
-            sinEvidences,
-            User(1, "Admin"),
-            this.uploadedAt.toZonedDateTime(),
-        )
-    }
-
-    private fun GoodnessReportsRecord.toModel(soul: Soul, goodnessEvidences: List<GoodnessEvidence>): GoodnessReport {
-        return GoodnessReport(
-            this.id,
-            soul,
-            goodnessEvidences,
-            User(1, "Admin"),
-            this.uploadedAt.toZonedDateTime(),
-        )
+        return ReportedSoul(soul, sinsReport, goodnessReport)
     }
 }
