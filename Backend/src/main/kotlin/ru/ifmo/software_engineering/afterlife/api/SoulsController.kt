@@ -1,11 +1,12 @@
 package ru.ifmo.software_engineering.afterlife.api
 
 import org.springframework.http.HttpStatus
+import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 import ru.ifmo.software_engineering.afterlife.classificator.domain.ReportedSoul
 import ru.ifmo.software_engineering.afterlife.classificator.domain.ReportedSoulsQueryFilter
 import ru.ifmo.software_engineering.afterlife.classificator.domain.Soul
-import ru.ifmo.software_engineering.afterlife.classificator.services.ReportedSoulsQueryService
+import ru.ifmo.software_engineering.afterlife.classificator.services.SoulsQueryService
 import ru.ifmo.software_engineering.afterlife.classificator.services.SoulRegistrar
 import ru.ifmo.software_engineering.afterlife.core.models.PageRequest
 import ru.ifmo.software_engineering.afterlife.core.models.PagedResult
@@ -14,7 +15,7 @@ import ru.ifmo.software_engineering.afterlife.core.models.PagedResult
 @RequestMapping("api/souls")
 class SoulsController(
     private val soulsRegistrar: SoulRegistrar,
-    private val soulsQueryService: ReportedSoulsQueryService
+    private val soulsQueryService: SoulsQueryService
 ) {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
@@ -45,4 +46,10 @@ class SoulsController(
             pageRequest
         )
     }
+
+    @GetMapping("/{soulId}")
+    suspend fun getSoulById(@PathVariable("soulId") id: Long): ResponseEntity<Soul> =
+        this.soulsQueryService.getSoulById(id)?.let {
+            ResponseEntity.ok(it)
+        } ?: ResponseEntity.notFound().build()
 }
