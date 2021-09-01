@@ -86,9 +86,9 @@ class SinsReportRepositoryImpl(
         val fieldsForInsert = SIN_EVIDENCES.fields(SIN_EVIDENCES.SINNED_BY_SOUL_ID, SIN_EVIDENCES.DATE_OF_SIN, SIN_EVIDENCES.ATTONED_AT, SIN_EVIDENCES.KIND)
 
         val recordsToInsert = evidences.map {
-                this.evidenceUnmapper.unmap(it)
-                    .apply { this.sinnedBySoulId = report.soul.id }
-            }.map { it.into(*fieldsForInsert) }
+            this.evidenceUnmapper.unmap(it)
+                .apply { this.sinnedBySoulId = report.soul.id }
+        }.map { it.into(*fieldsForInsert) }
 
         return this.dsl.insertInto(SIN_EVIDENCES, *fieldsForInsert)
             .valuesOfRecords(recordsToInsert)
@@ -111,12 +111,16 @@ class SinsReportRepositoryImpl(
             .on(SOULS.ID.eq(SINS_REPORTS.SOUL_ID))
             .leftJoin(SIN_EVIDENCES).on(SIN_EVIDENCES.SINNED_BY_SOUL_ID.eq(SINS_REPORTS.SOUL_ID))
 
-    private fun<R : Record> Result<R>.mapToSinsReports(): List<SinsReport> =
-        this.intoGroups({
+    private fun <R : Record> Result<R>.mapToSinsReports(): List<SinsReport> =
+        this.intoGroups(
+            {
                 Pair(
                     mapper.map(it.into(SINS_REPORTS))!!,
-                    soulMapper.map(it.into(SOULS))!!)
-            }, { evidenceMapper.map(it.into(SIN_EVIDENCES))})
+                    soulMapper.map(it.into(SOULS))!!
+                )
+            },
+            { evidenceMapper.map(it.into(SIN_EVIDENCES)) }
+        )
             .map {
                 val (report, soul) = it.key
                 val evidences = it.value

@@ -77,12 +77,17 @@ class GoodnessReportRepositoryImpl(
             .where(GOODNESS_REPORTS.SOUL_ID.eq(soul.id))
             .fetchAsync()
             .await()
-            .intoGroups({ Pair(
-                this.soulMapper.map(it.into(SOULS)),
-                this.mapper.map(it.into(GOODNESS_REPORTS))
-            ) }, {
-                this.goodnessEvidenceMapper.map(it.into(GOODNESS_EVIDENCES))
-            })
+            .intoGroups(
+                {
+                    Pair(
+                        this.soulMapper.map(it.into(SOULS)),
+                        this.mapper.map(it.into(GOODNESS_REPORTS))
+                    )
+                },
+                {
+                    this.goodnessEvidenceMapper.map(it.into(GOODNESS_EVIDENCES))
+                }
+            )
             .map {
                 val (dbSoul, report) = it.key
                 report!!.copy(soul = dbSoul!!, goodnessEvidences = it.value)
@@ -112,5 +117,5 @@ class GoodnessReportRepositoryImpl(
             .where(GOODNESS_EVIDENCES.DONE_BY_SOUL_ID.eq(report.soul.id))
             .executeAsync()
             .await()
-            .let {  }
+            .let { }
 }

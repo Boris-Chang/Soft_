@@ -18,7 +18,7 @@ class SinsEvidenceUnmapper : RecordUnmapper<SinEvidence, SinEvidencesRecord> {
         }
 
     private fun unmapSinKind(sinKind: SinKind): SinKindDb =
-        when(sinKind) {
+        when (sinKind) {
             SinKind.UNBAPTIZED -> SinKindDb.UNBAPTIZED
             SinKind.VOLUPTUOUSNESS -> SinKindDb.VOLUPTUOUSNESS
             SinKind.GLUTTONY -> SinKindDb.GLUTTONY

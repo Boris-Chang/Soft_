@@ -10,7 +10,7 @@ import ru.ifmo.software_engineering.afterlife.users.domain.User
 
 @Component
 class SinsReportMapper : RecordMapper<SinsReportsRecord, SinsReport> {
-    override fun map(recordNullable: SinsReportsRecord?): SinsReport? = nullable.eager{
+    override fun map(recordNullable: SinsReportsRecord?): SinsReport? = nullable.eager {
         val record = recordNullable.bind()
         SinsReport(
             record.id,

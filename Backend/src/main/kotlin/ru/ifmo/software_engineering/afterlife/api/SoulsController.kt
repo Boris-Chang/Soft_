@@ -7,8 +7,8 @@ import org.springframework.web.bind.annotation.*
 import ru.ifmo.software_engineering.afterlife.classificator.domain.ReportedSoul
 import ru.ifmo.software_engineering.afterlife.classificator.domain.ReportedSoulsQueryFilter
 import ru.ifmo.software_engineering.afterlife.classificator.domain.Soul
-import ru.ifmo.software_engineering.afterlife.classificator.services.SoulsQueryService
 import ru.ifmo.software_engineering.afterlife.classificator.services.SoulRegistrar
+import ru.ifmo.software_engineering.afterlife.classificator.services.SoulsQueryService
 import ru.ifmo.software_engineering.afterlife.core.models.PageRequest
 import ru.ifmo.software_engineering.afterlife.core.models.PagedResult
 

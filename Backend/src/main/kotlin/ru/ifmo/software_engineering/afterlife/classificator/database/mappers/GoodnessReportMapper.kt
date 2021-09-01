@@ -17,6 +17,7 @@ class GoodnessReportMapper : RecordMapper<GoodnessReportsRecord, GoodnessReport>
             Soul.empty,
             emptyList(),
             User.empty,
-            record.uploadedAt.toZonedDateTime())
+            record.uploadedAt.toZonedDateTime()
+        )
     }
 }

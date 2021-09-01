@@ -8,7 +8,7 @@ import ru.ifmo.software_engineering.afterlife.database.tables.GoodnessEvidences.
 import ru.ifmo.software_engineering.afterlife.database.tables.records.GoodnessEvidencesRecord
 
 @Component
-class GoodnessEvideceMapper : RecordMapper<GoodnessEvidencesRecord, GoodnessEvidence> {
+class GoodnessEvidenceMapper : RecordMapper<GoodnessEvidencesRecord, GoodnessEvidence> {
     override fun map(record: GoodnessEvidencesRecord?): GoodnessEvidence? {
         if (record == null || record[GOODNESS_EVIDENCES.ID] == null) {
             return null

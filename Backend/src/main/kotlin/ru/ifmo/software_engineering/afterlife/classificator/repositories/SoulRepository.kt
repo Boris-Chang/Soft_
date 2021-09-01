@@ -48,7 +48,7 @@ class SoulRepositoryImpl(
             .where(SOULS.ID.eq(id))
             .fetchAsync()
             .await()
-            .map{ this.soulMapper.map(it.into(SOULS)) }
+            .map { this.soulMapper.map(it.into(SOULS)) }
             .firstOrNull()
     }
 

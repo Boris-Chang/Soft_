@@ -53,9 +53,11 @@ class SoulReportsServiceImpl(
             val currentReport = sinsReportRepository.findBySoul(soul)
 
             if (currentReport == null) {
-                sinsReportRepository.save(SinsReport(
-                    0, soul, evidences, User.empty, ZonedDateTime.now()
-                ))
+                sinsReportRepository.save(
+                    SinsReport(
+                        0, soul, evidences, User.empty, ZonedDateTime.now()
+                    )
+                )
             } else {
                 sinsReportRepository.update(currentReport.copy(sins = evidences, uploadedAt = ZonedDateTime.now()))
             }
@@ -75,12 +77,15 @@ class SoulReportsServiceImpl(
             val currentReport = goodnessReportRepository.findBySoul(soul)
 
             if (currentReport == null) {
-                goodnessReportRepository.save(GoodnessReport(
-                    0, soul, evidences, User.empty, ZonedDateTime.now()
-                ))
+                goodnessReportRepository.save(
+                    GoodnessReport(
+                        0, soul, evidences, User.empty, ZonedDateTime.now()
+                    )
+                )
             } else {
                 goodnessReportRepository.update(
-                    currentReport.copy(goodnessEvidences = evidences, uploadedAt = ZonedDateTime.now()))
+                    currentReport.copy(goodnessEvidences = evidences, uploadedAt = ZonedDateTime.now())
+                )
             }
         }
 }

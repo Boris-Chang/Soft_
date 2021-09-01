@@ -6,7 +6,7 @@ import ru.ifmo.software_engineering.afterlife.classificator.domain.SinsReport
 import ru.ifmo.software_engineering.afterlife.database.tables.records.SinsReportsRecord
 
 @Component
-class SinsReportUnmapper : RecordUnmapper<SinsReport, SinsReportsRecord>{
+class SinsReportUnmapper : RecordUnmapper<SinsReport, SinsReportsRecord> {
     override fun unmap(model: SinsReport?): SinsReportsRecord {
         model!!
 
