@@ -1,5 +1,6 @@
 package ru.ifmo.software_engineering.afterlife.api
 
+import io.swagger.v3.oas.annotations.Operation
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
@@ -19,11 +20,13 @@ class SoulsController(
 ) {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
+    @Operation(summary = "Create new soul")
     suspend fun registerNewSoul(@RequestBody soul: Soul): Soul {
         return this.soulsRegistrar.registerNewSoul(soul)
     }
 
     @GetMapping
+    @Operation(summary = "Get all souls with their sins and goodness reports")
     suspend fun getSouls(
         @RequestParam("report-filter", required = false)
         reportFilter: ReportedSoulsQueryFilter?,
@@ -48,6 +51,7 @@ class SoulsController(
     }
 
     @GetMapping("/{soulId}")
+    @Operation(summary = "Get specific soul by its id")
     suspend fun getSoulById(@PathVariable("soulId") id: Long): ResponseEntity<Soul> =
         this.soulsQueryService.getSoulById(id)?.let {
             ResponseEntity.ok(it)

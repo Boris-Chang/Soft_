@@ -1,5 +1,6 @@
 package ru.ifmo.software_engineering.afterlife.api
 
+import io.swagger.v3.oas.annotations.Operation
 import org.apache.commons.io.input.BOMInputStream
 import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
@@ -15,6 +16,7 @@ class SoulsReportController(
     private val soulReportsService: SoulReportsService,
 ) {
     @PutMapping("/sins", consumes = [MediaType.MULTIPART_FORM_DATA_VALUE])
+    @Operation(summary = "Create or update Sins report from .csv file")
     suspend fun addOrUpdateSinsReport(
         @PathVariable("soulId")
         soulId: Long,
@@ -30,6 +32,7 @@ class SoulsReportController(
     }
 
     @PutMapping("/goodness", consumes = [MediaType.MULTIPART_FORM_DATA_VALUE])
+    @Operation(summary = "Create or update Goodness report from .csv file")
     suspend fun addOrUpdateGoodnessReport(
         @PathVariable("soulId")
         soulId: Long,
