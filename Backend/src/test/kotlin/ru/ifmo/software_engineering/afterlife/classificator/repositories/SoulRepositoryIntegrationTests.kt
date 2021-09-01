@@ -8,7 +8,7 @@ import org.springframework.boot.test.context.SpringBootTest
 import ru.ifmo.software_engineering.afterlife.classificator.domain.Soul
 import ru.ifmo.software_engineering.afterlife.database.tables.Souls
 import ru.ifmo.software_engineering.afterlife.utils.RandomGenerator
-import java.util.*
+import java.time.ZonedDateTime
 import kotlin.test.assertEquals
 
 @SpringBootTest
@@ -25,7 +25,7 @@ class SoulRepositoryIntegrationTests {
             0,
             RandomGenerator.generateRandomString(10),
             RandomGenerator.generateRandomString(10),
-            Date()
+            ZonedDateTime.now()
         )
 
         // Act

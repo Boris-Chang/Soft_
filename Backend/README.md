@@ -10,7 +10,7 @@
 **Or install it and create user "afterlife_user" with password "afterlife_password" and create database "afterlife_db"**
 
 ### Run database migrations
-`mvn clean compile flyway:migrate -Dflyway.configFiles=src/main/resources/flyway_db.properties`
+`mvn clean resources:resources flyway:migrate -Dflyway.configFiles=src/main/resources/flyway_db.properties`
 
 ### Generate JOOQ records from Database automatically
 `mvn jooq-codegen:generate`
@@ -18,5 +18,10 @@
 ### Startup spring boot application
 `mvn spring-boot:run`
 
-After that REST API will be available. **Swagger documentation** can be found on:
+After that REST API will be available. 
+
+To access **Swagger documentation** open:
 `http://localhost:8080/swagger-ui/index.html`
+And type:
+`/v3/api-docs`
+in the input

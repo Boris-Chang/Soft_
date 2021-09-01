@@ -1,6 +1,6 @@
 package ru.ifmo.software_engineering.afterlife.classificator.domain
 
-import java.util.*
+import java.time.ZonedDateTime
 
 enum class SinKind {
     //  Некрещенный
@@ -30,7 +30,6 @@ enum class SinKind {
 data class SinEvidence(
     val id: Long,
     val kind: SinKind,
-    val dateOfSin: Date,
-    val sinnedBy: Soul,
-    val attonedAt: Date? = null,
+    val dateOfSin: ZonedDateTime,
+    val attonedAt: ZonedDateTime? = null,
 )
