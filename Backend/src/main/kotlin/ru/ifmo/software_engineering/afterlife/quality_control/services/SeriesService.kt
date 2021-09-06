@@ -12,6 +12,7 @@ import ru.ifmo.software_engineering.afterlife.quality_control.domain.SeriesValue
 import ru.ifmo.software_engineering.afterlife.quality_control.repositories.MeasurementsRepository
 import ru.ifmo.software_engineering.afterlife.quality_control.repositories.SeriesRepository
 import ru.ifmo.software_engineering.afterlife.quality_control.repositories.SeriesValueRepository
+import java.time.ZonedDateTime
 
 interface SeriesService {
     suspend fun findSeriesById(id: Long): Series?
@@ -50,7 +51,7 @@ class SeriesServiceImpl(
 
     override suspend fun addSeriesValue(seriesId: Long, value: SeriesValue): Validated<ApplicationException, Series> {
         return this.tryFindSeries(seriesId).map { series ->
-            this.seriesValueRepository.save(value, series)
+            this.seriesValueRepository.save(value.copy(timestamp = ZonedDateTime.now()), series)
             this.findSeriesById(seriesId)!!
         }
     }
