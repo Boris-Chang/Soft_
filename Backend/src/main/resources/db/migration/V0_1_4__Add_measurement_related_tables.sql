@@ -1,0 +1,19 @@
+CREATE TABLE Measurements (
+    Id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    Title varchar(50) NOT NULL,
+    X_caption varchar(50) NOT NULL,
+    Y_caption varchar(50) NOT NULL
+);
+
+CREATE TABLE Series (
+    Id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    Measurement_Id BIGINT NOT NULL REFERENCES Measurements(Id),
+    Name VARCHAR(50) NOT NULL
+);
+
+CREATE TABLE Series_Values (
+    Id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    Timestamp TIMESTAMP WITH TIME ZONE NOT NULL,
+    Value double precision NOT NULL,
+    Series_ID BIGINT NOT NULL REFERENCES Series(ID)
+);
