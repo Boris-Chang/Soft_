@@ -9,6 +9,7 @@ import { SurveyComponent } from 'src/app/modules/survey/survey.component';
 import { FileUploaderComponent } from 'src/app/modules/file-uploader/file-uploader.component';
 
 import { SharedModule } from 'src/app/shared/shared.module';
+
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatPaginatorModule } from '@angular/material/paginator';
@@ -47,4 +48,5 @@ import { BrowserModule } from '@angular/platform-browser';
     BrowserModule
   ]
 })
-export class DefaultModule { }
+export class DefaultModule { 
+}
