@@ -6,6 +6,7 @@ import { DefaultComponent } from './default.component';
 import { DashboardComponent } from 'src/app/modules/dashboard/dashboard.component';
 import { PostsComponent } from 'src/app/modules/posts/posts.component';
 import { SurveyComponent } from 'src/app/modules/survey/survey.component';
+import { FileUploaderComponent } from 'src/app/modules/file-uploader/file-uploader.component';
 
 import { SharedModule } from 'src/app/shared/shared.module';
 import { MatSidenavModule } from '@angular/material/sidenav';
@@ -15,14 +16,18 @@ import { MatTableModule } from '@angular/material/table';
 import { MatCardModule } from '@angular/material/card';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
-
+import { AngularFileUploaderModule } from "angular-file-uploader";
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { BrowserModule } from '@angular/platform-browser';
 
 @NgModule({
   declarations: [
     DefaultComponent,
     DashboardComponent,
     PostsComponent,
-    SurveyComponent
+    SurveyComponent,
+    FileUploaderComponent
   ],
   imports: [
     CommonModule,
@@ -34,7 +39,12 @@ import { MatIconModule } from '@angular/material/icon';
     MatTableModule,
     MatCardModule,
     MatToolbarModule,
-    MatIconModule
+    MatIconModule,
+    AngularFileUploaderModule,
+    BrowserAnimationsModule,
+    FormsModule,
+    ReactiveFormsModule,
+    BrowserModule
   ]
 })
 export class DefaultModule { }

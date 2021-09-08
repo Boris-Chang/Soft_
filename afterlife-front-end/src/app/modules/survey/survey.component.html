@@ -1,26 +1,32 @@
-<table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
-    <!--- Note that these columns can be defined in any order.
-    The actual rendered columns are set as a property on the row definition" -->
-    <!-- Position Column -->
-    <ng-container matColumnDef="position">
-    <th mat-header-cell *matHeaderCellDef> No. </th>
-    <td mat-cell *matCellDef="let element"> {{element.position}} </td>
-    </ng-container>
-    <!-- Name Column -->
-    <ng-container matColumnDef="poll">
-    <th mat-header-cell *matHeaderCellDef> Имя опроса </th>
-    <td mat-cell *matCellDef="let element"> {{element.poll}} </td>
-    </ng-container>
-    <!-- Weight Column -->
-    <ng-container matColumnDef="name">
-    <th mat-header-cell *matHeaderCellDef> Создано пользователем </th>
-    <td mat-cell *matCellDef="let element"> {{element.name}} </td>
-    </ng-container>
-    <!-- Symbol Column -->
-    <ng-container matColumnDef="for">
-    <th mat-header-cell *matHeaderCellDef> Для </th>
-    <td mat-cell *matCellDef="let element"> {{element.for}} </td>
-    </ng-container>
-    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+<nav class="navbar navbar-light bg-primary">
+    <div class="container-fluid">
+        <h1 style="color: aliceblue;">Страница с опросами</h1>
+        <div class="d-flex">
+            <button class="btn btn-success">Добавить опросы</button>
+        </div>
+    </div>
+</nav>
+
+<table class="table mt-3">
+    <thead>
+        <tr>
+            <th scope="col">Имя опроса</th>
+            <th scope="col">Создано пользователем</th>
+            <th scope="col">Для</th>
+            <th scope="col">Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>Опрос качества</td>
+            <td>
+                <a href="https://www.google.com/intl/ru_ru/forms/about/" target="_blank">google sheet</a>
+            </td>
+            <td>Пыточники</td>
+            <td>
+                <button class="btn btn-info">Edit</button>
+                <button class="btn btn-danger">Delete</button>
+            </td>
+        </tr>
+    </tbody>
 </table>

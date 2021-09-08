@@ -20,12 +20,16 @@ tr.example-element-row:not(.example-expanded-row):active {
 .example-element-diagram {
   min-width: 80px;
   border: 2px solid black;
-  padding: 8px;
+  padding: 10px;
   font-weight: lighter;
   margin: 8px 0;
-  height: 104px;
+  height: 140px;
 }
 
 .example-element-description {
   padding: 16px;
+}
+
+.lawyer {
+  right: 20;
 }
