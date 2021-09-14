@@ -2,6 +2,11 @@
 
 ## Dev environment setup
 
+### Requirements
+- JDK 11
+- Maven (`mvn` console tool)
+- Docker or Posrgresql
+
 ### Create Postgres Database
 **From Docker**:
 
