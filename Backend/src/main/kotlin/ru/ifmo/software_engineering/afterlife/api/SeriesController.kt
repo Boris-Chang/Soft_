@@ -22,23 +22,29 @@ class SeriesController(
 
     @PutMapping("{id}")
     suspend fun updateSeries(@PathVariable("id") id: Long, @RequestBody series: SeriesRequestData): ResponseEntity<Series> =
-        this.seriesService.updateSeries(series.asModel(id)).fold({ err ->
-            when (err) {
-                is NotFoundException -> ResponseEntity.notFound().build()
-                else -> throw err
+        this.seriesService.updateSeries(series.asModel(id)).fold(
+            { err ->
+                when (err) {
+                    is NotFoundException -> ResponseEntity.notFound().build()
+                    else -> throw err
+                }
+            },
+            {
+                ResponseEntity.ok(it)
             }
-        }, {
-            ResponseEntity.ok(it)
-        })
+        )
 
     @PostMapping("{id}/values")
     suspend fun addSeriesValue(@PathVariable("id") id: Long, @RequestBody value: SeriesValue): ResponseEntity<Series> =
-        this.seriesService.addSeriesValue(id, value).fold({ err ->
-            when (err) {
-                is NotFoundException -> ResponseEntity.notFound().build()
-                else -> throw err
+        this.seriesService.addSeriesValue(id, value).fold(
+            { err ->
+                when (err) {
+                    is NotFoundException -> ResponseEntity.notFound().build()
+                    else -> throw err
+                }
+            },
+            {
+                ResponseEntity.ok(it)
             }
-        }, {
-            ResponseEntity.ok(it)
-        })
+        )
 }

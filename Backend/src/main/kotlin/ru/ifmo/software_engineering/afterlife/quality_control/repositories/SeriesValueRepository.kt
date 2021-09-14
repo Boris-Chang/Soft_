@@ -22,9 +22,11 @@ class SeriesValueRepositoryImpl(
 ) : SeriesValueRepository {
     override suspend fun save(seriesValue: SeriesValue, series: Series): SeriesValue =
         this.dsl.insertInto(SERIES_VALUES)
-            .set(this.seriesValueUnmapper.unmap(seriesValue).apply {
-                this.seriesId = series.id
-            })
+            .set(
+                this.seriesValueUnmapper.unmap(seriesValue).apply {
+                    this.seriesId = series.id
+                }
+            )
             .returning()
             .fetchAsync()
             .await()

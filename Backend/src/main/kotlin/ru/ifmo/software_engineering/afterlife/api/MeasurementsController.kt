@@ -47,34 +47,43 @@ class MeasurementsController(
 
     @PutMapping("{id}")
     suspend fun update(@PathVariable("id") id: Long, @RequestBody measurement: Measurement): ResponseEntity<Measurement> =
-        this.measurementsService.updateMeasurement(measurement.copy(id = id)).fold({
+        this.measurementsService.updateMeasurement(measurement.copy(id = id)).fold(
+            {
                 when (it) {
                     is NotFoundException -> ResponseEntity.notFound().build()
                     else -> throw it
                 }
-            }, {
+            },
+            {
                 ResponseEntity.ok(it)
-            })
+            }
+        )
 
     @GetMapping("{measurementId}/series")
     suspend fun getSeriesByMeasurementId(@PathVariable("measurementId") measurementId: Long): ResponseEntity<List<Series>> =
-        this.seriesService.findSeriesByMeasurementId(measurementId).fold({ err ->
-            when (err) {
-                is NotFoundException -> ResponseEntity.notFound().build()
-                else -> throw err
+        this.seriesService.findSeriesByMeasurementId(measurementId).fold(
+            { err ->
+                when (err) {
+                    is NotFoundException -> ResponseEntity.notFound().build()
+                    else -> throw err
+                }
+            },
+            {
+                ResponseEntity.ok(it)
             }
-        }, {
-            ResponseEntity.ok(it)
-        })
+        )
 
     @PostMapping("{measurementId}/series")
     suspend fun createSeries(@PathVariable("measurementId") measurementId: Long, @RequestBody series: SeriesRequestData): ResponseEntity<Series> =
-        this.seriesService.createSeries(measurementId, series.asModel(0)).fold({ err ->
-            when (err) {
-                is NotFoundException -> ResponseEntity.notFound().build()
-                else -> throw err
+        this.seriesService.createSeries(measurementId, series.asModel(0)).fold(
+            { err ->
+                when (err) {
+                    is NotFoundException -> ResponseEntity.notFound().build()
+                    else -> throw err
+                }
+            },
+            {
+                ResponseEntity.ok(it)
             }
-        }, {
-            ResponseEntity.ok(it)
-        })
+        )
 }

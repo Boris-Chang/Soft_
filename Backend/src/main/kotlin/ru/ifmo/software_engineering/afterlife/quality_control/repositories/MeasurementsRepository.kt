@@ -31,7 +31,7 @@ class MeasurementsRepositoryImpl(
             .paged(pageRequest)
             .fetchAsync()
             .await()
-            .map{ this.recordMapper.map(it.into(MEASUREMENTS)) }
+            .map { this.recordMapper.map(it.into(MEASUREMENTS)) }
 
         return PagedResult(measurements, count, pageRequest.pageNumber)
     }

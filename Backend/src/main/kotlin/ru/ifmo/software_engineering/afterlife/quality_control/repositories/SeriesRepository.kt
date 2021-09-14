@@ -41,8 +41,10 @@ class SeriesRepositoryImpl(
     @Transactional
     override suspend fun update(series: Series): Series =
         this.dsl.update(SERIES)
-            .set(this.seriesUnmapper.unmap(series)
-                .apply { this.changed(SERIES.MEASUREMENT_ID, false) })
+            .set(
+                this.seriesUnmapper.unmap(series)
+                    .apply { this.changed(SERIES.MEASUREMENT_ID, false) }
+            )
             .where(SERIES.ID.eq(series.id))
             .returning()
             .fetchAsync()
@@ -52,12 +54,12 @@ class SeriesRepositoryImpl(
             .let { this.findById(it.id) }!!
 
     override suspend fun findById(id: Long): Series? =
-       this.selectFromSeries()
-           .where(SERIES.ID.eq(id))
-           .fetchAsync()
-           .await()
-           .mapToSeries()
-           .firstOrNull()
+        this.selectFromSeries()
+            .where(SERIES.ID.eq(id))
+            .fetchAsync()
+            .await()
+            .mapToSeries()
+            .firstOrNull()
 
     override suspend fun findAllByMeasurement(measurement: Measurement): List<Series> =
         this.selectFromSeries()
@@ -74,12 +76,15 @@ class SeriesRepositoryImpl(
             .on(SERIES_VALUES.SERIES_ID.eq(SERIES.ID))
 
     private fun Result<Record>.mapToSeries(): List<Series> =
-        this.intoGroups({
-            Pair(
-                seriesMapper.map(it.into(SERIES)),
-                measurementMapper.map(it.into(MEASUREMENTS)),
-            )},
-            { seriesValueMapper.map(it.into(SERIES_VALUES)) })
+        this.intoGroups(
+            {
+                Pair(
+                    seriesMapper.map(it.into(SERIES)),
+                    measurementMapper.map(it.into(MEASUREMENTS)),
+                )
+            },
+            { seriesValueMapper.map(it.into(SERIES_VALUES)) }
+        )
             .map {
                 val (series, measurement) = it.key
                 val values = it.value.filterNotNull()
