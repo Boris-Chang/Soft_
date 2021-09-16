@@ -1,3 +1,4 @@
+import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 
@@ -10,13 +11,18 @@ import { MatDialog } from '@angular/material/dialog';
 
 export class DialogOpenComponent implements OnInit {
 
-  constructor(public dialog: MatDialog) {}
+
+  constructor(public dialog: MatDialog, private http: HttpClient) {}
 
     closeDialog() {
     this.dialog.closeAll();
   }
 
   ngOnInit(): void {
+    
   }
+  onSubmit(data: any){
+    this.http.post('http://localhost:3000/posts', data)
 
+  }
 }
