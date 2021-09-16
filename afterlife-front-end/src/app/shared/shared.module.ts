@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { HttpClientModule } from '@angular/common/http';
 import { HeaderComponent } from './components/header/header.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { SiderbarComponent } from './components/siderbar/siderbar.component';
@@ -21,6 +22,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { DialogOpenComponent } from './widgets/dialog-open/dialog-open.component';
 import { AngularFileUploaderModule } from "angular-file-uploader";
 import { FileUploaderComponent } from './widgets/file-uploader/file-uploader.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -48,7 +50,9 @@ import { FileUploaderComponent } from './widgets/file-uploader/file-uploader.com
     MatDialogModule,
     MatInputModule,
     MatFormFieldModule,
-    AngularFileUploaderModule
+    AngularFileUploaderModule,
+    HttpClientModule,
+    ReactiveFormsModule
   ],
   exports: [
     HeaderComponent,

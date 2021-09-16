@@ -1,12 +1,12 @@
 <h1 mat-dialog-title>Вакасия</h1>
 <mat-divider></mat-divider>
-<form action="/demo/demo_form.asp">
+<form>
     <mat-label>ФИО: </mat-label>
-    <input matInput placeholder="name" value="">
+    <input matInput formControlName="name" placeholder="name" value="">
     <mat-label>Должность: </mat-label>
-    <input matInput placeholder="position" value="">
+    <input matInput formControlName="position" placeholder="position" value="">
     <mat-label>Место: </mat-label>
-    <input matInput placeholder="place" value="">
+    <input matInput formControlName="place" placeholder="place" value="">
     <br><br>
     <input type="submit" value="Submit">
 </form>
