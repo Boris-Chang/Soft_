@@ -21,6 +21,7 @@ import { AngularFileUploaderModule } from "angular-file-uploader";
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -45,7 +46,8 @@ import { BrowserModule } from '@angular/platform-browser';
     BrowserAnimationsModule,
     FormsModule,
     ReactiveFormsModule,
-    BrowserModule
+    BrowserModule,
+    HttpClientModule
   ]
 })
 export class DefaultModule { 
