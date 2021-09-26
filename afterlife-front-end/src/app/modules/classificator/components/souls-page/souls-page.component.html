@@ -1,0 +1,3 @@
+<ng-container *ngIf="souls$ | async as souls">
+  <app-souls-table [souls]="souls.results"></app-souls-table>
+</ng-container>
