@@ -1,4 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
+import { MatTableDataSource } from "@angular/material/table";
+import { Series } from '../../models/series.model';
+
 
 import * as Highcharts from 'highcharts';
 
@@ -42,7 +45,20 @@ export class QualityComponent implements OnInit {
     }
   }
 
-  constructor() { }
+  public readonly displayedColumns = ['id', 'title', 'captionForX', 'captionForY']
+  constructor() {}
+
+  @Input()
+  public set souls(val: Series[]) {
+    console.debug('set');
+    this.datasource.data = val;
+  };
+
+  public get souls(): Series[] {
+    return this.datasource.data;
+  }
+
+  public datasource = new MatTableDataSource<Series>();
 
   ngOnInit(): void {
   }
