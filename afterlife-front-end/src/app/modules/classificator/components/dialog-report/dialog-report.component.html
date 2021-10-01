@@ -1,0 +1,105 @@
+<h1 mat-dialog-title>Reports of Sins and Goodness</h1>
+<mat-divider></mat-divider>
+<div mat-dialog-content class="mat-typography">
+   <mat-card class="example-card">
+    <mat-card-header>
+        <div mat-card-avatar class="example-header-image"></div>
+        <mat-card-title>Shiba Inu</mat-card-title>
+        <mat-card-subtitle>dateOfDeath: 2021-09-23T00:05:20+0800</mat-card-subtitle>
+        </mat-card-header>
+        <!-- <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="Photo of a Shiba Inu"> -->
+        <mat-card-content>
+            <h3>Report from Goodness</h3>
+                <table class="example-table mat-elevation-z8" mat-table matSort #TableOneSort="matSort" recycleRows [dataSource]="dataSourceOfgoodness">
+                    <!-- Position Column -->
+                    <ng-container matColumnDef="id">
+                    <th mat-header-cell *matHeaderCellDef> No. </th>
+                    <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+                    </ng-container>
+                    <!-- Kind Column -->
+                    <ng-container matColumnDef="kind">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Kind </th>
+                        <td mat-cell *matCellDef="let element"> {{element.kind}} </td>
+                    </ng-container>
+                    <!-- Date Column -->
+                    <ng-container matColumnDef="date">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Date </th>
+                    <td mat-cell *matCellDef="let element"> {{element.date}} </td>
+                    </ng-container>
+                    <tr mat-header-row *matHeaderRowDef="displayedColumnsOfgoodness"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumnsOfgoodness;"></tr>
+                </table>
+            <mat-card-actions> <app-file-uploader></app-file-uploader></mat-card-actions>
+            
+            <mat-divider></mat-divider> 
+            
+            <h3>Report from Sins</h3>
+            <table class="example-table mat-elevation-z8" mat-table matSort #TableTwoSort="matSort" recycleRows [dataSource]="dataSourceofsins">
+                <!-- Position Column -->
+                <ng-container matColumnDef="id">
+                <th mat-header-cell *matHeaderCellDef> No. </th>
+                <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+                </ng-container>
+                <!-- Kind Column -->
+                <ng-container matColumnDef="kind">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Kind </th>
+                    <td mat-cell *matCellDef="let element"> {{element.kind}} </td>
+                </ng-container>
+                <!-- Date Column -->
+                <ng-container matColumnDef="date">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Date </th>
+                <td mat-cell *matCellDef="let element"> {{element.date}} </td>
+                </ng-container>
+                <tr mat-header-row *matHeaderRowDef="displayedColumnsOfsins"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumnsOfsins;"></tr>
+            </table>
+        <mat-card-actions><app-file-uploader></app-file-uploader></mat-card-actions>
+        
+        <!-- <mat-divider></mat-divider>  -->
+        
+        <mat-accordion>
+            <mat-expansion-panel (opened)="panelOpenState = true"
+            (closed)="panelOpenState = false">
+            <mat-expansion-panel-header>
+            <mat-panel-title>
+                Комментарии
+            </mat-panel-title>
+            <mat-panel-description>
+            Currently I am {{panelOpenState ? 'open' : 'closed'}}
+            </mat-panel-description>
+            </mat-expansion-panel-header>
+                <h3>Comment1: </h3>
+                    <p>I'm visible because I am open</p>
+                <h3>Comment2: </h3>
+                    <p>I'm visible because I am close</p>
+                <form class="example-form">
+                    <mat-form-field class="example-full-width">
+                        <mat-label>Leave a comment</mat-label>
+                        <textarea matInput placeholder="Ex. It makes me feel..."></textarea>
+                    </mat-form-field>
+                </form>
+                <button mat-button>Submit</button>        
+            </mat-expansion-panel>
+            </mat-accordion>
+    </mat-card-content>
+    <mat-card-actions>
+        <h4>Места решения</h4>
+        <mat-form-field appearance="fill">
+            <mat-label>Небеса или Ада?</mat-label>
+            <mat-select [formControl]="placesControl">
+                <mat-optgroup *ngFor="let group of placesGroups" [label]="group.name"
+[disabled]="group.disabled">
+                    <mat-option *ngFor="let places of group.places" [value]="places.value">
+                        {{places.viewValue}}
+                    </mat-option>
+                </mat-optgroup>
+            </mat-select>
+        </mat-form-field>
+
+        <button mat-button>Submit</button>
+    </mat-card-actions>
+</mat-card>
+</div>
+<mat-dialog-actions align="end">
+<button mat-button mat-dialog-close>Close</button>
+</mat-dialog-actions>
