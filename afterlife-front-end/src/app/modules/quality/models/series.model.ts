@@ -5,6 +5,6 @@ export interface Series {
     id: number;
     measurement: Measurement;
     name: string;
-    values: Values;
+    values: Values[];
   }
   

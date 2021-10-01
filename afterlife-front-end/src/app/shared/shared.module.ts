@@ -20,9 +20,9 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { DialogOpenComponent } from './widgets/dialog-open/dialog-open.component';
-import { AngularFileUploaderModule } from "angular-file-uploader";
 import { FileUploaderComponent } from './widgets/file-uploader/file-uploader.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { AngularFileUploaderModule } from "angular-file-uploader";
 
 
 @NgModule({
@@ -50,16 +50,17 @@ import { ReactiveFormsModule } from '@angular/forms';
     MatDialogModule,
     MatInputModule,
     MatFormFieldModule,
-    AngularFileUploaderModule,
     HttpClientModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    AngularFileUploaderModule
   ],
   exports: [
     HeaderComponent,
     FooterComponent,
     SiderbarComponent,
     QualitiesComponent,
-    CardComponent
+    CardComponent,
+    FileUploaderComponent
   ]
 })
 export class SharedModule { }

@@ -1,1 +1,4 @@
-<p>measurement-page works!</p>
+<ng-container *ngIf="measurements$ | async as measurements">
+    <app-quality [measurements]="measurements.results"></app-quality>
+  </ng-container>
+  

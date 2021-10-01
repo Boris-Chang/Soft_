@@ -1,6 +1,6 @@
 export interface Measurement {
     id: number,
-    kind: string,
+    title: string,
     captionForX: string;
     captionForY: Date,
   }

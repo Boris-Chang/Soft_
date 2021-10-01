@@ -34,6 +34,8 @@ import { HttpClientModule } from '@angular/common/http';
     CommonModule,
     RouterModule,
     SharedModule,
+    ClassificatorModule,
+
     MatSidenavModule,
     MatDividerModule,
     MatPaginatorModule,
@@ -46,8 +48,7 @@ import { HttpClientModule } from '@angular/common/http';
     FormsModule,
     ReactiveFormsModule,
     BrowserModule,
-    HttpClientModule,
-    ClassificatorModule,
+    HttpClientModule
   ]
 })
 export class DefaultModule {
