@@ -15,7 +15,7 @@ class ReportedSoulMapper(
     private val sinEvidenceMapper: RecordMapper<SinEvidencesRecord, SinEvidence>,
     private val goodnessEvidenceMapper: RecordMapper<GoodnessEvidencesRecord, GoodnessEvidence>,
     private val sinsReportMapper: RecordMapper<SinsReportsRecord, SinsReport>,
-    private val goodnessReportMapper: RecordMapper<GoodnessReportsRecord, GoodnessReport>
+    private val goodnessReportMapper: RecordMapper<GoodnessReportsRecord, GoodnessReport>,
 ) {
     fun map(
         records: Map.Entry<
@@ -29,16 +29,24 @@ class ReportedSoulMapper(
         val sinEvidences = records.value
             .map { this.sinEvidenceMapper.map(it.into(SIN_EVIDENCES)) }
             .filterNotNull()
+            .distinctBy { r -> r.id }
         val goodnessEvidences = records.value
             .map { this.goodnessEvidenceMapper.map(it.into(GOODNESS_EVIDENCES)) }
             .filterNotNull()
+            .distinctBy { r -> r.id }
 
         val sinsReport = this.sinsReportMapper
             .map(sinsReportRecord)
-            ?.copy(soul = soul, sins = sinEvidences)
+            ?.copy(
+                soul = soul,
+                sins = sinEvidences,
+            )
         val goodnessReport = this.goodnessReportMapper
             .map(goodnessReportRecord)
-            ?.copy(soul = soul, goodnessEvidences = goodnessEvidences)
+            ?.copy(
+                soul = soul,
+                goodnessEvidences = goodnessEvidences,
+            )
 
         return ReportedSoul(soul, sinsReport, goodnessReport)
     }
