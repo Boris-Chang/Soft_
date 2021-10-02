@@ -11,7 +11,10 @@ import ru.ifmo.software_engineering.afterlife.classificator.domain.ReportedSouls
 import ru.ifmo.software_engineering.afterlife.classificator.domain.Soul
 import ru.ifmo.software_engineering.afterlife.core.models.PageRequest
 import ru.ifmo.software_engineering.afterlife.core.models.PagedResult
-import ru.ifmo.software_engineering.afterlife.database.tables.*
+import ru.ifmo.software_engineering.afterlife.database.tables.GoodnessEvidences.GOODNESS_EVIDENCES
+import ru.ifmo.software_engineering.afterlife.database.tables.GoodnessReports.GOODNESS_REPORTS
+import ru.ifmo.software_engineering.afterlife.database.tables.SinEvidences.SIN_EVIDENCES
+import ru.ifmo.software_engineering.afterlife.database.tables.SinsReports.SINS_REPORTS
 import ru.ifmo.software_engineering.afterlife.database.tables.Souls.SOULS
 import ru.ifmo.software_engineering.afterlife.database.tables.records.SoulsRecord
 import ru.ifmo.software_engineering.afterlife.utils.jooq.paged
@@ -28,6 +31,7 @@ class SoulRepositoryImpl(
     private val soulMapper: RecordMapper<SoulsRecord, Soul>,
     private val reportedSoulMapper: ReportedSoulMapper
 ) : SoulRepository {
+    private val reportedSoul = SOULS.`as`("reported_soul")
     override suspend fun insertOne(soul: Soul): Soul {
         return this.dsl.insertInto(SOULS)
             .columns(SOULS.FIRST_NAME, SOULS.LAST_NAME, SOULS.DATE_OF_DEATH)
@@ -54,7 +58,7 @@ class SoulRepositoryImpl(
 
     @Transactional(readOnly = true)
     override suspend fun getReportedSouls(filter: ReportedSoulsQueryFilter?, pageRequest: PageRequest): PagedResult<ReportedSoul> {
-        val countField = DSL.countDistinct(SOULS.ID)
+        val countField = DSL.countDistinct(reportedSoul.ID)
         val totalCount = this.dsl.select(countField)
             .fromReportedSouls()
             .whereReportedSoulInFilter(filter)
@@ -63,19 +67,20 @@ class SoulRepositoryImpl(
 
         val results = this.dsl.select()
             .fromReportedSouls()
+            .rightJoin(this.dsl.select().from(reportedSoul).paged(pageRequest))
+            .on()
             .whereReportedSoulInFilter(filter)
-            .paged(pageRequest)
             .fetchAsync().await()
 
         val reportedSouls = results
             .intoGroups {
                 Triple(
-                    it.into(SOULS),
-                    if (it[SinsReports.SINS_REPORTS.ID] != null)
-                        it.into(SinsReports.SINS_REPORTS)
+                    it.into(reportedSoul),
+                    if (it[SINS_REPORTS.ID] != null)
+                        it.into(SINS_REPORTS)
                     else null,
-                    if (it[GoodnessReports.GOODNESS_REPORTS.ID] != null)
-                        it.into(GoodnessReports.GOODNESS_REPORTS)
+                    if (it[GOODNESS_REPORTS.ID] != null)
+                        it.into(GOODNESS_REPORTS)
                     else null
                 )
             }
@@ -88,23 +93,27 @@ class SoulRepositoryImpl(
         )
     }
 
-    private fun <T : Record> SelectFromStep<T>.fromReportedSouls() =
-        this.from(SOULS)
-            .leftJoin(SinsReports.SINS_REPORTS).on(SinsReports.SINS_REPORTS.SOUL_ID.eq(SOULS.ID))
-            .leftJoin(GoodnessReports.GOODNESS_REPORTS).on(GoodnessReports.GOODNESS_REPORTS.SOUL_ID.eq(SOULS.ID))
-            .leftJoin(SinEvidences.SIN_EVIDENCES).on(SinEvidences.SIN_EVIDENCES.SINNED_BY_SOUL_ID.eq(SOULS.ID))
-            .leftJoin(GoodnessEvidences.GOODNESS_EVIDENCES).on(GoodnessEvidences.GOODNESS_EVIDENCES.DONE_BY_SOUL_ID.eq(SOULS.ID))
+    private fun <T : Record> SelectFromStep<T>.fromReportedSouls(pageRequest: PageRequest? = null): SelectOnConditionStep<T> {
+        val soulsInnerQuery =
+            if (pageRequest != null) dsl.select().from(reportedSoul).paged(pageRequest)
+            else dsl.select().from(reportedSoul)
+        return from(SINS_REPORTS)
+            .rightJoin(soulsInnerQuery.asTable(reportedSoul)).on(SINS_REPORTS.SOUL_ID.eq(reportedSoul.ID))
+            .leftJoin(GOODNESS_REPORTS).on(GOODNESS_REPORTS.SOUL_ID.eq(reportedSoul.ID))
+            .leftJoin(SIN_EVIDENCES).on(SIN_EVIDENCES.SINNED_BY_SOUL_ID.eq(reportedSoul.ID))
+            .leftJoin(GOODNESS_EVIDENCES).on(GOODNESS_EVIDENCES.DONE_BY_SOUL_ID.eq(reportedSoul.ID))
+    }
 
     private fun <T : Record> SelectWhereStep<T>.whereReportedSoulInFilter(filter: ReportedSoulsQueryFilter?) =
         when (filter) {
             null -> this.where()
             ReportedSoulsQueryFilter.REPORT_NOT_UPLOADED ->
-                this.where(SinsReports.SINS_REPORTS.ID.isNull, GoodnessReports.GOODNESS_REPORTS.ID.isNull)
+                this.where(SINS_REPORTS.ID.isNull, GOODNESS_REPORTS.ID.isNull)
             ReportedSoulsQueryFilter.SINS_REPORT_NOT_UPLOADED ->
-                this.where(SinsReports.SINS_REPORTS.ID.isNull)
+                this.where(SINS_REPORTS.ID.isNull)
             ReportedSoulsQueryFilter.GOODNESS_REPORT_NOT_UPLOADED ->
-                this.where(GoodnessReports.GOODNESS_REPORTS.ID.isNull)
+                this.where(GOODNESS_REPORTS.ID.isNull)
             ReportedSoulsQueryFilter.ALL_UPLOADED ->
-                this.where(GoodnessReports.GOODNESS_REPORTS.ID.isNotNull, SinsReports.SINS_REPORTS.ID.isNotNull)
+                this.where(GOODNESS_REPORTS.ID.isNotNull, SINS_REPORTS.ID.isNotNull)
         }
 }
