@@ -5,6 +5,7 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer
 import com.fasterxml.jackson.datatype.jsr310.ser.ZonedDateTimeSerializer
+import com.fasterxml.jackson.module.kotlin.KotlinModule
 import org.springframework.boot.autoconfigure.jackson.Jackson2ObjectMapperBuilderCustomizer
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
@@ -23,7 +24,7 @@ class JacksonConfig {
             builder.serializers(LocalDateSerializer(DateTimeFormatter.ofPattern(dateFormat)))
             builder.serializers(LocalDateTimeSerializer(DateTimeFormatter.ofPattern(dateTimeFormat)))
             builder.serializers(ZonedDateTimeSerializer(DateTimeFormatter.ofPattern(dateTimeFormat)))
-            builder.modules(JavaTimeModule(), JSR310Module())
+            builder.modules(JavaTimeModule(), JSR310Module(), KotlinModule())
         }
     }
 }

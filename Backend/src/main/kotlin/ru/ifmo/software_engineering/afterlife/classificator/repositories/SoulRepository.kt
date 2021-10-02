@@ -32,6 +32,7 @@ class SoulRepositoryImpl(
     private val reportedSoulMapper: ReportedSoulMapper
 ) : SoulRepository {
     private val reportedSoul = SOULS.`as`("reported_soul")
+
     override suspend fun insertOne(soul: Soul): Soul {
         return this.dsl.insertInto(SOULS)
             .columns(SOULS.FIRST_NAME, SOULS.LAST_NAME, SOULS.DATE_OF_DEATH)
