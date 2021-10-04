@@ -1,5 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { SharedModule } from 'src/app/shared/shared.module';
+
 import { MatTableModule } from "@angular/material/table";
 import { MatDialogModule } from "@angular/material/dialog";
 import { MatListModule } from '@angular/material/list'
@@ -11,11 +13,11 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatPaginatorModule } from '@angular/material/paginator';
 
 import { SoulsPageComponent, SoulsTableComponent } from './components';
 import { SoulsApiService } from "./services";
 import { DialogReportComponent } from './components/dialog-report/dialog-report.component';
-import { SharedModule } from 'src/app/shared/shared.module';
 
 @NgModule({
   declarations: [
@@ -25,6 +27,8 @@ import { SharedModule } from 'src/app/shared/shared.module';
   ],
   imports: [
     CommonModule,
+    SharedModule,
+    
     MatTableModule,
     MatDialogModule,
     MatListModule,
@@ -37,7 +41,7 @@ import { SharedModule } from 'src/app/shared/shared.module';
     MatSelectModule,
     FormsModule,
     ReactiveFormsModule,
-    SharedModule
+    MatPaginatorModule
   ],
   providers: [
     SoulsApiService
