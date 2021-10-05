@@ -22,6 +22,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
+import { VacancyModule } from 'src/app/modules/vacancy/vacancy.module';
+import { QualityModule } from 'src/app/modules/quality/quality.module';
 
 @NgModule({
   declarations: [
@@ -35,6 +37,8 @@ import { HttpClientModule } from '@angular/common/http';
     RouterModule,
     SharedModule,
     ClassificatorModule,
+    VacancyModule,
+    QualityModule,
 
     MatSidenavModule,
     MatDividerModule,
