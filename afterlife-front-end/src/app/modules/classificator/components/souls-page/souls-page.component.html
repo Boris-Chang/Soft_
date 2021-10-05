@@ -1,3 +1,9 @@
 <ng-container *ngIf="souls$ | async as souls">
   <app-souls-table [souls]="souls.results"></app-souls-table>
 </ng-container>
+<mat-paginator (page)="onChangePage($event)"
+               [length]="100"
+               [pageSize]="this.pageSize"
+               [pageSizeOptions]="[100, 5, 10, 25]"
+               aria-label="Select page">
+</mat-paginator>
