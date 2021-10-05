@@ -22,7 +22,8 @@ export class SoulsPageComponent implements OnInit {
     this.souls$ = this.soulsApiService.getAllSouls(this.pageNumber, this.pageSize);
     this.souls$.subscribe(val =>
     {
-      this.setPageCount(this.calculatePageCount(val.totalCount));
+      //this.setPageCount(this.calculatePageCount(val.totalCount));
+      this.setPageCount(val.totalCount)
     });
   }
   private setPageCount(pageCount: number) {
@@ -35,11 +36,12 @@ export class SoulsPageComponent implements OnInit {
     this.souls$ = this.soulsApiService.getAllSouls(pe.pageIndex,this.pageSize);
     this.souls$.subscribe(val =>
     {
-      this.setPageCount(this.calculatePageCount(val.totalCount));
+      //this.setPageCount(this.calculatePageCount(val.totalCount));
+      this.setPageCount(val.totalCount)
     });
   }
 
-  private calculatePageCount(totalCount: number): number{
+  /*private calculatePageCount(totalCount: number): number{
     let x = Math.trunc(totalCount / this.pageSize);
     if(totalCount==0)
       return 1;
@@ -47,7 +49,7 @@ export class SoulsPageComponent implements OnInit {
       return x+1;
     else
       return x;
-  }
+  }*/
 
 
 }
