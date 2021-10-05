@@ -16,5 +16,10 @@
   position: relative;
   margin: 50px;
   padding: 16px;
-  font-size: 26px;
+  font-size: 16px;
+}
+
+.button-row {
+  display: table-cell;
+  width: 490px;
 }

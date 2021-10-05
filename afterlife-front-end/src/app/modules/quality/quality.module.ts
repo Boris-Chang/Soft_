@@ -20,7 +20,8 @@ import { MeasurementPageComponent } from './compoment/measurement-page/measureme
     SeriesApiService
   ],
   exports: [
-    QualityComponent
+    QualityComponent,
+    MeasurementPageComponent
   ]
 })
 export class QualityModule { }

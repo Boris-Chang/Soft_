@@ -67,7 +67,7 @@ class SoulRepositoryImpl(
             .first().map { e -> e.getValue(countField) }
 
         val results = this.dsl.select()
-            .fromReportedSouls()
+            .fromReportedSouls(pageRequest)
             .rightJoin(this.dsl.select().from(reportedSoul).paged(pageRequest))
             .on()
             .whereReportedSoulInFilter(filter)
