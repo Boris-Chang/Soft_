@@ -14,12 +14,12 @@ export class SoulsReportApiService {
   constructor(private readonly http: HttpClient) {
   }
 
-  public setSinsReport(soulId: number,csvSinsReport: string) {
-    return this.http.put(`${this.apiUrl}/souls/${soulId}/reports/sins`,csvSinsReport)
+  public setSinsReport(soulId: number,csvSinsReport: FormData) : Observable<any> {
+    return this.http.put<any>(`${this.apiUrl}/souls/${soulId}/reports/sins`,csvSinsReport);
   }
 
-  public setGoodnessReport(soulId: number,csvGoodnessReport: string) {
-    return this.http.put(`${this.apiUrl}/souls/${soulId}/reports/goodness`,csvGoodnessReport)
+  public setGoodnessReport(soulId: number,csvGoodnessReport: FormData) : Observable<any>{
+    return this.http.put<any>(`${this.apiUrl}/souls/${soulId}/reports/goodness`,csvGoodnessReport);
   }
 
 }

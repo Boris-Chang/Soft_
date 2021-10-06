@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { SoulsReportCommentsService } from './souls-report-comments.service';
+import { SoulsReportCommentsApiService } from './souls-report-comments-api.service';
 
 describe('SoulsReportCommentsService', () => {
-  let service: SoulsReportCommentsService;
+  let service: SoulsReportCommentsApiService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(SoulsReportCommentsService);
+    service = TestBed.inject(SoulsReportCommentsApiService);
   });
 
   it('should be created', () => {

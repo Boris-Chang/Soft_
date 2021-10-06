@@ -1,5 +1,5 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+import {Component, Inject, OnInit, ViewChild} from '@angular/core';
+import {MAT_DIALOG_DATA, MatDialog} from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
 import { FormControl } from '@angular/forms';
@@ -10,15 +10,15 @@ import { FormControl } from '@angular/forms';
   styleUrls: ['./dialog-report.component.scss'],
 })
 export class DialogReportComponent implements OnInit {
-
-  constructor(public dialog: MatDialog) {
-    
+  public soulId: number;
+  constructor(public dialog: MatDialog, @Inject(MAT_DIALOG_DATA) public data: any) {
     this.dataSourceOfgoodness = new MatTableDataSource;
-    
+
     this.dataSourceofsins = new MatTableDataSource;
   }
 
   ngOnInit(): void {
+    this.soulId = this.data as number;
     this.dataSourceOfgoodness.data = ELEMENT_DATA_goodness;
     this.dataSourceOfgoodness.sort = this.tableOneSort;
 
@@ -31,7 +31,7 @@ export class DialogReportComponent implements OnInit {
   @ViewChild('TableOneSort', {static: true}) tableOneSort: MatSort;
 
   //define to datasource of sins
-  dataSourceofsins: MatTableDataSource<PeriodicElement_sins>; 
+  dataSourceofsins: MatTableDataSource<PeriodicElement_sins>;
   displayedColumnsOfsins: string[] = ['id', 'kind', 'date'];
   @ViewChild('TableTwoSort', {static: true}) tableTwoSort: MatSort;
 
@@ -48,7 +48,7 @@ export class DialogReportComponent implements OnInit {
 
   //select of places
   placesControl = new FormControl();
-  
+
   placesGroups: PlacesGroup[] = [
     {
     name: 'Небеса',
@@ -68,7 +68,7 @@ export class DialogReportComponent implements OnInit {
     }
   ];
 }
-//interface for select of places 
+//interface for select of places
 interface Places {
   value: string;
   viewValue: string;

@@ -17,9 +17,10 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { FileUploaderComponent } from './widgets/file-uploader/file-uploader.component';
+import { SinsUploaderComponent } from './widgets/sins-uploader/sins-uploader.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { AngularFileUploaderModule } from "angular-file-uploader";
+import {GoodnessUploaderComponent} from "./widgets/goodness-uploader/goodness-uploader.component";
 
 
 @NgModule({
@@ -27,7 +28,9 @@ import { AngularFileUploaderModule } from "angular-file-uploader";
     HeaderComponent,
     FooterComponent,
     SiderbarComponent,
-    FileUploaderComponent
+    SinsUploaderComponent,
+    GoodnessUploaderComponent,
+    GoodnessUploaderComponent
   ],
   imports: [
     CommonModule,
@@ -52,7 +55,8 @@ import { AngularFileUploaderModule } from "angular-file-uploader";
     HeaderComponent,
     FooterComponent,
     SiderbarComponent,
-    FileUploaderComponent
+    SinsUploaderComponent,
+    GoodnessUploaderComponent
   ]
 })
 export class SharedModule { }

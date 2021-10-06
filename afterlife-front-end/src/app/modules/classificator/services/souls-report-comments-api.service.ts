@@ -6,7 +6,7 @@ import {ReportComment} from "../models/report-comment.model";
 @Injectable({
   providedIn: 'root'
 })
-export class SoulsReportCommentsService {
+export class SoulsReportCommentsApiService {
   //TODO: move this to config, register as a service and inject it through constructor via Dependency Injection
   //https://stackoverflow.com/questions/43193049/app-settings-the-angular-way/43193574#43193574
   private readonly apiUrl = 'http://localhost:8080/api'
