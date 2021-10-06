@@ -30,8 +30,8 @@ export class SoulsTableComponent implements OnInit {
   constructor(public dialog: MatDialog) {
 
   }
-  openReportDialog() {
-    const dialogRef = this.dialog.open(DialogReportComponent);
+  openReportDialog(reportedSoul: ReportedSoul) {
+    const dialogRef = this.dialog.open(DialogReportComponent,{data: reportedSoul.soul.id});
     dialogRef.afterClosed().subscribe(result => {
       console.log(`Dialog result: ${result}`);
       });

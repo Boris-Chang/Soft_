@@ -14,7 +14,8 @@ export class SoulsApiService {
   upload(formData: FormData): Observable<HttpEvent<string[]>> {
     return this.http.post<string[]>(`${this.server}/file/upload`, formData, {
       reportProgress: true,
-      observe: 'events'
+      observe: 'events',
+
     });
   }
 }

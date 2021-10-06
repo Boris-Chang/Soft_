@@ -29,10 +29,10 @@
                     <tr mat-header-row *matHeaderRowDef="displayedColumnsOfgoodness"></tr>
                     <tr mat-row *matRowDef="let row; columns: displayedColumnsOfgoodness;"></tr>
                 </table>
-            <mat-card-actions> <app-file-uploader></app-file-uploader></mat-card-actions>
-            
-            <mat-divider></mat-divider> 
-            
+            <mat-card-actions> <app-goodness-uploader [soulId]="this.soulId"></app-goodness-uploader></mat-card-actions>
+
+            <mat-divider></mat-divider>
+
             <h3>Report from Sins</h3>
             <table class="example-table mat-elevation-z8" mat-table matSort #TableTwoSort="matSort" recycleRows [dataSource]="dataSourceofsins">
                 <!-- Position Column -->
@@ -53,10 +53,10 @@
                 <tr mat-header-row *matHeaderRowDef="displayedColumnsOfsins"></tr>
                 <tr mat-row *matRowDef="let row; columns: displayedColumnsOfsins;"></tr>
             </table>
-        <mat-card-actions><app-file-uploader></app-file-uploader></mat-card-actions>
-        
+        <mat-card-actions><app-sins-uploader [soulId]="this.soulId"></app-sins-uploader></mat-card-actions>
+
         <!-- <mat-divider></mat-divider>  -->
-        
+
         <mat-accordion>
             <mat-expansion-panel (opened)="panelOpenState = true"
             (closed)="panelOpenState = false">
@@ -78,7 +78,7 @@
                         <textarea matInput placeholder="Ex. It makes me feel..."></textarea>
                     </mat-form-field>
                 </form>
-                <button mat-button>Submit</button>        
+                <button mat-button>Submit</button>
             </mat-expansion-panel>
             </mat-accordion>
     </mat-card-content>
