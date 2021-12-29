@@ -34,3 +34,20 @@ tr.example-element-row:not(.example-expanded-row):active {
 .lawyer {
   right: 20;
 }
+
+:host {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+mat-drawer {
+  width: 350px;
+}
+
+mat-drawer-container {
+  height: 100%;
+}
+
+mat-drawer-content {
+  padding: 20px;
+}

@@ -7,9 +7,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SurveyComponent implements OnInit {
 
+  sideBarOpen = true;
   constructor() { }
 
   ngOnInit(): void {
   }
-
+  sideBarToggler() {
+    this.sideBarOpen = !this.sideBarOpen;
+  }
 }

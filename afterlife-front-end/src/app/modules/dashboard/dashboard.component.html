@@ -1,15 +1,23 @@
-<div>
-    <app-measurement-page></app-measurement-page>
-</div>
+<app-header (toggleSideBarForMe)="sideBarToggler()"></app-header>
 
-<br>
+<mat-drawer-container>
+    <mat-drawer mode="side" [opened]="sideBarOpen">
+        <app-siderbar></app-siderbar>
+    </mat-drawer>
+    <mat-drawer-content>
+        <div>
+            <app-measurement-page></app-measurement-page>
+        </div>
 
-<mat-divider></mat-divider>
+        <br>
+        <mat-divider></mat-divider>
+        <br>
 
-<br>
+        <div fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="20px" class="Tabs-card">
+            <app-tab></app-tab>
+        </div>
 
-<div fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="20px" class="Tabs-card">
-    <app-tab></app-tab>
-</div>
+    </mat-drawer-content>
+</mat-drawer-container>
 
-
+<app-footer></app-footer>

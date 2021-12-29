@@ -1,0 +1,17 @@
+<div class="wrapper">
+
+    <div class="block">
+
+        <form [formGroup]="login">
+            <h2>LOGIN</h2>
+            <input type="text" placeholder="Name" class="inp" formControlName="name"/>
+            <input type="text" placeholder="Email" class="inp" formControlName="email"/>
+            <div class="btns">
+                <button (click)="loginSubmit(login.value)">Login</button>
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
