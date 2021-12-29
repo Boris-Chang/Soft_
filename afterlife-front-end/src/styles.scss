@@ -8,5 +8,31 @@ body {
   margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
 }
+.wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+button {
+  padding: 15x 10px;
+  background-color: skyblue;
+  margin-right: 5px;
+  color: white;
+  font-weight: 600;
+  border: none;
+  width: 100px;
+}
+button:disabled {
+  background-color: gray;
+  opacity: 0.8;
+  color: white;
+}
+.block {
+  width: 320px;
+  background: linear-gradient(270deg, blue, red);
+  height: 350px;
+  display: flex;
+}
 /* Importing Bootstrap SCSS file. */
 /* @import "~bootstrap/scss/bootstrap"; */

@@ -18,9 +18,10 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { SinsUploaderComponent } from './widgets/sins-uploader/sins-uploader.component';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AngularFileUploaderModule } from "angular-file-uploader";
 import {GoodnessUploaderComponent} from "./widgets/goodness-uploader/goodness-uploader.component";
+import { LoginComponent } from '../modules/login/login.component';
 
 
 @NgModule({
@@ -49,6 +50,7 @@ import {GoodnessUploaderComponent} from "./widgets/goodness-uploader/goodness-up
     MatFormFieldModule,
     HttpClientModule,
     ReactiveFormsModule,
+    FormsModule,
     AngularFileUploaderModule
   ],
   exports: [

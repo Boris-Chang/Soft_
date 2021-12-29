@@ -24,13 +24,15 @@ import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
 import { VacancyModule } from 'src/app/modules/vacancy/vacancy.module';
 import { QualityModule } from 'src/app/modules/quality/quality.module';
+import { LoginComponent } from 'src/app/modules/login/login.component';
 
 @NgModule({
   declarations: [
     DefaultComponent,
     DashboardComponent,
     PostsComponent,
-    SurveyComponent
+    SurveyComponent,
+    LoginComponent
   ],
   imports: [
     CommonModule,

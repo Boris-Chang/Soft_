@@ -74,6 +74,12 @@ export class PostsComponent implements OnInit {
     this.fileStatus.percent = Math.round(100 * loaded / total);
   }
   ngOnInit(): void {}
+  //default UI sideBar
+  sideBarOpen = true;
+  sideBarToggler() {
+    this.sideBarOpen = !this.sideBarOpen;
+  }
+ 
 }
 
 export interface PeriodicElement {

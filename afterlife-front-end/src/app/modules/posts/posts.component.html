@@ -11,7 +11,17 @@
     <br>
 </div> -->
 
-<div>
-    <app-souls-page></app-souls-page>
-</div>
+<app-header (toggleSideBarForMe)="sideBarToggler()"></app-header>
 
+<mat-drawer-container>
+    <mat-drawer mode="side" [opened]="sideBarOpen">
+        <app-siderbar></app-siderbar>
+    </mat-drawer>
+    <mat-drawer-content>
+        <div>
+            <app-souls-page></app-souls-page>
+        </div>
+    </mat-drawer-content>
+</mat-drawer-container>
+
+<app-footer></app-footer>

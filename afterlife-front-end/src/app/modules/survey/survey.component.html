@@ -1,3 +1,13 @@
+<app-header (toggleSideBarForMe)="sideBarToggler()"></app-header>
+
+<mat-drawer-container>
+    <mat-drawer mode="side" [opened]="sideBarOpen">
+        <app-siderbar></app-siderbar>
+    </mat-drawer>
+    <mat-drawer-content>
+
+
+
 <nav class="navbar navbar-light bg-primary">
     <div class="container-fluid">
         <h1 style="color: aliceblue;">Страница с опросами</h1>
@@ -43,3 +53,8 @@
         </tr>
     </tbody>
 </table>
+</mat-drawer-content>
+</mat-drawer-container>
+
+
+<app-footer></app-footer>
