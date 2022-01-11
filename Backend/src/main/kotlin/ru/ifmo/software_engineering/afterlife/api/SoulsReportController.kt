@@ -22,14 +22,9 @@ class SoulsReportController(
         soulId: Long,
         @RequestPart(required = true, name = "file")
         file: MultipartFile
-    ): ResponseEntity<Any> {
+    ): ResponseEntity<out Any> {
         return this.soulReportsService.saveOrUpdateSinsReportForSoulFromCsv(soulId, BOMInputStream(file.inputStream)).fold(
-            {
-                when (it) {
-                    is BadRequestException -> ResponseEntity.badRequest().body(it.message)
-                    is NotFoundException -> ResponseEntity.notFound().build()
-                }
-            },
+            { it.toResponse() },
             { ResponseEntity.ok(it) }
         )
     }
@@ -41,14 +36,9 @@ class SoulsReportController(
         soulId: Long,
         @RequestPart(required = true, name = "file")
         file: MultipartFile
-    ): ResponseEntity<Any> {
+    ): ResponseEntity<out Any> {
         return this.soulReportsService.saveOrUpdateGoodnessReportForSoulFromCsv(soulId, BOMInputStream(file.inputStream)).fold(
-            {
-                when (it) {
-                    is BadRequestException -> ResponseEntity.badRequest().body(it.message)
-                    is NotFoundException -> ResponseEntity.notFound().build()
-                }
-            },
+            { it.toResponse() },
             { ResponseEntity.ok(it) }
         )
     }

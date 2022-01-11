@@ -21,6 +21,7 @@
 		<jooq.version>3.15.1</jooq.version>
 		<kotlinx.coroutines>1.5.1</kotlinx.coroutines>
 		<springdoc.version>1.5.2</springdoc.version>
+		<spek.version>2.0.17</spek.version>
 
 		<!--Properties for JOOQ Codegen plugin-->
 		<db.driver>org.postgresql.Driver</db.driver>
@@ -46,6 +47,10 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-validation</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-security</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.data</groupId>
@@ -108,8 +113,19 @@
 		<dependency>
 			<groupId>com.nhaarman</groupId>
 			<artifactId>mockito-kotlin</artifactId>
-			<version>0.9.0</version>
+			<version>1.6.0</version>
 			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.spekframework.spek2</groupId>
+			<artifactId>spek-dsl-jvm</artifactId>
+			<version>${spek.version}</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.spekframework.spek2</groupId>
+			<artifactId>spek-runner-junit5</artifactId>
+			<version>${spek.version}</version>
 		</dependency>
 
 		<dependency>
@@ -150,6 +166,12 @@
 			<artifactId>commons-io</artifactId>
 			<version>2.5</version>
 		</dependency>
+
+		<dependency>
+			<groupId>io.jsonwebtoken</groupId>
+			<artifactId>jjwt</artifactId>
+			<version>0.9.1</version>
+		</dependency>
 	</dependencies>
 
 	<build>
@@ -173,16 +195,29 @@
 					<compilerPlugins>
 						<plugin>spring</plugin>
 					</compilerPlugins>
-					<sourceDirs>
-						<sourceDir>${project.basedir}/src/main/kotlin</sourceDir>
-						<sourceDir>${project.basedir}/target/generated-sources/jooq</sourceDir>
-					</sourceDirs>
 				</configuration>
 				<dependencies>
 					<dependency>
 						<groupId>org.jetbrains.kotlin</groupId>
 						<artifactId>kotlin-maven-allopen</artifactId>
 						<version>${kotlin.version}</version>
+					</dependency>
+				</dependencies>
+			</plugin>
+
+			<plugin>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>2.19</version>
+				<dependencies>
+					<dependency>
+						<groupId>org.junit.platform</groupId>
+						<artifactId>junit-platform-surefire-provider</artifactId>
+						<version>1.0.0</version>
+					</dependency>
+					<dependency>
+						<groupId>org.jetbrains.spek</groupId>
+						<artifactId>spek-junit-platform-engine</artifactId>
+						<version>1.1.5</version>
 					</dependency>
 				</dependencies>
 			</plugin>
@@ -230,52 +265,6 @@
 						</target>
 					</generator>
 				</configuration>
-			</plugin>
-
-			<plugin>
-				<groupId>com.github.gantsign.maven</groupId>
-				<artifactId>ktlint-maven-plugin</artifactId>
-				<version>1.9.0</version>
-				<executions>
-					<execution>
-						<phase>generate-sources</phase>
-						<id>format-and-check</id>
-						<goals>
-							<goal>format</goal>
-							<goal>ktlint</goal>
-							<goal>check</goal>
-						</goals>
-					</execution>
-					<execution>
-						<id>check</id>
-						<phase>verify</phase>
-						<goals>
-							<goal>check</goal>
-						</goals>
-					</execution>
-
-				</executions>
-			</plugin>
-
-			<plugin>
-				<groupId>io.github.phillipuniverse</groupId>
-				<artifactId>githook-maven-plugin</artifactId>
-				<version>1.0.5</version>
-				<executions>
-					<execution>
-						<goals>
-							<goal>install</goal>
-						</goals>
-						<configuration>
-							<hooks>
-								<pre-commit>
-									echo running lint
-									(cd Backend; mvn ktlint:ktlint)
-								</pre-commit>
-							</hooks>
-						</configuration>
-					</execution>
-				</executions>
 			</plugin>
 		</plugins>
 	</build>
