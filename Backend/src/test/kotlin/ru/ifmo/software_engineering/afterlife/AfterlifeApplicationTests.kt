@@ -1,9 +1,9 @@
 package ru.ifmo.software_engineering.afterlife
 
 import org.junit.jupiter.api.Test
-import org.springframework.boot.test.context.SpringBootTest
+import ru.ifmo.software_engineering.afterlife.utils.IntegrationTest
 
-@SpringBootTest
+@IntegrationTest
 class AfterlifeApplicationTests {
 
     @Test
