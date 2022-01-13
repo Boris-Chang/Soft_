@@ -1,7 +1,10 @@
 package ru.ifmo.software_engineering.afterlife.security.services
 
-import com.nhaarman.mockito_kotlin.*
 import kotlinx.coroutines.runBlocking
+import org.mockito.kotlin.any
+import org.mockito.kotlin.doReturn
+import org.mockito.kotlin.mock
+import org.mockito.kotlin.stub
 import org.spekframework.spek2.Spek
 import org.spekframework.spek2.style.gherkin.Feature
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder

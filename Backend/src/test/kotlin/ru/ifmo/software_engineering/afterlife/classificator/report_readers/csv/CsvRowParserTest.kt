@@ -1,9 +1,9 @@
 package ru.ifmo.software_engineering.afterlife.classificator.report_readers.csv
 
 import arrow.core.Validated
-import com.nhaarman.mockito_kotlin.doReturn
-import com.nhaarman.mockito_kotlin.mock
 import org.junit.jupiter.api.Test
+import org.mockito.kotlin.doReturn
+import org.mockito.kotlin.mock
 import ru.ifmo.software_engineering.afterlife.classificator.domain.GoodnessEvidence
 import ru.ifmo.software_engineering.afterlife.classificator.domain.GoodnessKind
 import ru.ifmo.software_engineering.afterlife.classificator.domain.SinEvidence
