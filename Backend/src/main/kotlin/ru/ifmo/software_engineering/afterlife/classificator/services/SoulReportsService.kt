@@ -24,68 +24,59 @@ import java.time.ZonedDateTime
 
 interface SoulReportsService {
     suspend fun saveOrUpdateSinsReportForSoulFromCsv(soulId: Long, stream: InputStream): Either<ApplicationException, SinsReport>
+
     @Transactional
     suspend fun saveOrUpdateGoodnessReportForSoulFromCsv(
-        soulId: Long,
-        stream: InputStream
+            soulId: Long,
+            stream: InputStream
     ): Either<ApplicationException, GoodnessReport>
 }
 
 @Service
 class SoulReportsServiceImpl(
-    private val soulRepository: SoulRepository,
-    private val sinsReportRepository: SinsReportRepository,
-    private val goodnessReportRepository: GoodnessReportRepository,
-    private val sinsEvidencesCsvParser: CsvParser<SinEvidence>,
-    private val goodnessEvidencesCsvParser: CsvParser<GoodnessEvidence>
+        private val soulRepository: SoulRepository,
+        private val sinsReportRepository: SinsReportRepository,
+        private val goodnessReportRepository: GoodnessReportRepository,
+        private val sinsEvidencesCsvParser: CsvParser<SinEvidence>,
+        private val goodnessEvidencesCsvParser: CsvParser<GoodnessEvidence>
 ) : SoulReportsService {
     @Transactional
     override suspend fun saveOrUpdateSinsReportForSoulFromCsv(soulId: Long, stream: InputStream) =
-        either<ApplicationException, SinsReport> {
-            val evidences = InputStreamReader(stream, Charset.forName("UTF-8")).use {
-                sinsEvidencesCsvParser.parseCsv(it)
-            }.mapLeft { BadRequestException(it.message) }.bind()
+            either<ApplicationException, SinsReport> {
+                val soul = getSoulValidated(soulId).bind()
+                val evidences = sinsEvidencesCsvParser.parseReport(stream).bind()
 
-            val soul = Validated.fromNullable(
-                soulRepository.findById(soulId)
-            ) { NotFoundException("Soul with $soulId not exist") }.bind()
+                val currentReport = sinsReportRepository.findBySoul(soul)
 
-            val currentReport = sinsReportRepository.findBySoul(soul)
-
-            if (currentReport == null) {
-                sinsReportRepository.save(
-                    SinsReport(
-                        0, soul, evidences, User.empty, ZonedDateTime.now()
-                    )
-                )
-            } else {
-                sinsReportRepository.update(currentReport.copy(sins = evidences, uploadedAt = ZonedDateTime.now()))
+                if (currentReport == null) {
+                    sinsReportRepository.save(SinsReport(0, soul, evidences, User.empty, ZonedDateTime.now()))
+                } else {
+                    sinsReportRepository.update(currentReport.copy(sins = evidences, uploadedAt = ZonedDateTime.now()))
+                }
             }
-        }
 
     @Transactional
     override suspend fun saveOrUpdateGoodnessReportForSoulFromCsv(soulId: Long, stream: InputStream) =
-        either<ApplicationException, GoodnessReport> {
-            val evidences = InputStreamReader(stream, Charset.forName("UTF-8")).use {
-                goodnessEvidencesCsvParser.parseCsv(it)
-            }.mapLeft { BadRequestException(it.message) }.bind()
+            either<ApplicationException, GoodnessReport> {
+                val soul = getSoulValidated(soulId).bind()
+                val evidences = goodnessEvidencesCsvParser.parseReport(stream).bind()
 
-            val soul = Validated.fromNullable(
-                soulRepository.findById(soulId)
-            ) { NotFoundException("Soul with $soulId not exist") }.bind()
+                val currentReport = goodnessReportRepository.findBySoul(soul)
 
-            val currentReport = goodnessReportRepository.findBySoul(soul)
-
-            if (currentReport == null) {
-                goodnessReportRepository.save(
-                    GoodnessReport(
-                        0, soul, evidences, User.empty, ZonedDateTime.now()
-                    )
-                )
-            } else {
-                goodnessReportRepository.update(
-                    currentReport.copy(goodnessEvidences = evidences, uploadedAt = ZonedDateTime.now())
-                )
+                if (currentReport == null) {
+                    goodnessReportRepository.save(GoodnessReport(0, soul, evidences, User.empty, ZonedDateTime.now()))
+                } else {
+                    goodnessReportRepository.update(currentReport.copy(goodnessEvidences = evidences, uploadedAt = ZonedDateTime.now()))
+                }
             }
-        }
+
+    private fun <T> CsvParser<T>.parseReport(stream: InputStream) =
+            InputStreamReader(stream, Charset.forName("UTF-8")).use {
+                this.parseCsv(it)
+            }.mapLeft { BadRequestException(it.message) }
+
+    private suspend fun getSoulValidated(soulId: Long) =
+            Validated.fromNullable(
+                    soulRepository.findById(soulId)
+            ) { NotFoundException("Soul with $soulId not exist") }
 }
