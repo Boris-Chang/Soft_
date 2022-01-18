@@ -23,6 +23,9 @@ export class LoginComponent implements OnInit {
     users.set("ChangJiyuan", "cjynoodles@gmail.com");
     users.set("KhlopkovDmitry", "Khlopkov@gmail.com");
     users.set("BaevDmitry", "baev@gmail.com");
+    users.set("admin", "admin");
+    users.set("GOD", "123456");
+    users.set("HEAVEN_ADVOCATE", "123456");
 
     if(data.name)
     {
