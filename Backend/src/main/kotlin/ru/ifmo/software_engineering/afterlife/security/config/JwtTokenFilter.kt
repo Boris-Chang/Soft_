@@ -27,6 +27,12 @@ class JwtTokenFilter(
     override fun doFilterInternal(request: HttpServletRequest,
                                   response: HttpServletResponse,
                                   chain: FilterChain) {
+        //Not check OPTIONS requests
+        if (request.method == "OPTIONS") {
+            chain.doFilter(request, response)
+            return
+        }
+
         // Get authorization header and validate
         val header = request.getHeader(HttpHeaders.AUTHORIZATION)
         if (header == null || header.isEmpty() || !header.startsWith("Bearer ")) {
