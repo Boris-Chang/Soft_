@@ -1,7 +1,7 @@
 package ru.ifmo.software_engineering.afterlife.users.constants
 
-class RoleNames {
-    companion object {
-        const val ADMIN: String = "ADMIN"
-    }
+object RoleNames {
+    const val ADMIN: String = "ADMIN"
+    const val HEAVEN_ADVOCATE: String = "HEAVEN_ADVOCATE"
+    const val HEAVEN_PROSECUTOR: String = "HEAVEN_PROSECUTOR"
 }
