@@ -14,20 +14,20 @@ body {
   align-items: center;
   height: 100vh;
 }
-button {
-  padding: 15x 10px;
-  background-color: skyblue;
-  margin-right: 5px;
-  color: white;
-  font-weight: 600;
-  border: none;
-  width: 100px;
-}
-button:disabled {
-  background-color: gray;
-  opacity: 0.8;
-  color: white;
-}
+// button {
+//   padding: 15x 10px;
+//   background-color: skyblue;
+//   margin-right: 5px;
+//   color: white;
+//   font-weight: 600;
+//   border: none;
+//   width: 100px;
+// }
+// button:disabled {
+//   background-color: gray;
+//   opacity: 0.8;
+//   color: white;
+// }
 .block {
   width: 320px;
   background: linear-gradient(270deg, blue, red);
