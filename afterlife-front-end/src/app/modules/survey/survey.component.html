@@ -17,44 +17,49 @@
     </div>
 </nav>
 
-<table class="table mt-3">
-    <thead>
-        <tr>
-            <th scope="col">Имя опроса</th>
-            <th scope="col">Создано пользователем</th>
-            <th scope="col">Для</th>
-            <th scope="col">Action</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td>Опрос качества 1</td>
-            <td>
-                <a href="https://www.google.com/intl/ru_ru/forms/about/" target="_blank">google sheet</a>
-            </td>
-            <td>Пыточника</td>
-            <td>
-                <button class="btn btn-info">Edit</button>
-                <button class="btn btn-danger">Delete</button>
-            </td>
-        </tr>
-    </tbody>
-    <tbody>
-        <tr>
-            <td>Опрос качества 2</td>
-            <td>
-                <a href="https://www.google.com/intl/ru_ru/forms/about/" target="_blank">google sheet</a>
-            </td>
-            <td>Грешника</td>
-            <td>
-                <button class="btn btn-info">Edit</button>
-                <button class="btn btn-danger">Delete</button>
-            </td>
-        </tr>
-    </tbody>
-</table>
-</mat-drawer-content>
+<div class="demo-button-container">
+    <button mat-raised-button (click)="addData()" class="demo-button">
+    Add data
+    </button>
+    <button
+    mat-raised-button
+    [disabled]="!dataToDisplay.length"
+    (click)="removeData()"
+    class="demo-button">
+    Remove data
+    </button>
+</div>
+    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8 demo-table">
+    <!-- Position Column -->
+    <ng-container matColumnDef="position">
+    <th mat-header-cell *matHeaderCellDef>No.</th>
+    <td mat-cell *matCellDef="let element">{{element.position}}</td>
+    </ng-container>
+    <!-- Name Column -->
+    <ng-container matColumnDef="name">
+    <th mat-header-cell *matHeaderCellDef>Имя опроса</th>
+    <td mat-cell *matCellDef="let element">{{element.name}}</td>
+    </ng-container>
+    <!-- Weight Column -->
+    <ng-container matColumnDef="weight">
+    <th mat-header-cell *matHeaderCellDef>Создано пользователем</th>
+    <td mat-cell *matCellDef="let element">
+        <a href="https://forms.gle/ULYPFEyWTC3vsVYs6" target="_blank">
+            {{element.weight}}
+        </a>
+    </td>
+    </ng-container>
+    <!-- Symbol Column -->
+    <ng-container matColumnDef="symbol">
+    <th mat-header-cell *matHeaderCellDef>Для</th>
+    <td mat-cell *matCellDef="let element">
+        {{element.symbol}}
+    </td>
+    </ng-container>
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+
+  </mat-drawer-content>
 </mat-drawer-container>
-
-
 <app-footer></app-footer>

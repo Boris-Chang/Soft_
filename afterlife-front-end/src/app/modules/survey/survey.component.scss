@@ -1,8 +1,3 @@
-:host {
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-}
 mat-drawer {
   width: 350px;
 }
@@ -13,4 +8,13 @@ mat-drawer-container {
 
 mat-drawer-content {
   padding: 20px;
+}
+.demo-table {
+  width: 100%;
+}
+.demo-button-container {
+  padding-bottom: 16px;
+}
+.demo-button + .demo-button {
+  margin-left: 8px;
 }
