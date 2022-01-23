@@ -12,14 +12,19 @@ import { BrowserModule } from '@angular/platform-browser';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatSelectModule } from '@angular/material/select';
 import { MatIconModule } from '@angular/material/icon';
+import { MatCardModule } from '@angular/material/card';
+import { MatToolbarModule } from '@angular/material/toolbar';
 
 import { TabComponent } from '../vacancy/components/tab/tab/tab.component';
 import { DialogComponent } from '../vacancy/components/dialog/dialog.component';
+import { ContactComponent } from './components/contact/contact.component';
+import { ContactService } from './services/vacancy-api.service';
 
 @NgModule({
   declarations: [
     TabComponent,
-    DialogComponent
+    DialogComponent,
+    ContactComponent
     ],
   imports: [
     CommonModule,
@@ -34,11 +39,15 @@ import { DialogComponent } from '../vacancy/components/dialog/dialog.component';
     MatRadioModule,
     MatSelectModule,
     MatIconModule,
-    SharedModule
+    SharedModule,
+    MatCardModule,
+    MatToolbarModule
   ],
   exports: [
     TabComponent,
     DialogComponent
-  ]
+  ],
+  providers: [ContactService],
+  entryComponents: [ContactComponent]
 })
 export class VacancyModule { }
