@@ -1,0 +1,44 @@
+<mat-card-header>
+    <mat-toolbar class="toolbar">
+      <mat-card-title>Contact Information</mat-card-title>
+      <span class="toolbar-spacer"></span>
+      <mat-icon (click)="onNoClick()">cancel</mat-icon>
+    </mat-toolbar>
+  </mat-card-header>
+  <mat-card-content>
+    <div class="container">
+      <form [formGroup]="_contactForm" (submit)="onSubmit()">
+        <div class="form-group">
+          <div class="row">
+            <div class="col-md-6">
+              <label>Фамилия</label>
+              <input type="text" formControlName="FirstName" class="form-control">
+            </div>
+            <div class="col-md-6">
+              <label>Имя</label>
+              <input type="text" formControlName="LastName" class="form-control">
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6">
+              <label>Должность</label>
+              <input type="text" formControlName="Contact" class="form-control">
+            </div>
+            <div class="col-md-6">
+              <label>Место работаы</label>
+              <input type="text" formControlName="Email" class="form-control">
+            </div>
+          </div>
+  
+          <div class="row">
+            <div class="col-md-6">
+            <button type="submit" class="btn btn-success">
+              <mat-icon>save</mat-icon>
+            </button>
+            </div>
+          </div>
+        </div>
+  
+      </form>
+    </div>
+  </mat-card-content>
