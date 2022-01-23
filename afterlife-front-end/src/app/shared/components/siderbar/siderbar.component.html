@@ -22,12 +22,12 @@
 
     <a mat-list-item routerLinkActive="list-item-active" routerLink="/contacts">
         <mat-icon>import_contacts</mat-icon>
-        Contacts
+      <button mat-button (click)="openDialog1()">Contacts</button>
     </a>
 
     <a mat-list-item routerLinkActive="list-item-active" routerLink="/contacts">
         <mat-icon>contact_phone</mat-icon>
-        Leads
+      <button mat-button (click)="openDialog2()">Leads</button>
     </a>
 
 </mat-nav-list>
