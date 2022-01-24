@@ -5,8 +5,8 @@ import {
   HttpEvent,
   HttpInterceptor
 } from '@angular/common/http';
-//import { AuthService } from './auth/auth.service';
 import { Observable } from 'rxjs';
+
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
   constructor() {}
@@ -14,7 +14,7 @@ export class AuthInterceptor implements HttpInterceptor {
     
     request = request.clone({
       setHeaders: {
-        Authorization: `Bearer ${"eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImp0aSI6IjEiLCJpc3MiOiJhZnRlcmxpZmUtYmFja2VuZCIsImlhdCI6MTY0MjYzMTk3NiwiZXhwIjoxNjQzMjM2Nzc2fQ.rW5molRKo3A8Fe1RoMTSVjgTVGyPAtj25WJNMSmepOIOfSrqeEXpmZE8j26wcWqgUDGoOPTwPCSSNGJgtCTvqg"}`
+        Authorization: `Bearer ${'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJjaGFuZyIsImp0aSI6IjIiLCJpc3MiOiJhZnRlcmxpZmUtYmFja2VuZCIsImlhdCI6MTY0MzA1MTYyMiwiZXhwIjoxNjQzNjU2NDIyfQ.bv9mYbWpdK07nQyi0Sc_nUovECx6kqWLY_4hybzET6goEFaE8sFXj30fiNnKWYRdd6_PrF6lhoXEeowRFBv2tQ'}`
       }
     });
     return next.handle(request);
