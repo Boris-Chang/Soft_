@@ -29,6 +29,7 @@ class SoulReportsServiceTest : Spek({
     val sinsEvidencesCsvParser: CsvParser<SinEvidence> = mock()
     val goodnessEvidencesCsvParser: CsvParser<GoodnessEvidence> = mock()
     val authorizationService: AuthorizationService = mock()
+    val soulClassifierService: SoulClassifierService = mock()
 
     val service = SoulReportsServiceImpl(
             soulRepository,
@@ -36,7 +37,8 @@ class SoulReportsServiceTest : Spek({
             goodnessReportRepository,
             sinsEvidencesCsvParser,
             goodnessEvidencesCsvParser,
-            authorizationService)
+            authorizationService,
+            soulClassifierService)
 
     val soulId = Random(ZonedDateTime.now().toEpochSecond()).nextLong()
     val streamToUpload = mock<InputStream>()
@@ -200,10 +202,17 @@ class SoulReportsServiceTest : Spek({
                 val returnedReport = actualResult!!.getOrElse { null }
                 assertEquals(expectedResult, returnedReport)
             }
+
+            And("Soul should be classified if required") {
+                verifyBlocking(soulClassifierService) {
+                    this.classifySoulIfRequired(existingSoul)
+                }
+            }
         }
 
         Scenario("User is Heaven Prosecutor, soul exist, report is valid and was never loaded") {
             Given("Current user is Heaven prosecutor") {
+                clearInvocations(soulClassifierService)
                 authorizationService.stub {
                     onBlocking { getCurrentUser() } doReturn Principal(
                             IdentityImpl("", ""), listOf("HEAVEN_PROSECUTOR"))
@@ -248,6 +257,12 @@ class SoulReportsServiceTest : Spek({
             And("Result should have updated result") {
                 val returnedReport = actualResult!!.getOrElse { null }
                 assertEquals(expectedResult, returnedReport)
+            }
+
+            And("Soul should be classified if required") {
+                verifyBlocking(soulClassifierService) {
+                    this.classifySoulIfRequired(existingSoul)
+                }
             }
         }
     }
@@ -417,10 +432,17 @@ class SoulReportsServiceTest : Spek({
                 val returnedReport = actualResult!!.getOrElse { null }
                 assertEquals(expectedResult, returnedReport)
             }
+
+            And("Soul should be classified if required") {
+                verifyBlocking(soulClassifierService) {
+                    this.classifySoulIfRequired(existingSoul)
+                }
+            }
         }
 
         Scenario("User is Heaven Prosecutor, soul exist, report is valid and was never loaded") {
             Given("Current user is Heaven advocate") {
+                clearInvocations(soulClassifierService)
                 authorizationService.stub {
                     onBlocking { getCurrentUser() } doReturn Principal(
                             IdentityImpl("", ""), listOf("HEAVEN_ADVOCATE"))
@@ -465,6 +487,12 @@ class SoulReportsServiceTest : Spek({
             And("Result should have updated result") {
                 val returnedReport = actualResult!!.getOrElse { null }
                 assertEquals(expectedResult, returnedReport)
+            }
+
+            And("Soul should be classified if required") {
+                verifyBlocking(soulClassifierService) {
+                    classifySoulIfRequired(existingSoul)
+                }
             }
         }
     }

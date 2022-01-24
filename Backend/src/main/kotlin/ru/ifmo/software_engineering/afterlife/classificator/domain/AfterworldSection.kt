@@ -6,4 +6,5 @@ enum class AfterworldKind {
 }
 interface AfterworldSection {
     val afterwoldKind: AfterworldKind
+    val sectionIndex: Int
 }

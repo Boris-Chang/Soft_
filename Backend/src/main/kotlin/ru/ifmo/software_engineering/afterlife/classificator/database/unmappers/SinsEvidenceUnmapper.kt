@@ -30,5 +30,6 @@ class SinsEvidenceUnmapper : RecordUnmapper<SinEvidence, SinEvidencesRecord> {
             SinKind.VIOLENCE -> SinKindDb.VIOLENCE
             SinKind.DECEPTION_WHO_NOT_TRUST -> SinKindDb.DECEPTION_WHO_NOT_TRUST
             SinKind.DECEPTION_WHO_TRUST -> SinKindDb.DECEPTION_WHO_TRUST
+            SinKind.DESPONDENCY -> SinKindDb.DESPONDENCY
         }
 }

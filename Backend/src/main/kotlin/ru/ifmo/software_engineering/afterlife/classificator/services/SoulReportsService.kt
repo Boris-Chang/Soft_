@@ -40,7 +40,8 @@ class SoulReportsServiceImpl(
         private val goodnessReportRepository: GoodnessReportRepository,
         private val sinsEvidencesCsvParser: CsvParser<SinEvidence>,
         private val goodnessEvidencesCsvParser: CsvParser<GoodnessEvidence>,
-        private val authorizationService: AuthorizationService
+        private val authorizationService: AuthorizationService,
+        private val soulClassifierService: SoulClassifierService,
 ) : SoulReportsService {
     @Transactional
     override suspend fun saveOrUpdateSinsReportForSoulFromCsv(soulId: Long, stream: InputStream) =
@@ -51,12 +52,15 @@ class SoulReportsServiceImpl(
 
                 val currentReport = sinsReportRepository.findBySoul(soul)
 
-                if (currentReport == null) {
+                val report = if (currentReport == null) {
                     //TODO: add real user
                     sinsReportRepository.save(SinsReport(0, soul, evidences, User.empty, ZonedDateTime.now()))
                 } else {
                     sinsReportRepository.update(currentReport.copy(sins = evidences, uploadedAt = ZonedDateTime.now()))
                 }
+
+                soulClassifierService.classifySoulIfRequired(soul)
+                report
             }
 
     @Transactional
@@ -68,12 +72,15 @@ class SoulReportsServiceImpl(
 
                 val currentReport = goodnessReportRepository.findBySoul(soul)
 
-                if (currentReport == null) {
+                val report = if (currentReport == null) {
                     //TODO: add real user
                     goodnessReportRepository.save(GoodnessReport(0, soul, evidences, User.empty, ZonedDateTime.now()))
                 } else {
                     goodnessReportRepository.update(currentReport.copy(goodnessEvidences = evidences, uploadedAt = ZonedDateTime.now()))
                 }
+
+                soulClassifierService.classifySoulIfRequired(soul)
+                report
             }
 
     private suspend fun isUserHeavenAdvocate() = either<ApplicationException, Unit> {

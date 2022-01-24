@@ -5,4 +5,5 @@ data class ParadiseSphere(
 ) : AfterworldSection {
     override val afterwoldKind: AfterworldKind =
         AfterworldKind.PARADISE
+    override val sectionIndex = sphereNumber
 }
