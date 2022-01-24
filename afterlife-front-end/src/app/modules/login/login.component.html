@@ -1,17 +1,39 @@
-<div class="wrapper">
+<mat-toolbar color="primary">
+    <mat-toolbar-row>
+        <button mat-icon-button (click)="toggleSideBar()">
+            <mat-icon>menu</mat-icon>
+        </button>
 
-    <div class="block">
+        <span> AfterLife 2.0 </span>
 
-        <form [formGroup]="login">
-            <h2>LOGIN</h2>
-            <input type="text" placeholder="Username" class="inp" formControlName="username"/>
-            <input type="text" placeholder="Password" class="inp" formControlName="password"/>
-            <div class="btns">
-                <button (click)="loginSubmit(login.value)">Login</button>
-            </div>
-
-        </form>
-
-    </div>
-
-</div>
+        <div fxFlex fxLayout="row" fxLayoutAlign="flex-end">
+            <ul fxLayout="row" fxLayoutGap="20px">
+                <li>
+                  <a href="https://ru.wikipedia.org/wiki/%D0%91%D0%BE%D0%B6%D0%B5%D1%81%D1%82%D0%B2%D0%B5%D0%BD%D0%BD%D0%B0%D1%8F_%D0%BA%D0%BE%D0%BC%D0%B5%D0%B4%D0%B8%D1%8F" target="_blank">
+                    <button mat-icon-button>
+                        <mat-icon>settings</mat-icon>
+                    </button>
+                   </a>
+                </li>
+                <li>
+                  <a href="https://docs.google.com/document/d/1LE3tvV94Qf1Yx_8PfC2HM9SQZFZZNPDHRRUaRq20iSA/edit" target="_blank">
+                    <button mat-icon-button>
+                        <mat-icon>help_outline</mat-icon>
+                    </button>
+                  </a>
+                </li>
+                <li>
+                    <button mat-button [matMenuTriggerFor]="menu">
+                        <mat-icon>person_outline</mat-icon>
+                    </button>
+                    <mat-menu #menu="matMenu">
+                        <button mat-menu-item (click)="logout">
+                            <mat-icon>exit_to_app</mat-icon>
+                            Sign out
+                        </button>
+                    </mat-menu>
+                </li>
+            </ul>
+        </div>
+    </mat-toolbar-row>
+</mat-toolbar>
