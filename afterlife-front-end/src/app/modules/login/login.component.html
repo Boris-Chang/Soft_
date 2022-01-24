@@ -1,17 +1,21 @@
-<div class="wrapper">
-
-    <div class="block">
-
+<!-- login.component.html -->
+<div class="container" style="display: flex;justify-content: center;align-items: center;height: 100vh;">
+  <div class="card" style="width: 50%;">
+    <div class="card-body">
+      <h5 class="card-title">Login Form</h5>
+      <div class="card-text">
         <form [formGroup]="login">
-            <h2>LOGIN</h2>
-            <input type="text" placeholder="Username" class="inp" formControlName="username"/>
-            <input type="text" placeholder="Password" class="inp" formControlName="password"/>
-            <div class="btns">
-                <button (click)="loginSubmit(login.value)">Login</button>
-            </div>
-
+          <div>
+            <label>Username</label>
+            <input type="text" placeholder="name" class="inp" formControlName="name"/>
+          </div>
+          <div>
+            <label>Password</label>
+            <input type="password" placeholder="password" class="inp" formControlName="email"/>
+          </div>
+          <button type="submit" class="btn btn-primary" (click)="loginSubmit(login.value)" >Submit</button>
         </form>
-
+      </div>
     </div>
-
+  </div>
 </div>

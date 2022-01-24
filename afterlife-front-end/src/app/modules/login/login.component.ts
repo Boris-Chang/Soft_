@@ -8,6 +8,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit {
+
   login:any = FormGroup;
   constructor(private fb:FormBuilder, private router:Router) { }
 
@@ -26,12 +27,12 @@ export class LoginComponent implements OnInit {
     users.set("admin", "admin");
     users.set("GOD", "123456");
     users.set("HEAVEN_ADVOCATE", "123456");
-
+    
     if(data.name)
     {
       users.forEach((item:any) => {
-        
-      
+
+
       if(users.get(data.name) === data.email)
       {
           localStorage.setItem("IsLogged In", "true");
@@ -45,6 +46,6 @@ export class LoginComponent implements OnInit {
     }
     )
   }
- 
+
   }
 }
