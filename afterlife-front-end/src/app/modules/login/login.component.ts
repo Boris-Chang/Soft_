@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+
 import { Router } from '@angular/router';
+import { first } from 'rxjs/operators';
+import { AuthService } from '../../shared/services/auth.service';
+import { AuthLoginInfo } from './model/login-info';
 
 @Component({
   selector: 'app-login',
@@ -9,43 +12,24 @@ import { Router } from '@angular/router';
 })
 export class LoginComponent implements OnInit {
 
-  login:any = FormGroup;
-  constructor(private fb:FormBuilder, private router:Router) { }
+  form: any = {}
+  isLoginFailed = false;
+  errorMessage = '';
+  constructor(private authService: AuthService, private router: Router) { }
 
   ngOnInit(): void {
-    this.login = this.fb.group({
-      name:['', Validators.required],
-      email:['', Validators.compose([Validators.required, Validators.email])]
-    })
   }
-  loginSubmit(data:any){
-    //
-    var users = new Map();
-    users.set("ChangJiyuan", "cjynoodles@gmail.com");
-    users.set("KhlopkovDmitry", "Khlopkov@gmail.com");
-    users.set("BaevDmitry", "baev@gmail.com");
-    users.set("admin", "admin");
-    users.set("GOD", "123456");
-    users.set("HEAVEN_ADVOCATE", "123456");
-    
-    if(data.name)
-    {
-      users.forEach((item:any) => {
-
-
-      if(users.get(data.name) === data.email)
-      {
-          localStorage.setItem("IsLogged In", "true");
-          this.router.navigate(['home']);
-          console.log(data);
+  onSubmit() {
+    this.authService.login(new AuthLoginInfo(this.form.login, this.form.password))
+    .pipe(first()).subscribe(
+      data => {
+        this.isLoginFailed = false;
+        this.router.navigateByUrl('/home');
+      },
+      error => {
+        this.errorMessage = error.error.message;
+        this.isLoginFailed = true;
       }
-      else
-      {
-          localStorage.clear();
-      }
-    }
     )
-  }
-
   }
 }
