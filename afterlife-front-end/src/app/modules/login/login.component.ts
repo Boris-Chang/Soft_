@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
 import { Router } from '@angular/router';
-import { BehaviorSubject } from 'rxjs';
 import { first } from 'rxjs/operators';
 import { AuthService } from '../../shared/services/auth.service';
 import { AuthLoginInfo } from './model/login-info';
