@@ -1,21 +1,28 @@
-<!-- login.component.html -->
-<div class="container" style="display: flex;justify-content: center;align-items: center;height: 100vh;">
-  <div class="card" style="width: 50%;">
-    <div class="card-body">
-      <h5 class="card-title">Login Form</h5>
-      <div class="card-text">
-        <form [formGroup]="login">
-          <div>
-            <label>Username</label>
-            <input type="text" placeholder="name" class="inp" formControlName="name"/>
-          </div>
-          <div>
-            <label>Password</label>
-            <input type="password" placeholder="password" class="inp" formControlName="email"/>
-          </div>
-          <button type="submit" class="btn btn-primary" (click)="loginSubmit(login.value)" >Submit</button>
-        </form>
+<form name="form" (ngSubmit)="f.form.valid && onSubmit()" #f="ngForm" novalidate>
+    <div class="container">
+      <div class="form-group">
+        <label for="login">Login</label>
+        <input type="text" class="form-control" name="login" [(ngModel)]="form.login" #login="ngModel"
+        required />
+        <div *ngIf="f.submitted && login.invalid">
+          <div *ngIf="login.errors.required" style="color: red;font-size: 16px;">Login is required</div>         
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input type="password" class="form-control" name="password" [(ngModel)]="form.password" #password="ngModel"
+        required minlength="3" />
+        <div *ngIf="f.submitted && password.invalid">
+          <div *ngIf="password.errors.required" style="color: red;font-size: 16px;">Password is required</div>
+          <div *ngIf="password.errors.minlength" style="color: red;font-size: 16px;">Password must be at least 6</div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <button class="btn btn-success">Login</button>
+        <div *ngIf="f.submitted && isLoginFailed" class="alert alert-danger" style="max-width: 300px;">
+          Login failed
+        </div>
       </div>
     </div>
-  </div>
-</div>
+</form>
