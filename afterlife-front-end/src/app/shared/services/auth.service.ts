@@ -2,12 +2,10 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, BehaviorSubject } from 'rxjs';
 
-import { JwtHelperService } from '@auth0/angular-jwt';
 import { map } from 'rxjs/operators';
-import { Router } from '@angular/router';
 import { AuthLoginInfo } from '../../modules/login/model/login-info';
 import { JwtResponse } from '../models/jwt-response';
-import { TokenStorageService } from '../services/token-sorage.service';
+import { TokenStorageService } from './token-storage.service';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-type': 'application/json' })
