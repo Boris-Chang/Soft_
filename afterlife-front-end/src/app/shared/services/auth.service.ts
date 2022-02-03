@@ -1,44 +1,47 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Router } from '@angular/router';
-import { tap } from 'rxjs/operators';
-import { BehaviorSubject } from 'rxjs';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Observable, BehaviorSubject } from 'rxjs';
 
-interface LoginResponse {
-  access_token: string;
-  data: any;
-  name: string;
-  status: string;
-  message: string;
-}
+import { JwtHelperService } from '@auth0/angular-jwt';
+import { map } from 'rxjs/operators';
+import { Router } from '@angular/router';
+import { AuthLoginInfo } from '../../modules/login/model/login-info';
+import { JwtResponse } from '../models/jwt-response';
+import { TokenStorageService } from '../services/token-sorage.service';
+
+const httpOptions = {
+  headers: new HttpHeaders({ 'Content-type': 'application/json' })
+};
+const TOKEN_KEY = 'AuthToken';
 
 @Injectable({
 providedIn: 'root'
 })
 export class AuthService {
-  
-  private _isLoggedIn$ = new BehaviorSubject<boolean>(false);
-  isLoggedIn$ = this._isLoggedIn$.asObservable();
-  
-  constructor(
-      private http: HttpClient, 
-      private router: Router) 
-      {
-        const token = localStorage.getItem('profanis_auth');
-        this._isLoggedIn$.next(!!token);
-      }
-     resp: LoginResponse;
-      //API path
-      basePath = 'http://localhost:8080/api/sign-in';
+  private currentUserSubject: BehaviorSubject<any>;
+  public currentUser: Observable<any>;
 
+  private loginUrl = 'http://localhost:8080/api/sign-in';
+  
+  constructor(private http: HttpClient,
+    private tokenStorage: TokenStorageService) {
+    this.currentUserSubject = new BehaviorSubject<any>(sessionStorage.getItem(TOKEN_KEY));
+    this.currentUser = this.currentUserSubject.asObservable();
+  }
     //login
-    login(username: string, password: string)
+    login(loginInfo: AuthLoginInfo)
     {
-      return this.http.post(this.basePath, { username, password }).pipe(
-        tap((response: any) => {
-          this._isLoggedIn$.next(true);
-          localStorage.setItem('profanis_auth', response.token);
-        })
-      );
+        return this.http.post<JwtResponse>(this.loginUrl, loginInfo, httpOptions)
+        .pipe(map(data => {
+          this.saveUserData(data);
+          return data;
+        }))
+    }
+    
+    private saveUserData(data){
+      this.tokenStorage.saveToken(data.token);
+      this.tokenStorage.saveLogin(data.login);
+      this.tokenStorage.saveAuthorities(data.authorities);
+      this.currentUserSubject.next(data.token);
     }
   }
