@@ -13,6 +13,8 @@ enum class SinKind {
     WASTEFULNESS,
     //  Скупость
     AVARICE,
+    // Уныние
+    DESPONDENCY,
     //  Горделивость
     PRIDE,
     //  Еретичность

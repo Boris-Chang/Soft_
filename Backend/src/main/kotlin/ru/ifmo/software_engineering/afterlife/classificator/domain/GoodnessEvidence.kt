@@ -5,6 +5,8 @@ import java.time.ZonedDateTime
 enum class GoodnessKind {
     //  Нарушения обета по чужой вине
     BREAKING_VOW_BY_ELSE,
+    // Невинно пострадавший
+    INNOCENT_VICTIM,
     //  Реформаторство
     REFORMISM,
     //  Честолюбивая деятельность

@@ -34,6 +34,7 @@ class GoodnessEvidenceUnmapper : RecordUnmapper<GoodnessEvidence, GoodnessEviden
             GoodnessKind.TRIUMPH -> GoodnessKindDb.TRIUMPH
             GoodnessKind.HOLINESS -> GoodnessKindDb.HOLINESS
             GoodnessKind.DIVINITY -> GoodnessKindDb.DIVINITY
+            GoodnessKind.INNOCENT_VICTIM -> GoodnessKindDb.INNOCENT_VICTIM
         }
     }
 }

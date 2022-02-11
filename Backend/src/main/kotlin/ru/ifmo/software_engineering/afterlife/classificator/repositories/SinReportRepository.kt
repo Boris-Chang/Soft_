@@ -4,6 +4,7 @@ import kotlinx.coroutines.future.await
 import org.jooq.*
 import org.springframework.stereotype.Repository
 import org.springframework.transaction.annotation.Transactional
+import ru.ifmo.software_engineering.afterlife.classificator.database.jooq.domain.fromSouls
 import ru.ifmo.software_engineering.afterlife.classificator.domain.SinEvidence
 import ru.ifmo.software_engineering.afterlife.classificator.domain.SinsReport
 import ru.ifmo.software_engineering.afterlife.classificator.domain.Soul
@@ -19,6 +20,7 @@ interface SinsReportRepository {
     suspend fun update(report: SinsReport): SinsReport
     suspend fun findBySoul(soul: Soul): SinsReport?
     suspend fun findById(id: Long): SinsReport?
+    suspend fun findBySouls(souls: List<Soul>): List<SinsReport>
 }
 
 @Repository
@@ -28,7 +30,7 @@ class SinsReportRepositoryImpl(
     private val evidenceUnmapper: RecordUnmapper<SinEvidence, SinEvidencesRecord>,
     private val mapper: RecordMapper<SinsReportsRecord, SinsReport>,
     private val evidenceMapper: RecordMapper<SinEvidencesRecord, SinEvidence>,
-    private val soulMapper: RecordMapper<SoulsRecord, Soul>,
+    private val soulMapper: RecordMapper<Record, Soul>,
 ) : SinsReportRepository {
     @Transactional
     override suspend fun save(report: SinsReport): SinsReport {
@@ -74,6 +76,13 @@ class SinsReportRepositoryImpl(
             .mapToSinsReports()
             .firstOrNull()
 
+    override suspend fun findBySouls(souls: List<Soul>): List<SinsReport> =
+            this.selectFromSinsReport()
+                    .where(SINS_REPORTS.SOUL_ID.`in`(souls.map { it.id }))
+                    .fetchAsync()
+                    .await()
+                    .mapToSinsReports()
+
     override suspend fun findById(id: Long): SinsReport? =
         this.selectFromSinsReport()
             .where(SINS_REPORTS.ID.eq(id))
@@ -106,8 +115,8 @@ class SinsReportRepositoryImpl(
             .let { }
 
     private fun selectFromSinsReport(): SelectOnConditionStep<Record> =
-        this.dsl.select().from(SINS_REPORTS)
-            .join(SOULS)
+        this.dsl.select().fromSouls()
+            .join(SINS_REPORTS)
             .on(SOULS.ID.eq(SINS_REPORTS.SOUL_ID))
             .leftJoin(SIN_EVIDENCES).on(SIN_EVIDENCES.SINNED_BY_SOUL_ID.eq(SINS_REPORTS.SOUL_ID))
 
