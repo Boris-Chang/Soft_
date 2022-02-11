@@ -20,12 +20,13 @@ class AfterworldSectionRepositoryTest {
     lateinit var dsl: DSLContext
     @Autowired
     lateinit var afterworldSectionRepository: AfterworldSectionRepository
-    var testSoul = Soul(0, "Test", "Test", ZonedDateTime.now())
+
+    var testSoul = Soul(0, "Test", "Test", ZonedDateTime.now(), null)
 
     @BeforeEach
     fun before() {
-        dsl.delete(SOUL_AFTERWORLD_LOCATION).execute()
-        dsl.delete(SOULS).execute()
+        dsl.truncate(SOUL_AFTERWORLD_LOCATION).cascade().execute()
+        dsl.truncate(SOULS).cascade().execute()
         val soulId = dsl.fetch("INSERT INTO Souls(first_name, last_name, date_of_death) VALUES(" +
                 "'${testSoul.firstName}', '${testSoul.lastName}', now()) returning id")
                 .map { it["id"].toString().toLong() }

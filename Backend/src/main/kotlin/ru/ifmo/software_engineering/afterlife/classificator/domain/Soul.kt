@@ -12,8 +12,9 @@ data class Soul(
     val firstName: String,
     val lastName: String,
     val dateOfDeath: ZonedDateTime,
+    val classifiedAfterworldSection: AfterworldSection?
 ) {
-    private constructor() : this(0, "", "", UndefinedZonedDateTime)
+    private constructor() : this(0, "", "", UndefinedZonedDateTime, null)
 
     companion object {
         val empty = Soul()

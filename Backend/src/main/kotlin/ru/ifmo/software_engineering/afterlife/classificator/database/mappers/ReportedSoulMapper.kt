@@ -11,7 +11,7 @@ import ru.ifmo.software_engineering.afterlife.database.tables.records.*
 
 @Component
 class ReportedSoulMapper(
-    private val soulMapper: RecordMapper<SoulsRecord, Soul>,
+    private val soulMapper: RecordMapper<Record, Soul>,
     private val sinEvidenceMapper: RecordMapper<SinEvidencesRecord, SinEvidence>,
     private val goodnessEvidenceMapper: RecordMapper<GoodnessEvidencesRecord, GoodnessEvidence>,
     private val sinsReportMapper: RecordMapper<SinsReportsRecord, SinsReport>,
@@ -19,7 +19,7 @@ class ReportedSoulMapper(
 ) {
     fun map(
         records: Map.Entry<
-            Triple<SoulsRecord, SinsReportsRecord?, GoodnessReportsRecord?>,
+            Triple<Record, SinsReportsRecord?, GoodnessReportsRecord?>,
             Result<Record>>
     ): ReportedSoul {
         val (soulRecord, sinsReportRecord, goodnessReportRecord) = records.key

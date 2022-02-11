@@ -117,7 +117,7 @@ class SoulReportsServiceTest : Spek({
             }
         }
 
-        val existingSoul = Soul(soulId, "Test user", "Test user", ZonedDateTime.now())
+        val existingSoul = Soul(soulId, "Test user", "Test user", ZonedDateTime.now(), null)
         Scenario("User is Heaven Prosecutor, soul exist, but report is not valid") {
             Given("Current user is Heaven prosecutor") {
                 authorizationService.stub {
@@ -347,7 +347,7 @@ class SoulReportsServiceTest : Spek({
             }
         }
 
-        val existingSoul = Soul(soulId, "Test user", "Test user", ZonedDateTime.now())
+        val existingSoul = Soul(soulId, "Test user", "Test user", ZonedDateTime.now(), null)
         Scenario("User is Heaven Prosecutor, soul exist, but report is not valid") {
             Given("Current user is Heaven advocate") {
                 authorizationService.stub {

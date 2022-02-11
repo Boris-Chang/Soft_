@@ -8,7 +8,7 @@ import ru.ifmo.software_engineering.afterlife.database.tables.records.SoulAfterw
 import  ru.ifmo.software_engineering.afterlife.database.enums.AfterworldKind as AfterworldKindDb
 
 @Component
-class SoulAfterworldLocationRecordUnmapper : RecordUnmapper<AfterworldSection, SoulAfterworldLocationRecord> {
+class AfterworldSectionRecordUnmapper : RecordUnmapper<AfterworldSection, SoulAfterworldLocationRecord> {
     override fun unmap(afterworldSection: AfterworldSection?): SoulAfterworldLocationRecord {
         afterworldSection!!
         return SoulAfterworldLocationRecord().apply {
