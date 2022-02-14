@@ -1,5 +1,12 @@
+<h1 mat-dialog-title>User Information</h1>
+    <div>
+        Role: {{user.roles}}
+    </div>
+    <div>
+        Username: {{user.identity.username}}
+    </div>
 <h1 mat-dialog-title>Определения и аббревиатуры</h1>
-<div mat-dialog-content>
+<div mat-dialog-content>    
 <ul>
 <li>
 <span *ngIf="data.animal === 'panda'">&#10003;</span> Рай - место и состояние вечной совершенной жизни  
