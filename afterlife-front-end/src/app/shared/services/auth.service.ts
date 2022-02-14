@@ -6,6 +6,7 @@ import { map } from 'rxjs/operators';
 import { AuthLoginInfo } from '../../modules/login/model/login-info';
 import { JwtResponse } from '../models/jwt-response';
 import { TokenStorageService } from './token-storage.service';
+import { environment } from 'src/environments/environment';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-type': 'application/json' })
@@ -19,7 +20,7 @@ export class AuthService {
   private currentUserSubject: BehaviorSubject<any>;
   public currentUser: Observable<any>;
 
-  private loginUrl = 'http://localhost:8080/api/sign-in';
+  private host = environment.loginUrl;
   
   constructor(private http: HttpClient,
     private tokenStorage: TokenStorageService) {
@@ -29,7 +30,7 @@ export class AuthService {
     //login
     login(loginInfo: AuthLoginInfo)
     {
-        return this.http.post<JwtResponse>(this.loginUrl, loginInfo, httpOptions)
+        return this.http.post<JwtResponse>(this.host, loginInfo, httpOptions)
         .pipe(map(data => {
           this.saveUserData(data);
           return data;
