@@ -1,5 +1,9 @@
+import { HttpClient } from '@angular/common/http';
 import { Component, OnInit, Inject } from '@angular/core';
-import {MatDialog, MAT_DIALOG_DATA} from '@angular/material/dialog';
+import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { UserInfo } from '../../models/user-info.model';
+import { environment } from '../../../../environments/environment';
+
 export interface DialogData {
   animal: 'panda' | 'unicorn' | 'lion';
   }
@@ -14,7 +18,16 @@ export interface DialogData {
 })
 export class SiderbarComponent implements OnInit {
 
-  constructor(public dialog: MatDialog) { }
+  //
+  private host = environment.userUrl;
+  user: UserInfo; 
+  constructor(public dialog: MatDialog, private http: HttpClient) { 
+    this.http.get<UserInfo>(this.host)
+      .subscribe( result => {
+        this.user = result;
+      })
+  }
+  //
   openDialog1() {
     this.dialog.open(DialogDataExampleDialog, {
     data: {
@@ -31,6 +44,7 @@ export class SiderbarComponent implements OnInit {
     },
     });
     }
+    
 }
 @Component({
   selector: 'dialog-data-example-dialog',
@@ -45,5 +59,13 @@ export class SiderbarComponent implements OnInit {
     templateUrl: 'leads.html',
     })
     export class DialogDataLeadsDialog {
-    constructor(@Inject(MAT_DIALOG_DATA) public data: DialogData) {}
+
+    private host = environment.userUrl;
+    user: UserInfo;  
+    constructor(@Inject(MAT_DIALOG_DATA) public data: DialogData, private http: HttpClient) {
+      this.http.get<UserInfo>(this.host)
+      .subscribe( result => {
+        this.user = result;
+      })
+    }
  }
