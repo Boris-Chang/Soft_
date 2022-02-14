@@ -7,7 +7,7 @@
         </div>
         <img src="http://2.bp.blogspot.com/-zc0RcbE0g_o/VB3P1w_8moI/AAAAAAAAKpM/-R8PKbBjI4I/s1600/4bdbee2b6f42f.jpg" alt="Хлопков Дмитрий">
         <div class="header">
-          <h3>Role: {{user.roles}}</h3>
+          <h3 *ngIf="user">Role: {{user.roles}}</h3>
         </div>
     </div>
 
