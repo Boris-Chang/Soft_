@@ -4,8 +4,8 @@
    <mat-card class="example-card">
     <mat-card-header>
         <div mat-card-avatar class="example-header-image"></div>
-        <mat-card-title *ngIf="soul>{{soul.firstName}} {{soul.lastName}}</mat-card-title>
-        <mat-card-subtitle *ngIf="soul>{{soul.dateOfDeath}}</mat-card-subtitle>
+        <mat-card-title *ngIf="soul">{{soul.firstName}} {{soul.lastName}}</mat-card-title>
+        <mat-card-subtitle *ngIf="soul">{{soul.dateOfDeath}}</mat-card-subtitle>
         <mat-card-title *ngIf="soul.classifiedAfterworldSection">Места классификатора: {{soul.classifiedAfterworldSection.afterwoldKind}}</mat-card-title>
         </mat-card-header>
         <!-- <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="Photo of a Shiba Inu"> -->
