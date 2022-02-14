@@ -7,6 +7,15 @@
       </ng-container>
     </td>
   </ng-container>
+  
+  <ng-container matColumnDef="id">
+    <th mat-header-cell *matHeaderCellDef> ID </th>
+    <td mat-cell *matCellDef="let element">
+      <ng-container *ngIf="asTypedModel(element) as typedElement">
+        {{typedElement.soul.id}}
+      </ng-container>
+    </td>
+  </ng-container>
 
   <ng-container matColumnDef="dateOfDeath">
     <th mat-header-cell *matHeaderCellDef> Date of Death </th>
