@@ -4,8 +4,9 @@
    <mat-card class="example-card">
     <mat-card-header>
         <div mat-card-avatar class="example-header-image"></div>
-        <mat-card-title>Shiba Inu</mat-card-title>
-        <mat-card-subtitle>dateOfDeath: 2021-09-23T00:05:20+0800</mat-card-subtitle>
+        <mat-card-title>{{soul.firstName}} {{soul.lastName}}</mat-card-title>
+        <mat-card-subtitle>{{soul.dateOfDeath}}</mat-card-subtitle>
+        <mat-card-title>Места классификатора: {{soul.classifiedAfterworldSection.afterwoldKind}}</mat-card-title>
         </mat-card-header>
         <!-- <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="Photo of a Shiba Inu"> -->
         <mat-card-content>

@@ -3,6 +3,10 @@ import {MAT_DIALOG_DATA, MatDialog} from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
 import { FormControl } from '@angular/forms';
+import { HttpClient } from '@angular/common/http';
+
+import { environment } from 'src/environments/environment'
+import { Soul } from '../../models';
 
 @Component({
   selector: 'app-dialog-report',
@@ -11,7 +15,10 @@ import { FormControl } from '@angular/forms';
 })
 export class DialogReportComponent implements OnInit {
   public soulId: number;
-  constructor(public dialog: MatDialog, @Inject(MAT_DIALOG_DATA) public data: any) {
+  private host = environment.soulUrl;
+  soul: Soul;
+  
+  constructor(public dialog: MatDialog, @Inject(MAT_DIALOG_DATA) public data: any, private http: HttpClient) {
     this.dataSourceOfgoodness = new MatTableDataSource;
 
     this.dataSourceofsins = new MatTableDataSource;
@@ -24,6 +31,11 @@ export class DialogReportComponent implements OnInit {
 
     this.dataSourceofsins.data = ELEMENT_DATA_sins;
     this.dataSourceofsins.sort = this.tableTwoSort;
+    
+    this.http.get<Soul>(`${this.host}/${this.soulId}`)
+    .subscribe( result => {
+      this.soul = result;
+    })
   }
   //define to datasource of goodness
   dataSourceOfgoodness: MatTableDataSource<PeriodicElement_goodness>;
