@@ -6,7 +6,7 @@ import { FormControl } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 
 import { environment } from 'src/environments/environment'
-import { Soul } from '../../models';
+import { ReportComment, Soul } from '../../models';
 
 @Component({
   selector: 'app-dialog-report',
@@ -17,6 +17,7 @@ export class DialogReportComponent implements OnInit {
   public soulId: number;
   private host = environment.soulUrl;
   soul: Soul;
+  commentGroups: ReportComment[];
   
   constructor(public dialog: MatDialog, @Inject(MAT_DIALOG_DATA) public data: any, private http: HttpClient) {
     this.dataSourceOfgoodness = new MatTableDataSource;
@@ -35,6 +36,11 @@ export class DialogReportComponent implements OnInit {
     this.http.get<Soul>(`${this.host}/${this.soulId}`)
     .subscribe( result => {
       this.soul = result;
+    })
+    
+    this.http.get<ReportComment[]>(`${this.host}/${this.soulId}/comments`)
+    .subscribe( result => {
+      this.commentGroups = result;
     })
   }
   //define to datasource of goodness
