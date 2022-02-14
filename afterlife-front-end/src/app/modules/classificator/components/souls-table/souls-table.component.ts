@@ -12,7 +12,7 @@ import { MatDialog } from '@angular/material/dialog';
   styleUrls: ['./souls-table.component.scss']
 })
 export class SoulsTableComponent implements OnInit {
-  public readonly displayedColumns = ['id','name', 'dateOfDeath', 'status'];
+  public readonly displayedColumns = ['id', 'name', 'dateOfDeath', 'status'];
 
   @Input()
   public set souls(val: ReportedSoul[]) {
