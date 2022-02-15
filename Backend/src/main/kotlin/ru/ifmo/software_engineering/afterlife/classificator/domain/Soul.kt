@@ -9,9 +9,15 @@ data class Soul(
     @Schema(readOnly = true)
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     val id: Long,
+
     val firstName: String,
+
     val lastName: String,
+
     val dateOfDeath: ZonedDateTime,
+
+    @Schema(readOnly = true)
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     val classifiedAfterworldSection: AfterworldSection?
 ) {
     private constructor() : this(0, "", "", UndefinedZonedDateTime, null)
