@@ -3,10 +3,14 @@ import {MAT_DIALOG_DATA, MatDialog} from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
 import { FormControl } from '@angular/forms';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 import { environment } from 'src/environments/environment'
 import { ReportComment, Soul } from '../../models';
+
+const httpOptions = {
+  headers: new HttpHeaders({ 'Content-type': 'application/json' })
+};
 
 @Component({
   selector: 'app-dialog-report',
@@ -18,11 +22,24 @@ export class DialogReportComponent implements OnInit {
   private host = environment.soulUrl;
   soul: Soul;
   commentGroups: ReportComment[];
+  id: number;
+  text: string;
+  createdAt: string;
   
   constructor(public dialog: MatDialog, @Inject(MAT_DIALOG_DATA) public data: any, private http: HttpClient) {
     this.dataSourceOfgoodness = new MatTableDataSource;
 
     this.dataSourceofsins = new MatTableDataSource;
+  }
+  
+  //
+  onSubmit(data: any)
+  {
+    this.http.post(`${this.host}/${this.soulId}/comments`, JSON.stringify(data), httpOptions)
+    .subscribe(( result ) => {
+      console.warn("result", result);
+    })
+    console.warn(data);
   }
 
   ngOnInit(): void {
