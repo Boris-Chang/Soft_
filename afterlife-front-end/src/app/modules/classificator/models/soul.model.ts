@@ -5,5 +5,5 @@ export interface Soul {
   firstName: string;
   lastName: string;
   dateOfDeath: Date;
-  classifiedAfterworldSection: ClassifiedAfterworldSection;
+  classifiedAfterworldSection: ClassifiedAfterworldSection | null;
 }
