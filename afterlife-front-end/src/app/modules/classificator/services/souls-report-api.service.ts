@@ -22,11 +22,11 @@ export class SoulsReportApiService {
   public setGoodnessReport(soulId: number,csvGoodnessReport: FormData) : Observable<any>{
     return this.http.put<any>(`${this.apiUrl}/souls/${soulId}/reports/goodness`,csvGoodnessReport);
   }
-  
+
   uploadSinsReport(soulId: number, csvSinsReport: File): Observable<HttpEvent<any>> {
     const formData: FormData = new FormData();
     formData.append('file', csvSinsReport);
-    const req = new HttpRequest('PUT', `${this.baseUrl}/souls/${soulId}/reports/sins`, formData, {
+    const req = new HttpRequest('PUT', `${this.apiUrl}/souls/${soulId}/reports/sins`, formData, {
       reportProgress: true,
       responseType: 'json'
     });
@@ -36,7 +36,7 @@ export class SoulsReportApiService {
   uploadGoodnessReport(soulId: number, csvGoodnessReport: File): Observable<HttpEvent<any>> {
     const formData: FormData = new FormData();
     formData.append('file', csvGoodnessReport);
-    const req = new HttpRequest('PUT', `${this.baseUrl}/souls/${soulId}/reports/goodness`, formData, {
+    const req = new HttpRequest('PUT', `${this.apiUrl}/souls/${soulId}/reports/goodness`, formData, {
       reportProgress: true,
       responseType: 'json'
     });
