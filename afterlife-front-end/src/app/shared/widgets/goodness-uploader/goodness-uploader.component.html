@@ -1,6 +1,6 @@
 <input #fileUpload type="file"
-                       (change)="onFileSelected($event)">
+(change)="selectFile($event)">
 <div>
-  <button mat-raised-button (click)="upload()" color="primary" class="mat-focus-indicator mat-raised-button mat-button-base mat-primary">Upload</button>
+  <button mat-raised-button [disabled]="!selectedFiles" (click)="upload()" color="primary" class="mat-focus-indicator mat-raised-button mat-button-base mat-primary">Upload</button>
 </div>
 
