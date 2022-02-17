@@ -74,14 +74,15 @@
                     <p *ngFor="let comment of commentGroups">{{comment.text}}</p>
               </ng-container>
             </mat-expansion-panel>
-            <form class="example-form">
-                    <mat-form-field class="example-full-width">
-                        <mat-label>Leave a comment</mat-label>
-                        <textarea matInput placeholder="Ex. It makes me feel..."></textarea>
-                    </mat-form-field>
-            </form>
-            <button mat-button>Submit</button>
-            </mat-accordion>
+            </mat-accordion> 
+            <br>
+            <h3>Оставайтесь со своим комментарием</h3>
+            <form name="form" #userPost="ngForm" (ngSubmit)="onSubmit(userPost.value)">
+                <input type="number" name="id" ngModel placeholder="id"> <br><br>
+                <input type="text" name="text" ngModel placeholder="comment"> <br><br>
+                <input type="text" name="createdAt" ngModel placeholder="createdAt"> <br><br>
+                <button type="submit">submit comment</button>
+            </form>          
     </mat-card-content>
     <mat-card-actions>
         <h4>Места решения</h4>
