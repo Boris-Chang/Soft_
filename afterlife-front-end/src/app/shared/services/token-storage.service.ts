@@ -11,13 +11,17 @@ const AUTHORITIES_KEY = 'AuthAuthorities';
 export class TokenStorageService {
     private roles: Array<string> = [];
 
-    
+
     public saveToken(token: string) {
-        window.sessionStorage.removeItem(TOKEN_KEY);
+        this.removeToken();
         window.sessionStorage.setItem(TOKEN_KEY, token);
     }
     public getToken(): string | null {
         return window.sessionStorage.getItem(TOKEN_KEY);
+    }
+
+    public removeToken() {
+      window.sessionStorage.removeItem(TOKEN_KEY);
     }
 
     public saveLogin(login: string) {
