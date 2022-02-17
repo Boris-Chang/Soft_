@@ -6,7 +6,7 @@
         <div mat-card-avatar class="example-header-image"></div>
         <mat-card-title *ngIf="soul">{{soul.firstName}} {{soul.lastName}}</mat-card-title>
         <mat-card-subtitle *ngIf="soul">{{soul.dateOfDeath}}</mat-card-subtitle>
-        <mat-card-title *ngIf="soul.classifiedAfterworldSection">Места классификатора: {{soul.classifiedAfterworldSection.afterwoldKind}}</mat-card-title>
+        <mat-card-title *ngIf="soul?.classifiedAfterworldSection">Место прибывания: {{soul.classifiedAfterworldSection.afterwoldKind}}</mat-card-title>
         </mat-card-header>
         <!-- <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="Photo of a Shiba Inu"> -->
         <mat-card-content>
@@ -69,8 +69,10 @@
             Currently I am {{panelOpenState ? 'open' : 'closed'}}
             </mat-panel-description>
             </mat-expansion-panel-header>
+              <ng-container *ngIf="commentGroups && commentGroups.length > 0">
                 <h3>Комментарии: </h3>
-                    <p *ngIf="commentGroups[0]">{{commentGroups[0].text}}</p>
+                    <p *ngFor="let comment of commentGroups">{{comment.text}}</p>
+              </ng-container>
             </mat-expansion-panel>
             <form class="example-form">
                     <mat-form-field class="example-full-width">
