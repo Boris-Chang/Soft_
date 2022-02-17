@@ -21,7 +21,7 @@ export class AuthService {
   public currentUser: Observable<any>;
 
   private host = environment.loginUrl;
-  
+
   constructor(private http: HttpClient,
     private tokenStorage: TokenStorageService) {
     this.currentUserSubject = new BehaviorSubject<any>(sessionStorage.getItem(TOKEN_KEY));
@@ -36,7 +36,15 @@ export class AuthService {
           return data;
         }))
     }
-    
+
+    public isLoggedIn(): boolean {
+        return this.tokenStorage.getToken() != null
+    }
+
+    public signOut() {
+      return this.tokenStorage.removeToken()
+    }
+
     private saveUserData(data){
       this.tokenStorage.saveToken(data.token);
       this.tokenStorage.saveLogin(data.login);
