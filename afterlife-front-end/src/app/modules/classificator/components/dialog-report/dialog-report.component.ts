@@ -7,6 +7,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 import { environment } from 'src/environments/environment'
 import { ReportComment, Soul } from '../../models';
+import { Argue } from '../../models/argue.model';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-type': 'application/json' })
@@ -22,6 +23,7 @@ export class DialogReportComponent implements OnInit {
   private host = environment.soulUrl;
   soul: Soul;
   commentGroups: ReportComment[];
+  resultArgue: Argue;
   id: number;
   text: string;
   createdAt: string;
@@ -58,6 +60,11 @@ export class DialogReportComponent implements OnInit {
     this.http.get<ReportComment[]>(`${this.host}/${this.soulId}/comments`)
     .subscribe( result => {
       this.commentGroups = result;
+    })
+    
+    this.http.get<Argue>(`${this.host}/${this.soulId}/argue`)
+    .subscribe( result => {
+      this.resultArgue = result;
     })
   }
   //define to datasource of goodness
