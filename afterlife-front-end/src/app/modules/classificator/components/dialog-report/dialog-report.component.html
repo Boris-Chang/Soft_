@@ -7,7 +7,8 @@
         <mat-card-title *ngIf="soul">{{soul.firstName}} {{soul.lastName}}</mat-card-title>
         <mat-card-subtitle *ngIf="soul">{{soul.dateOfDeath}}</mat-card-subtitle>
         <mat-card-title *ngIf="soul?.classifiedAfterworldSection">Место прибывания: {{soul.classifiedAfterworldSection.afterwoldKind}}</mat-card-title>
-        </mat-card-header>
+        <mat-card-subtitle *ngIf="resultArgue">{{resultArgue.decisionText}}</mat-card-subtitle>    
+    </mat-card-header>
         <!-- <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="Photo of a Shiba Inu"> -->
         <mat-card-content>
             <h3>Report from Goodness</h3>
