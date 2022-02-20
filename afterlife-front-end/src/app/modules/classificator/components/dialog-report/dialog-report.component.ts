@@ -10,10 +10,13 @@ import { ReportComment, Soul } from '../../models';
 import { Argue } from '../../models/argue.model';
 import { MarkChange } from '../../models/mark-change.model';
 import { ChangeDecision } from '../../models/chang-decision.model';
+import { Role } from 'src/app/shared/enum/role.enum';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-type': 'application/json' })
 };
+
+const Roles = 'role';
 
 @Component({
   selector: 'app-dialog-report',
@@ -90,6 +93,19 @@ export class DialogReportComponent implements OnInit {
           console.warn(result);
           this.resultChange = result;
         })
+  }
+  
+  //
+  get isGodOrDevil(): boolean {
+    return this.getUserRole() === Role.God || this.getUserRole() === Role.Devil;
+  }
+  //
+  get isAdvocateOrProsecutor(): boolean {
+    return this.getUserRole() === Role.Heaven_Advocate || this.getUserRole() === Role.Heaven_Prosecutor;
+  }
+  //
+  getUserRole(): string{
+    return window.sessionStorage.getItem(Roles);
   }
   
   //define to datasource of goodness
