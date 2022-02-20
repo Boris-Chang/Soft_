@@ -1,6 +1,8 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {SoulsReportApiService} from "../../../modules/classificator/services";
-import {ReportedSoul} from "../../../modules/classificator/models";
+import { Role } from 'src/app/shared/enum/role.enum';
+
+const Roles = 'role';
 
 @Component({
   selector: 'app-goodness-uploader',
@@ -29,7 +31,17 @@ export class GoodnessUploaderComponent implements OnInit {
       })
     }
   }
+  
+  //
+  get isAdvocate(): boolean {
+    return this.getUserRole() === Role.Heaven_Advocate;
+  }
 
+  //
+  getUserRole(): string{
+    return window.sessionStorage.getItem(Roles);
+  }
+  
   ngOnInit(): void {
   }
 }
