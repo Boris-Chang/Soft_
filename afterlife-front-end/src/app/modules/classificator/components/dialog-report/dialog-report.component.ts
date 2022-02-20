@@ -8,6 +8,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from 'src/environments/environment'
 import { ReportComment, Soul } from '../../models';
 import { Argue } from '../../models/argue.model';
+import { MarkChange } from '../../models/mark-change.model';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-type': 'application/json' })
@@ -24,6 +25,7 @@ export class DialogReportComponent implements OnInit {
   soul: Soul;
   commentGroups: ReportComment[];
   resultArgue: Argue;
+  resultMark: MarkChange;
   id: number;
   text: string;
   createdAt: string;
