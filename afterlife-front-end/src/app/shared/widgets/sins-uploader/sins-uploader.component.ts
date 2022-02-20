@@ -1,6 +1,8 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {SoulsReportApiService} from "../../../modules/classificator/services";
-import {HttpClient} from "@angular/common/http";
+import { Role } from 'src/app/shared/enum/role.enum';
+
+const Roles = 'role';
 
 @Component({
   selector: 'app-sins-uploader',
@@ -28,7 +30,16 @@ export class SinsUploaderComponent implements OnInit {
       })
     }
   }
-
+  
+   //
+  get isProsecutor(): boolean {
+    return this.getUserRole() === Role.Heaven_Prosecutor;
+  }
+  //
+  getUserRole(): string{
+    return window.sessionStorage.getItem(Roles);
+  }
+  
   ngOnInit(): void {
   }
 
