@@ -11,14 +11,14 @@
     </mat-card-header>
         <!-- <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="Photo of a Shiba Inu"> -->
         <div>
-            <button type="button" (click)="postMark()">Mark Argue</button>
+            <button [hidden]="!isGodOrDevil" type="button" (click)="postMark()">Mark Argue</button>
             <mat-card-subtitle *ngIf="resultMark">{{resultMark.decisionText}}</mat-card-subtitle>
             <mat-card-subtitle *ngIf="resultMark">{{resultMark.isArguedByGod}}</mat-card-subtitle>
             <mat-card-subtitle *ngIf="resultMark">{{resultMark.isArguedByDevil}}</mat-card-subtitle>
         </div>
         
         <div>
-          <form name="form" #changePost="ngForm" (ngSubmit)="changeDecision(changePost.value)">
+          <form [hidden]="!isGodOrDevil" name="form" #changePost="ngForm" (ngSubmit)="changeDecision(changePost.value)">
               <input type="number" name="sectionIndex" ngModel placeholder="sectionIndex"> <br><br>
               <input type="text" name="afterworldKind" ngModel placeholder="afterworldKind"> <br><br>
               <button type="submit">Change</button>
@@ -96,7 +96,7 @@
             </mat-accordion> 
             <br>
             <h3>Оставайтесь со своим комментарием</h3>
-            <form name="form" #userPost="ngForm" (ngSubmit)="onSubmit(userPost.value)">
+            <form [hidden]="!isAdvocateOrProsecutor" name="form" #userPost="ngForm" (ngSubmit)="onSubmit(userPost.value)">
                 <input type="number" name="id" ngModel placeholder="id"> <br><br>
                 <input type="text" name="text" ngModel placeholder="comment"> <br><br>
                 <input type="text" name="createdAt" ngModel placeholder="createdAt"> <br><br>

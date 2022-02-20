@@ -4,6 +4,8 @@ import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { UserInfo } from '../../models/user-info.model';
 import { environment } from '../../../../environments/environment';
 
+const Roles = 'role';
+
 export interface DialogData {
   animal: 'panda' | 'unicorn' | 'lion';
   }
@@ -25,6 +27,7 @@ export class SiderbarComponent implements OnInit {
     this.http.get<UserInfo>(this.host)
       .subscribe( result => {
         this.user = result;
+        window.sessionStorage.setItem(Roles, this.user.roles);
       })
   }
   //
