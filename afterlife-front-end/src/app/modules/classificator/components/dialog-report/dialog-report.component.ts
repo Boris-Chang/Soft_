@@ -8,6 +8,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from 'src/environments/environment'
 import { ReportComment, Soul } from '../../models';
 import { Argue } from '../../models/argue.model';
+import { MarkChange } from '../../models/mark-change.model';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-type': 'application/json' })
@@ -24,6 +25,7 @@ export class DialogReportComponent implements OnInit {
   soul: Soul;
   commentGroups: ReportComment[];
   resultArgue: Argue;
+  resultMark: MarkChange;
   id: number;
   text: string;
   createdAt: string;
@@ -67,6 +69,16 @@ export class DialogReportComponent implements OnInit {
       this.resultArgue = result;
     })
   }
+  
+  //post mark
+  postMark() {
+    return this.http.post<MarkChange>(`${this.host}/${this.soulId}/argue`, httpOptions)
+        .subscribe((result) => {
+          console.warn(result);
+          this.resultMark = result;
+        })
+  }
+  
   //define to datasource of goodness
   dataSourceOfgoodness: MatTableDataSource<PeriodicElement_goodness>;
   displayedColumnsOfgoodness: string[] = ['id', 'kind', 'date'];
