@@ -9,6 +9,7 @@ import { environment } from 'src/environments/environment'
 import { ReportComment, Soul } from '../../models';
 import { Argue } from '../../models/argue.model';
 import { MarkChange } from '../../models/mark-change.model';
+import { ChangeDecision } from '../../models/chang-decision.model';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-type': 'application/json' })
@@ -29,6 +30,9 @@ export class DialogReportComponent implements OnInit {
   id: number;
   text: string;
   createdAt: string;
+  sectionIndex: number;
+  afterworldKind: string;
+  resultChange: ChangeDecision;
   
   constructor(public dialog: MatDialog, @Inject(MAT_DIALOG_DATA) public data: any, private http: HttpClient) {
     this.dataSourceOfgoodness = new MatTableDataSource;
@@ -76,6 +80,15 @@ export class DialogReportComponent implements OnInit {
         .subscribe((result) => {
           console.warn(result);
           this.resultMark = result;
+        })
+  }
+  
+  //change-decision
+  changeDecision(data: any) {
+    return this.http.post<ChangeDecision>(`${this.host}/${this.soulId}/change-decision`,  JSON.stringify(data), httpOptions)
+        .subscribe((result) => {
+          console.warn(result);
+          this.resultChange = result;
         })
   }
   
