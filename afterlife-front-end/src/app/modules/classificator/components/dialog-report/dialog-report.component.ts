@@ -67,6 +67,16 @@ export class DialogReportComponent implements OnInit {
       this.resultArgue = result;
     })
   }
+  
+  //post mark
+  postMark() {
+    return this.http.post<MarkChange>(`${this.host}/${this.soulId}/argue`, httpOptions)
+        .subscribe((result) => {
+          console.warn(result);
+          this.resultMark = result;
+        })
+  }
+  
   //define to datasource of goodness
   dataSourceOfgoodness: MatTableDataSource<PeriodicElement_goodness>;
   displayedColumnsOfgoodness: string[] = ['id', 'kind', 'date'];
