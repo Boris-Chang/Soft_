@@ -24,6 +24,7 @@ class ReportCommentRepositoryImpl(
     override suspend fun findCommentsBySoul(soul: Soul): List<ReportComment> =
         this.dsl.selectFrom(SOUL_REPORT_COMMENT)
             .where(SOUL_REPORT_COMMENT.SOUL_ID.eq(soul.id))
+            .orderBy(SOUL_REPORT_COMMENT.CREATED_AT.desc())
             .fetchAsync()
             .await()
             .map(this.recordMapper)
