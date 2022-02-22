@@ -6,4 +6,7 @@ data class ReportComment(
     val id: Long,
     val text: String,
     val createdAt: ZonedDateTime,
-)
+) {
+    fun withJustCreatedAt() =
+            copy(createdAt = ZonedDateTime.now())
+}
