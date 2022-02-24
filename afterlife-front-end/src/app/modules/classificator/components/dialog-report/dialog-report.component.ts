@@ -12,6 +12,7 @@ import { MarkChange } from '../../models/mark-change.model';
 import { ChangeDecision } from '../../models/chang-decision.model';
 import { Role } from 'src/app/shared/enum/role.enum';
 import { GoodnessEvidence } from '../../models/goodness-evidence.model';
+import { SinEvidence } from '../../models';
 import { result } from '../../models/result.model';
 import { ResultAll } from '../../models/resultAll.model';
 
