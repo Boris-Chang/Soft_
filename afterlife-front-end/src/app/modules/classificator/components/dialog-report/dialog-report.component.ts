@@ -11,12 +11,16 @@ import { Argue } from '../../models/argue.model';
 import { MarkChange } from '../../models/mark-change.model';
 import { ChangeDecision } from '../../models/chang-decision.model';
 import { Role } from 'src/app/shared/enum/role.enum';
+import { GoodnessEvidence } from '../../models/goodness-evidence.model';
+import { result } from '../../models/result.model';
+import { ResultAll } from '../../models/resultAll.model';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-type': 'application/json' })
 };
 
 const Roles = 'role';
+const GoodnessKind = 'goodnessKind';
 
 @Component({
   selector: 'app-dialog-report',
@@ -36,6 +40,10 @@ export class DialogReportComponent implements OnInit {
   sectionIndex: number;
   afterworldKind: string;
   resultChange: ChangeDecision;
+  goodnessEvidences: GoodnessEvidence[];
+  goodnessEvidence: string;
+  resultAll: ResultAll;
+  results: result[];
   
   constructor(public dialog: MatDialog, @Inject(MAT_DIALOG_DATA) public data: any, private http: HttpClient) {
     this.dataSourceOfgoodness = new MatTableDataSource;
@@ -74,6 +82,24 @@ export class DialogReportComponent implements OnInit {
     this.http.get<Argue>(`${this.host}/${this.soulId}/argue`)
     .subscribe( result => {
       this.resultArgue = result;
+    })
+    //get report of sins and goodness
+    this.http.get<ResultAll>('http://localhost:8080/api/souls?page-number=0&page-size=100')
+    .subscribe( result => {
+      this.resultAll = result;
+
+      for (var i in this.resultAll.results)
+      {
+        if (this.resultAll.results[i].soul.id == this.soulId)
+        {
+          this.goodnessEvidences = this.resultAll.results[i].goodnessReport.goodnessEvidences;
+          // console.log(this.goodnessEvidences);
+          window.sessionStorage.setItem(GoodnessKind, JSON.stringify(this.goodnessEvidences));         
+        }
+      }
+      this.goodnessEvidence = window.sessionStorage.getItem(GoodnessKind);    
+      this.goodnessEvidences = JSON.parse(this.goodnessEvidence);
+      // console.log(this.goodnessEvidences);
     })
   }
   
