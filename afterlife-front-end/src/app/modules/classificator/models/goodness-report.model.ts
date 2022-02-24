@@ -4,5 +4,5 @@ export interface GoodnessReport {
   id: number,
   soul: Soul,
   goodnessEvidences: GoodnessEvidence[],
-  uploadedAt: Date,
+  uploadedAt: string,
 }
