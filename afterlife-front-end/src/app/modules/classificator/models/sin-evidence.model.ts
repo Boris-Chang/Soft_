@@ -25,7 +25,7 @@ export enum SinKind {
 
 export interface SinEvidence {
   id: number;
-  kind: SinKind,
-  dateOfSin: Date,
-  attonedAt?: Date,
+  kind: string,
+  dateOfSin: string,
+  attonedAt?: string,
 }
