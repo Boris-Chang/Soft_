@@ -1,4 +1,6 @@
 export interface SinsReport {
   id: number;
-  uploadedAt: Date;
+  soul: Soul;
+  sins: SinEvidence[];
+  uploadedAt: string;
 }
