@@ -22,6 +22,7 @@ const httpOptions = {
 
 const Roles = 'role';
 const GoodnessKind = 'goodnessKind';
+const SinsKin = 'sinsKind';
 
 @Component({
   selector: 'app-dialog-report',
@@ -42,7 +43,9 @@ export class DialogReportComponent implements OnInit {
   afterworldKind: string;
   resultChange: ChangeDecision;
   goodnessEvidences: GoodnessEvidence[];
+  sinsEvidences: SinEvidence[];
   goodnessEvidence: string;
+  sinsEvidence: string;
   resultAll: ResultAll;
   results: result[];
   
@@ -95,12 +98,16 @@ export class DialogReportComponent implements OnInit {
         {
           this.goodnessEvidences = this.resultAll.results[i].goodnessReport.goodnessEvidences;
           // console.log(this.goodnessEvidences);
-          window.sessionStorage.setItem(GoodnessKind, JSON.stringify(this.goodnessEvidences));         
+          window.sessionStorage.setItem(GoodnessKind, JSON.stringify(this.goodnessEvidences));
+          this.sinsEvidences = this.resultAll.results[i].sinsReport.sins;
+          window.sessionStorage.setItem(SinsKin, JSON.stringify(this.sinsEvidences));         
         }
       }
       this.goodnessEvidence = window.sessionStorage.getItem(GoodnessKind);    
       this.goodnessEvidences = JSON.parse(this.goodnessEvidence);
       // console.log(this.goodnessEvidences);
+      this.sinsEvidence = window.sessionStorage.getItem(SinsKin); 
+      this.sinsEvidences = JSON.parse(this.sinsEvidence);
     })
   }
   
