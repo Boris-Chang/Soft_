@@ -2,9 +2,9 @@ import {Component, Inject, OnInit, ViewChild} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialog} from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { FormControl } from '@angular/forms';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 import { environment } from 'src/environments/environment'
 import { ReportComment, Soul } from '../../models';
@@ -20,10 +20,14 @@ import { ResultAll } from '../../models/resultAll.model';
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-type': 'application/json' })
 };
-
 const Roles = 'role';
 const GoodnessKind = 'goodnessKind';
 const SinsKin = 'sinsKind';
+
+interface Kind {
+  palce: string;
+  placeView: string;
+}
 
 @Component({
   selector: 'app-dialog-report',
@@ -50,10 +54,28 @@ export class DialogReportComponent implements OnInit {
   resultAll: ResultAll;
   results: result[];
   
-  constructor(public dialog: MatDialog, @Inject(MAT_DIALOG_DATA) public data: any, private http: HttpClient, private _snackBar: MatSnackBar) {
-    this.dataSourceOfgoodness = new MatTableDataSource;
+  kinds: Kind[] = [
+    {palce: 'HELL', placeView: 'HELL'},
+    {palce: 'PARADISE', placeView: 'PARADISE'}
+  ];
+
+  constructor(
+    public dialog: MatDialog, 
+    @Inject(MAT_DIALOG_DATA) public data: any, 
+    private http: HttpClient,
+    private _snackBar: MatSnackBar,
+    ) {
+    this.dataSourceOfgoodness = new MatTableDataSource<GoodnessEvidence>();
 
     this.dataSourceofsins = new MatTableDataSource;
+  }
+  //
+  public asTypedModel(o: any): GoodnessEvidence {
+    return o;
+  }
+  //
+  public get souls(): GoodnessEvidence[] {
+    return this.dataSourceOfgoodness.data;
   }
   
   //
@@ -62,13 +84,16 @@ export class DialogReportComponent implements OnInit {
     this.http.post(`${this.host}/${this.soulId}/comments`, JSON.stringify(data), httpOptions)
     .subscribe(( result ) => {
       console.warn("result", result);
-    })
+      this._snackBar.open("Sumbit successfully");
+    }), err => {
+      this._snackBar.open("Sumbit failed");
+    }
     console.warn(data);
   }
 
   ngOnInit(): void {
     this.soulId = this.data as number;
-    this.dataSourceOfgoodness.data = ELEMENT_DATA_goodness;
+    
     this.dataSourceOfgoodness.sort = this.tableOneSort;
 
     this.dataSourceofsins.data = ELEMENT_DATA_sins;
@@ -83,12 +108,12 @@ export class DialogReportComponent implements OnInit {
     .subscribe( result => {
       this.commentGroups = result;
     })
-    
+
     this.http.get<Argue>(`${this.host}/${this.soulId}/argue`)
     .subscribe( result => {
       this.resultArgue = result;
     })
-    //get report of sins and goodness
+    //
     this.http.get<ResultAll>('http://localhost:8080/api/souls?page-number=0&page-size=100')
     .subscribe( result => {
       this.resultAll = result;
@@ -99,7 +124,7 @@ export class DialogReportComponent implements OnInit {
         {
           this.goodnessEvidences = this.resultAll.results[i].goodnessReport.goodnessEvidences;
           // console.log(this.goodnessEvidences);
-          window.sessionStorage.setItem(GoodnessKind, JSON.stringify(this.goodnessEvidences));
+          window.sessionStorage.setItem(GoodnessKind, JSON.stringify(this.goodnessEvidences));         
           this.sinsEvidences = this.resultAll.results[i].sinsReport.sins;
           window.sessionStorage.setItem(SinsKin, JSON.stringify(this.sinsEvidences));         
         }
@@ -109,24 +134,23 @@ export class DialogReportComponent implements OnInit {
       // console.log(this.goodnessEvidences);
       this.sinsEvidence = window.sessionStorage.getItem(SinsKin); 
       this.sinsEvidences = JSON.parse(this.sinsEvidence);
+      // console.log(this.sinsEvidences);
     })
   }
-  
   //post mark
   postMark() {
     return this.http.post<MarkChange>(`${this.host}/${this.soulId}/argue`, httpOptions)
         .subscribe((result) => {
-          console.warn(result);
           this._snackBar.open("Marked successfully");
+          console.warn(result);
           this.resultMark = result;
         }), err => {
           this._snackBar.open("Marked failed");
         }
   }
-  
   //change-decision
   changeDecision(data: any) {
-    return this.http.post<ChangeDecision>(`${this.host}/${this.soulId}/change-decision`,  JSON.stringify(data), httpOptions)
+    return this.http.post<ChangeDecision>(`${this.host}/${this.soulId}/change-decision`,  JSON.stringify(data,), httpOptions)
         .subscribe((result) => {
           console.warn(result);
           this._snackBar.open("Changed successfully");
@@ -135,7 +159,6 @@ export class DialogReportComponent implements OnInit {
           this._snackBar.open("Changed failed");
         }
   }
-  
   //
   get isGodOrDevil(): boolean {
     return this.getUserRole() === Role.God || this.getUserRole() === Role.Devil;
@@ -148,9 +171,8 @@ export class DialogReportComponent implements OnInit {
   getUserRole(): string{
     return window.sessionStorage.getItem(Roles);
   }
-  
   //define to datasource of goodness
-  dataSourceOfgoodness: MatTableDataSource<PeriodicElement_goodness>;
+  dataSourceOfgoodness: MatTableDataSource<GoodnessEvidence>;
   displayedColumnsOfgoodness: string[] = ['id', 'kind', 'date'];
   @ViewChild('TableOneSort', {static: true}) tableOneSort: MatSort;
 
@@ -203,27 +225,7 @@ interface Places {
   places: Places[];
 }
 
-//interface for report of goodness and sins
-export interface PeriodicElement_goodness {
-  id: number;
-  kind: string;
-  date: string;
-  }
-  const ELEMENT_DATA_goodness: PeriodicElement_goodness[] = [
-  {kind: 'LOVE', id: 1, date: "2014-01-01"},
-  {kind: 'AMBITION', id: 2, date: "2014-01-01"},
-  {kind: 'TRIUMPH', id: 3, date: "2014-01-01"},
-  {kind: 'THEOLOGY', id: 3, date: "2014-01-01"},
-  {kind: 'REFORMISM', id: 4, date: "2014-01-01"},
-/*   {kind: 'THEOLOGY', id: 5, date: "2014-01-01"},
-  {kind: 'WISDOM', id: 6, date: "2014-01-01"},
-  {kind: 'HOLINESS', id: 7, date: "2014-01-01"},
-  {kind: 'DIVINITY', id: 8, date: "2014-01-01"},
-  {kind: 'AMBITION', id: 9, date: "2014-01-01"}, */
-  ];
-  /**
-  * @title Table that uses the recycle view repeater strategy.
-  */
+
 
    export interface PeriodicElement_sins {
     id: number;
