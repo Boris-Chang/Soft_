@@ -2,6 +2,7 @@ import {Component, Inject, OnInit, ViewChild} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialog} from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { FormControl } from '@angular/forms';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
@@ -49,7 +50,7 @@ export class DialogReportComponent implements OnInit {
   resultAll: ResultAll;
   results: result[];
   
-  constructor(public dialog: MatDialog, @Inject(MAT_DIALOG_DATA) public data: any, private http: HttpClient) {
+  constructor(public dialog: MatDialog, @Inject(MAT_DIALOG_DATA) public data: any, private http: HttpClient, private _snackBar: MatSnackBar) {
     this.dataSourceOfgoodness = new MatTableDataSource;
 
     this.dataSourceofsins = new MatTableDataSource;
@@ -116,6 +117,7 @@ export class DialogReportComponent implements OnInit {
     return this.http.post<MarkChange>(`${this.host}/${this.soulId}/argue`, httpOptions)
         .subscribe((result) => {
           console.warn(result);
+          this._snackBar.open("Survey Marked successfully");
           this.resultMark = result;
         })
   }
