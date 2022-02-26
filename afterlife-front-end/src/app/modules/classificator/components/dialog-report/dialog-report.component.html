@@ -7,8 +7,9 @@
         <mat-card-title *ngIf="soul">{{soul.firstName}} {{soul.lastName}}</mat-card-title>
         <mat-card-subtitle *ngIf="soul">{{soul.dateOfDeath}}</mat-card-subtitle>
         <mat-card-title *ngIf="soul?.classifiedAfterworldSection">Место прибывания: {{soul.classifiedAfterworldSection.afterwoldKind}}</mat-card-title>
-        <mat-card-subtitle *ngIf="resultArgue">{{resultArgue.decisionText}}</mat-card-subtitle>    
-    </mat-card-header>
+        <mat-card-subtitle *ngIf="resultArgue">{{resultArgue.decisionText}}</mat-card-subtitle>
+        <!-- <button mat-button>Get Argue</button> -->
+        </mat-card-header>
         <!-- <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="Photo of a Shiba Inu"> -->
         <div>
             <button [hidden]="!isGodOrDevil" mat-stroked-button color="primary" (click)="postMark()">Mark Argue</button>
@@ -16,98 +17,108 @@
             <mat-card-subtitle *ngIf="resultMark">{{resultMark.isArguedByGod}}</mat-card-subtitle>
             <mat-card-subtitle *ngIf="resultMark">{{resultMark.isArguedByDevil}}</mat-card-subtitle>
         </div>
-        
         <div>
-          <form [hidden]="!isGodOrDevil" name="form" #changePost="ngForm" (ngSubmit)="changeDecision(changePost.value)">
-              <p>
-                <mat-form-field appearance="outline">
-                  <mat-label>Section</mat-label>
-                  <input matInput type="number" name="sectionIndex" ngModel placeholder="sectionIndex"> <br><br>
-                </mat-form-field>
-              </p>
-              <p>
-                <mat-form-field appearance="outline">
-                  <mat-label>AfterwoldKind</mat-label>
-                  <input matInput name="afterworldKind" ngModel placeholder="afterworldKind"> <br><br>
-                </mat-form-field>
-              </p>
-              <button mat-stroked-button color="primary">Change</button>
-          </form>
-          <mat-card-subtitle *ngIf="resultChange?.godChangedDecision">GodChangedDecision: {{resultChange.godChangedDecision.afterwoldKind}}</mat-card-subtitle>
-          <mat-card-subtitle *ngIf="resultChange?.devilChangedDecision">devilChangedDecision: {{resultChange.devilChangedDecision.afterwoldKind}}</mat-card-subtitle>
-          <mat-card-subtitle *ngIf="resultChange">Decision: {{resultChange.decisionText}}</mat-card-subtitle>
-        </div>    
-     
+        <form [hidden]="!isGodOrDevil" name="form" #changePost="ngForm" (ngSubmit)="changeDecision(changePost.value)">
+            <p>
+              <mat-form-field appearance="outline">
+                <mat-label>Section</mat-label>
+                <input matInput type="number" name="sectionIndex" ngModel placeholder="sectionIndex"> <br><br>
+              </mat-form-field>
+            </p>
+            <p>
+              <mat-form-field appearance="outline">
+                <mat-label>AfterwoldKind</mat-label>
+                <input matInput name="afterworldKind" ngModel placeholder="afterworldKind"> <br><br>
+              </mat-form-field>
+            </p>
+            <button mat-stroked-button color="primary">Change</button>
+        </form>
+        <mat-card-subtitle *ngIf="resultChange?.godChangedDecision">GodChangedDecision: {{resultChange.godChangedDecision.afterwoldKind}}</mat-card-subtitle>
+        <mat-card-subtitle *ngIf="resultChange?.devilChangedDecision">devilChangedDecision: {{resultChange.devilChangedDecision.afterwoldKind}}</mat-card-subtitle>
+        <mat-card-subtitle *ngIf="resultChange">Decision: {{resultChange.decisionText}}</mat-card-subtitle>
+        </div>  
         <mat-card-content>
             <h3>Report from Goodness(Update only HEAVEN_ADVOCATE)</h3>
-              <table class="table table-hover">
-                    <thead class="table-borderless"> 
-                        <tr class="text-center">
-                            <th>ID</th>
-                            <th>KIND</th>
-                            <th>Date</th>
-                        </tr>
-                    </thead>
-                    <tbody *ngFor="let info of goodnessEvidences">
-                        <tr class="text-center">
-                            <td >{{info.id}}</td>
-                            <td>{{info.kind}}</td>
-                            <td>{{info.dateOfGoodDeedEvidence}}</td>
-                        </tr>
-                    </tbody>
-                </table>
-<!--           <table class="example-table mat-elevation-z8" mat-table matSort #TableOneSort="matSort" recycleRows [dataSource]="dataSourceOfgoodness">
-                    
-                    <ng-container matColumnDef="id">
-                    <th mat-header-cell *matHeaderCellDef> No. </th>
-                    <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+            <table class="table table-hover">
+                <thead class="table-borderless"> 
+                    <tr class="text-center">
+                        <th>ID</th>
+                        <th>KIND</th>
+                        <th>Date</th>
+                    </tr>
+                </thead>
+                <tbody *ngFor="let info of goodnessEvidences">
+                    <tr class="text-center">
+                        <td >{{info.id}}</td>
+                        <td>{{info.kind}}</td>
+                        <td>{{info.dateOfGoodDeedEvidence}}</td>
+                    </tr>
+                </tbody>
+            </table>
+            <!-- <table mat-table [dataSource]="dataSourceOfgoodness"> -->
+                <!-- <ng-container matColumnDef="id">
+                  <th mat-header-cell *matHeaderCellDef> ID </th>
+                  <td mat-cell *matCellDef="let element">
+                    <ng-container *ngIf="asTypedModel(element) as typedElement">
+                      {{typedElement.goodnessEvidence.id}}
                     </ng-container>
-                   
-                    <ng-container matColumnDef="kind">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Kind </th>
-                        <td mat-cell *matCellDef="let element"> {{element.kind}} </td>
+                  </td>
+                </ng-container> -->
+                
+                <!-- <ng-container matColumnDef="id">
+                  <th mat-header-cell *matHeaderCellDef> ID </th>
+                  <td mat-cell *matCellDef="let element">
+                    <ng-container *ngIf="asTypedModel(element) as typedElement">
+                      {{typedElement.soul.id}}
                     </ng-container>
-                   
-                    <ng-container matColumnDef="date">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Date </th>
-                    <td mat-cell *matCellDef="let element"> {{element.date}} </td>
+                  </td>
+                </ng-container>
+              
+                <ng-container matColumnDef="dateOfDeath">
+                  <th mat-header-cell *matHeaderCellDef> Date of Death </th>
+                  <td mat-cell *matCellDef="let element">
+                    <ng-container *ngIf="asTypedModel(element) as typedElement">
+                      {{typedElement.soul.dateOfDeath}}
                     </ng-container>
-                    <tr mat-header-row *matHeaderRowDef="displayedColumnsOfgoodness"></tr>
-                    <tr mat-row *matRowDef="let row; columns: displayedColumnsOfgoodness;"></tr>
-                </table> -->
+                  </td>
+                </ng-container> -->
+              
+                <!-- <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+              </table> -->
             <mat-card-actions> <app-goodness-uploader [soulId]="this.soulId"></app-goodness-uploader></mat-card-actions>
 
             <mat-divider></mat-divider>
 
             <h3>Report from Sins(Update only HEAVEN_PROSECUTOR)</h3>
-                  <table class="table table-hover">
-                      <thead class="table-borderless"> 
-                          <tr class="text-center">
-                              <th>ID</th>
-                              <th>KIND</th>
-                              <th>Date</th>
-                          </tr>
-                      </thead>
-                      <tbody *ngFor="let info of sinsEvidences">
-                          <tr class="text-center">
-                              <td >{{info.id}}</td>
-                              <td>{{info.kind}}</td>
-                              <td>{{info.dateOfSin}}</td>
-                          </tr>
-                      </tbody>
-                  </table>
-<!--             <table class="example-table mat-elevation-z8" mat-table matSort #TableTwoSort="matSort" recycleRows [dataSource]="dataSourceofsins">
-               
+            <table class="table table-hover">
+              <thead class="table-borderless"> 
+                  <tr class="text-center">
+                      <th>ID</th>
+                      <th>KIND</th>
+                      <th>Date</th>
+                  </tr>
+              </thead>
+              <tbody *ngFor="let info of sinsEvidences">
+                  <tr class="text-center">
+                      <td>{{info.id}}</td>
+                      <td>{{info.kind}}</td>
+                      <td>{{info.dateOfSin}}</td>
+                  </tr>
+              </tbody>
+          </table>
+            <!-- <table class="example-table mat-elevation-z8" mat-table matSort #TableTwoSort="matSort" recycleRows [dataSource]="dataSourceofsins">
+                Position Column
                 <ng-container matColumnDef="id">
                 <th mat-header-cell *matHeaderCellDef> No. </th>
                 <td mat-cell *matCellDef="let element"> {{element.id}} </td>
                 </ng-container>
-                
+             
                 <ng-container matColumnDef="kind">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header> Kind </th>
                     <td mat-cell *matCellDef="let element"> {{element.kind}} </td>
                 </ng-container>
-               
+                
                 <ng-container matColumnDef="date">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header> Date </th>
                 <td mat-cell *matCellDef="let element"> {{element.date}} </td>
@@ -137,15 +148,28 @@
             </mat-expansion-panel>
             </mat-accordion> 
             <br>
-            <h3>Оставайтесь со своим комментарием(Read only HEAVEN_PROSECUTOR, HEAVEN_ADVOCATE)</h3>
-            <form [hidden]="!isAdvocateOrProsecutor" name="form" #userPost="ngForm" (ngSubmit)="onSubmit(userPost.value)">
-                <input type="number" name="id" ngModel placeholder="id"> <br><br>
-                <input type="text" name="text" ngModel placeholder="comment"> <br><br>
-                <input type="text" name="createdAt" ngModel placeholder="createdAt"> <br><br>
-                <button type="submit">submit comment</button>
-            </form>          
+            <div>
+                <h3>Оставайтесь со своим комментарием(Read only HEAVEN_PROSECUTOR, HEAVEN_ADVOCATE)</h3>
+                <form [hidden]="!isAdvocateOrProsecutor" name="form" #userPost="ngForm" (ngSubmit)="onSubmit(userPost.value)">
+                    <p>
+                      <mat-form-field appearance="outline">
+                        <mat-label>Comment</mat-label>
+                        <input matInput type="text" name="text" ngModel placeholder="comment"> <br><br>
+                        <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
+                      </mat-form-field>  
+                    </p>
+                    <p>
+                      <mat-form-field appearance="outline">
+                        <mat-label>CreatedAt</mat-label>
+                        <input matInput type="text" name="createdAt" ngModel placeholder="createdAt"> <br><br>
+                        <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
+                      </mat-form-field>  
+                    </p>
+                    <button mat-stroked-button color="primary" type="submit">submit comment</button>
+                </form>
+            </div>          
     </mat-card-content>
-    <mat-card-actions>
+    <!-- <mat-card-actions>
         <h4>Места решения</h4>
         <mat-form-field appearance="fill">
             <mat-label>Небеса или Ада?</mat-label>
@@ -160,7 +184,7 @@
         </mat-form-field>
 
         <button mat-button>Submit</button>
-    </mat-card-actions>
+    </mat-card-actions> -->
 </mat-card>
 </div>
 <mat-dialog-actions align="end">
