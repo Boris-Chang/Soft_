@@ -19,8 +19,18 @@
         
         <div>
           <form [hidden]="!isGodOrDevil" name="form" #changePost="ngForm" (ngSubmit)="changeDecision(changePost.value)">
-              <input type="number" name="sectionIndex" ngModel placeholder="sectionIndex"> <br><br>
-              <input type="text" name="afterworldKind" ngModel placeholder="afterworldKind"> <br><br>
+              <p>
+                <mat-form-field appearance="outline">
+                  <mat-label>Section</mat-label>
+                  <input matInput type="number" name="sectionIndex" ngModel placeholder="sectionIndex"> <br><br>
+                </mat-form-field>
+              </p>
+              <p>
+                <mat-form-field appearance="outline">
+                  <mat-label>AfterwoldKind</mat-label>
+                  <input matInput name="afterworldKind" ngModel placeholder="afterworldKind"> <br><br>
+                </mat-form-field>
+              </p>
               <button mat-stroked-button color="primary">Change</button>
           </form>
           <mat-card-subtitle *ngIf="resultChange?.godChangedDecision">GodChangedDecision: {{resultChange.godChangedDecision.afterwoldKind}}</mat-card-subtitle>
