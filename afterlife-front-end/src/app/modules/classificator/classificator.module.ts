@@ -14,6 +14,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatSnackBarModule, MAT_SNACK_BAR_DEFAULT_OPTIONS } from '@angular/material/snack-bar';
 
 import { SoulsPageComponent, SoulsTableComponent } from './components';
 import { SoulsApiService } from "./services";
@@ -39,12 +40,14 @@ import { DialogReportComponent } from './components/dialog-report/dialog-report.
     MatExpansionModule,
     MatInputModule,
     MatSelectModule,
+    MatSnackBarModule,
     FormsModule,
     ReactiveFormsModule,
     MatPaginatorModule
   ],
   providers: [
-    SoulsApiService
+    SoulsApiService,
+    {provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: {duration: 2500}}
   ],
   exports: [
     SoulsPageComponent
