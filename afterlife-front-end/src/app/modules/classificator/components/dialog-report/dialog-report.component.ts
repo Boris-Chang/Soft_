@@ -117,9 +117,11 @@ export class DialogReportComponent implements OnInit {
     return this.http.post<MarkChange>(`${this.host}/${this.soulId}/argue`, httpOptions)
         .subscribe((result) => {
           console.warn(result);
-          this._snackBar.open("Survey Marked successfully");
+          this._snackBar.open("Marked successfully");
           this.resultMark = result;
-        })
+        }), err => {
+          this._snackBar.open("Marked failed");
+        }
   }
   
   //change-decision
@@ -127,8 +129,11 @@ export class DialogReportComponent implements OnInit {
     return this.http.post<ChangeDecision>(`${this.host}/${this.soulId}/change-decision`,  JSON.stringify(data), httpOptions)
         .subscribe((result) => {
           console.warn(result);
+          this._snackBar.open("Changed successfully");
           this.resultChange = result;
-        })
+        }), err => {
+          this._snackBar.open("Changed failed");
+        }
   }
   
   //
