@@ -20,6 +20,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { SinsUploaderComponent } from './widgets/sins-uploader/sins-uploader.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AngularFileUploaderModule } from "angular-file-uploader";
+import { MatSnackBarModule, MAT_SNACK_BAR_DEFAULT_OPTIONS } from '@angular/material/snack-bar';
+
 import {GoodnessUploaderComponent} from "./widgets/goodness-uploader/goodness-uploader.component";
 import { LoginComponent } from '../modules/login/login.component';
 
@@ -47,6 +49,7 @@ import { LoginComponent } from '../modules/login/login.component';
     MatTabsModule,
     MatDialogModule,
     MatInputModule,
+    MatSnackBarModule,
     MatFormFieldModule,
     HttpClientModule,
     ReactiveFormsModule,
@@ -59,6 +62,9 @@ import { LoginComponent } from '../modules/login/login.component';
     SiderbarComponent,
     SinsUploaderComponent,
     GoodnessUploaderComponent
+  ],
+  providers: [
+    {provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: {duration: 2500}}
   ]
 })
 export class SharedModule { }
