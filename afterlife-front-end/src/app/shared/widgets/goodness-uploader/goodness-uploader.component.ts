@@ -1,4 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
+
 import {SoulsReportApiService} from "../../../modules/classificator/services";
 import { Role } from 'src/app/shared/enum/role.enum';
 
@@ -11,7 +13,8 @@ const Roles = 'role';
 })
 export class GoodnessUploaderComponent implements OnInit {
   @Input() soulId: number;
-  constructor(private readonly soulsReportService: SoulsReportApiService) { }
+  constructor(private readonly soulsReportService: SoulsReportApiService,
+              private _snackBar: MatSnackBar) { }
   isFileChosen: boolean = false;
   formData: FormData = null
   onFileSelected(event){
@@ -28,10 +31,13 @@ export class GoodnessUploaderComponent implements OnInit {
     if(this.isFileChosen&&this.formData!=null){
       this.soulsReportService.setGoodnessReport(this.soulId,this.formData).subscribe(value => {
         console.log(value);
-      })
+        this._snackBar.open("Uploaded successfully");
+      }), err => {
+        this._snackBar.open("Uploaded failed");
+      }
     }
   }
-  
+
   //
   get isAdvocate(): boolean {
     return this.getUserRole() === Role.Heaven_Advocate;
@@ -41,7 +47,7 @@ export class GoodnessUploaderComponent implements OnInit {
   getUserRole(): string{
     return window.sessionStorage.getItem(Roles);
   }
-  
+
   ngOnInit(): void {
   }
 }
