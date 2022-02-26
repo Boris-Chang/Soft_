@@ -29,7 +29,7 @@ export enum GoodnessKind {
 
 export interface GoodnessEvidence {
   id: number,
-  kind: GoodnessKind,
-  dateOfGoodDeedEvidence: Date,
+  kind: string,
+  dateOfGoodDeedEvidence: string,
 }
 
