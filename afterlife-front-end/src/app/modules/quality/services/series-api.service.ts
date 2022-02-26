@@ -14,7 +14,7 @@ import { ResultSeries } from '../models/resultSeries.model';
   
     constructor(private readonly http: HttpClient) {}
 
-    public getSeriesBymeasurementId(seriesId: number): Observable<ResultSeries[]> {
+    public getSeriesBymeasurementId(): Observable<ResultSeries[]> {
       return this.http.get<ResultSeries[]>(`${this.apiUrl}/measurements/2/series`);
     }
 
