@@ -5,7 +5,6 @@ import org.jooq.*
 import org.springframework.stereotype.Repository
 import org.springframework.transaction.annotation.Transactional
 import ru.ifmo.software_engineering.afterlife.database.Tables.*
-import ru.ifmo.software_engineering.afterlife.database.tables.records.MeasurementsRecord
 import ru.ifmo.software_engineering.afterlife.database.tables.records.SeriesRecord
 import ru.ifmo.software_engineering.afterlife.database.tables.records.SeriesValuesRecord
 import ru.ifmo.software_engineering.afterlife.quality_control.domain.Measurement
@@ -24,7 +23,7 @@ interface SeriesRepository {
 class SeriesRepositoryImpl(
     private val dsl: DSLContext,
     private val seriesMapper: RecordMapper<SeriesRecord, Series>,
-    private val measurementMapper: RecordMapper<MeasurementsRecord, Measurement>,
+    private val measurementMapper: RecordMapper<Record, Measurement>,
     private val seriesValueMapper: RecordMapper<SeriesValuesRecord, SeriesValue>,
     private val seriesUnmapper: RecordUnmapper<Series, SeriesRecord>,
 ) : SeriesRepository {

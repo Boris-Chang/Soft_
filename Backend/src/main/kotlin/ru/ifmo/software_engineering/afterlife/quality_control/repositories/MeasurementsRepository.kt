@@ -7,8 +7,11 @@ import org.springframework.stereotype.Repository
 import ru.ifmo.software_engineering.afterlife.core.models.PageRequest
 import ru.ifmo.software_engineering.afterlife.core.models.PagedResult
 import ru.ifmo.software_engineering.afterlife.database.Tables.MEASUREMENTS
+import ru.ifmo.software_engineering.afterlife.database.Tables.THRESHOLDS
 import ru.ifmo.software_engineering.afterlife.database.tables.records.MeasurementsRecord
+import ru.ifmo.software_engineering.afterlife.database.tables.records.ThresholdsRecord
 import ru.ifmo.software_engineering.afterlife.quality_control.domain.Measurement
+import ru.ifmo.software_engineering.afterlife.quality_control.domain.Threshold
 import ru.ifmo.software_engineering.afterlife.utils.jooq.paged
 
 interface MeasurementsRepository {
@@ -21,7 +24,8 @@ interface MeasurementsRepository {
 @Repository
 class MeasurementsRepositoryImpl(
     private val dsl: DSLContext,
-    private val recordMapper: RecordMapper<MeasurementsRecord, Measurement>,
+    private val recordMapper: RecordMapper<Record, Measurement>,
+    private val thresholdRecordMapper: RecordMapper<ThresholdsRecord, Threshold>,
     private val recordUnmapper: RecordUnmapper<Measurement, MeasurementsRecord>
 ) : MeasurementsRepository {
     override suspend fun findAll(pageRequest: PageRequest): PagedResult<Measurement> {
@@ -31,7 +35,7 @@ class MeasurementsRepositoryImpl(
             .paged(pageRequest)
             .fetchAsync()
             .await()
-            .map { this.recordMapper.map(it.into(MEASUREMENTS)) }
+            .map { this.recordMapper.map(it) }
 
         return PagedResult(measurements, count, pageRequest.pageNumber)
     }
@@ -41,7 +45,7 @@ class MeasurementsRepositoryImpl(
             .where(MEASUREMENTS.ID.eq(id))
             .fetchAsync()
             .await()
-            .map { recordMapper.map(it.into(MEASUREMENTS)) }
+            .map { recordMapper.map(it) }
             .firstOrNull()
 
     override suspend fun save(measurement: Measurement): Measurement =
@@ -52,6 +56,7 @@ class MeasurementsRepositoryImpl(
             .await()
             .map(this.recordMapper)
             .first()
+            .thenSaveThreshold(measurement.threshold)
 
     override suspend fun update(measurement: Measurement): Measurement =
         this.dsl.update(MEASUREMENTS)
@@ -62,7 +67,35 @@ class MeasurementsRepositoryImpl(
             .await()
             .map(this.recordMapper)
             .first()
+            .thenSaveThreshold(measurement.threshold)
+
+    private suspend fun Measurement.thenSaveThreshold(threshold: Threshold?): Measurement {
+        val savedThreshold =
+                if (threshold != null) saveOrUpdateThreshold(threshold, this)
+                else deleteThreshold(this).let { null }
+        return this.copy(threshold = savedThreshold)
+    }
+
+    private suspend fun saveOrUpdateThreshold(threshold: Threshold, measurement: Measurement): Threshold =
+            this.dsl.insertInto(THRESHOLDS)
+                    .set(ThresholdsRecord(measurement.id, threshold.value))
+                    .onConflict(THRESHOLDS.MEASUREMENT_ID)
+                    .doUpdate()
+                    .set(ThresholdsRecord(measurement.id, threshold.value))
+                    .returning()
+                    .fetchAsync()
+                    .await()
+                    .map { thresholdRecordMapper.map(it) }
+                    .first()
+
+    private suspend fun deleteThreshold(measurement: Measurement) {
+        this.dsl.delete(THRESHOLDS)
+                .where(THRESHOLDS.MEASUREMENT_ID.eq(measurement.id))
+                .executeAsync()
+                .await()
+    }
 
     private fun selectFromMeasurements(vararg f: SelectFieldOrAsterisk): SelectJoinStep<Record> =
         this.dsl.select(*f).from(MEASUREMENTS)
+                .leftJoin(THRESHOLDS).on(THRESHOLDS.MEASUREMENT_ID.eq(MEASUREMENTS.ID))
 }
