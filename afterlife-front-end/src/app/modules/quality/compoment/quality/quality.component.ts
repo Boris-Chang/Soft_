@@ -1,10 +1,15 @@
-import { Component, OnInit, Input } from '@angular/core';
-import { MatTableDataSource } from "@angular/material/table";
-import { Series } from '../../models/series.model';
+import { Component, OnInit } from '@angular/core';
+import { Subscription } from 'rxjs';
 
+import { Chart, registerables } from 'chart.js';
 
-import * as Highcharts from 'highcharts';
+import { ResultSeries } from '../../models/resultSeries.model';
+import { SeriesApiService } from '../../services';
+import { Values } from '../../models/values.model';
+import { Measurement } from "../../models/measurement.model";
 
+const SeriesValues = 'SeriesValues';
+const SeriesTitle = 'SeriesTitle';
 
 @Component({
   selector: 'app-quality',
@@ -13,54 +18,60 @@ import * as Highcharts from 'highcharts';
 })
 export class QualityComponent implements OnInit {
 
-
-  //define to the отдель контроля кочества
-  highcharts = Highcharts;
-
-  chartOptions: Highcharts.Options = {
-    title: {
-      text: "Температура точка сбора"
-    },
-    xAxis: {
-      title: {
-        text: '9 круг ада'
-      },
-      categories: ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
-        "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
-    },
-    yAxis: {
-      title: {
-        text: "Temprature"
-      }
-    },
-    series: [{
-      data: [7.0, 6.9, 9.5, 14.5, 18.2, 21.5, 25.2, 24.4, 19.3, 16.0, 18.4, 17.9],
-      type: 'spline'
-    }],
-    credits: {
-      enabled: false
-    },
-    exporting: {
-      enabled: true,
-    }
+  
+  subscription: Subscription;
+  constructor(private seriesApi: SeriesApiService,) {
+    Chart.register(...registerables);
   }
 
-  public readonly displayedColumns = ['id', 'title', 'captionForX', 'captionForY']
-  constructor() {}
+  resultSeries: ResultSeries[];
+  values: Values[];
+  measurement: Measurement;
+  chart: any;
+  qualityTitle: any;
+  captionForY: string;
+  series: any;
 
-  @Input()
-  public set souls(val: Series[]) {
-    console.debug('set');
-    this.datasource.data = val;
-  };
-
-  public get souls(): Series[] {
-    return this.datasource.data;
-  }
-
-  public datasource = new MatTableDataSource<Series>();
 
   ngOnInit(): void {
+    this.subscription = this.seriesApi.getSeriesBymeasurementId()
+    .subscribe( data => {
+      this.resultSeries = data;
+      this.values = this.resultSeries[0].values;
+      window.sessionStorage.setItem(SeriesValues, JSON.stringify(this.values));         
+      this.qualityTitle = this.resultSeries[0].measurement.title;
+      this.captionForY = this.resultSeries[0].measurement.captionForY;
+      window.sessionStorage.setItem(SeriesTitle, JSON.stringify(this.qualityTitle));    
+    });
+      this.qualityTitle = window.sessionStorage.getItem(SeriesTitle);
+      this.series = window.sessionStorage.getItem(SeriesValues);
+      this.series = JSON.parse(this.series)
+
+      var arr_series:any[] = new Array(this.series.size);
+      arr_series = this.series;
+      for (var i = 0; i < arr_series.length; i++)
+      {
+        arr_series[i] = this.series[i].value;
+      }
+      console.log(arr_series)
+      //show Chart data
+      this.chart = new Chart('quality', {
+        type: 'line',
+        data: {
+          labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
+          "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+          datasets: [
+            {
+              label: this.qualityTitle,
+              data:  arr_series,
+              borderWidth: 3,
+              fill: false,
+              backgroundColor: 'rgba(93, 175, 89, 0.1)',
+              borderColor: '#3e95cd'
+            }
+          ]
+        } 
+      })
   }
 
 }
