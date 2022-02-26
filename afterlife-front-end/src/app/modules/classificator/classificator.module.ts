@@ -19,6 +19,8 @@ import { MatSnackBarModule, MAT_SNACK_BAR_DEFAULT_OPTIONS } from '@angular/mater
 import { SoulsPageComponent, SoulsTableComponent } from './components';
 import { SoulsApiService } from "./services";
 import { DialogReportComponent } from './components/dialog-report/dialog-report.component';
+import { MatIconModule } from '@angular/material/icon';
+import { MatFormFieldModule } from '@angular/material/form-field';
 
 @NgModule({
   declarations: [
@@ -37,6 +39,8 @@ import { DialogReportComponent } from './components/dialog-report/dialog-report.
     MatDividerModule,
     MatCardModule,
     MatSortModule,
+    MatIconModule,
+    MatFormFieldModule,
     MatExpansionModule,
     MatInputModule,
     MatSelectModule,
