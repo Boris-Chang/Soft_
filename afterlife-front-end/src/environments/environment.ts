@@ -6,7 +6,8 @@ export const environment = {
   production: false,
   loginUrl: 'http://localhost:8080/api/sign-in',
   userUrl: 'http://localhost:8080/api/users/me',
-  soulUrl: 'http://localhost:8080/api/souls'
+  soulUrl: 'http://localhost:8080/api/souls',
+  baseUrl: 'http://localhost:8080/api/'
 };
 
 /*
