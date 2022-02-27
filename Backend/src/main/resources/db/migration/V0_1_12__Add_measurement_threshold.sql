@@ -3,7 +3,7 @@ CREATE TABLE Thresholds(
   value DOUBLE PRECISION NOT NULL
 );
 
-CREATE TABLE ThresholdAlerts(
+CREATE TABLE Threshold_Alerts(
     id INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     measurement_id BIGINT REFERENCES Measurements(id),
     text TEXT NOT NULL
