@@ -79,8 +79,11 @@ export class DialogReportComponent implements OnInit {
   }
   
   //
-  onSubmit(data: any)
+  onSubmit(data: ReportComment)
   {
+    let d:Date = new Date();
+    data.createdAt = d;
+    
     this.http.post(`${this.host}/${this.soulId}/comments`, JSON.stringify(data), httpOptions)
     .subscribe(( result ) => {
       console.warn("result", result);
