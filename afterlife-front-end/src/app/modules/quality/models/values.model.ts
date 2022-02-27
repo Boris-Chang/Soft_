@@ -1,5 +1,5 @@
 export interface Values {
     id: string;
-    timestamp: Date;
+    timestamp: string;
     value: number;
 }

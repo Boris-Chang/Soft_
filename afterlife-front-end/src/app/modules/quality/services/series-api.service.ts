@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { PagedResult } from "../../../shared/models";
 import { Measurement } from '../models/measurement.model';
 import { Series } from '../models/series.model';
+import { ResultSeries } from '../models/resultSeries.model';
 
 @Injectable({
     providedIn: 'root'
@@ -13,8 +14,8 @@ import { Series } from '../models/series.model';
   
     constructor(private readonly http: HttpClient) {}
 
-    public getSeriesBymeasurementId(seriesId: number): Observable<Series> {
-      return this.http.get<Series>(`${this.apiUrl}/measurements/measurementId/${seriesId}`);
+    public getSeriesBymeasurementId(): Observable<ResultSeries[]> {
+      return this.http.get<ResultSeries[]>(`${this.apiUrl}/measurements/2/series`);
     }
 
     public getAllMeasurement(pageNumber: number, pageSize: number): Observable<PagedResult<Measurement>> {
