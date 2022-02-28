@@ -1,62 +1,53 @@
 <app-header (toggleSideBarForMe)="sideBarToggler()"></app-header>
 
-<mat-drawer-container>
-    <mat-drawer mode="side" [opened]="sideBarOpen">
-        <app-siderbar></app-siderbar>
-    </mat-drawer>
-    <mat-drawer-content>
+    <mat-drawer-container>
+        <mat-drawer mode="side" [opened]="sideBarOpen">
+            <app-siderbar></app-siderbar>
+        </mat-drawer>
+        <mat-drawer-content>
 
 
 
-<nav class="navbar navbar-light bg-primary">
-    <div class="container-fluid">
-        <h1 style="color: aliceblue;">Страница с опросами</h1>
-    </div>
-</nav>
+            <nav class="navbar navbar-light bg-primary">
+                <div class="container-fluid">
+                    <h1 style="color: aliceblue;">Страница с опросами</h1>
+                </div>
+            </nav>
+        
+            <div class="tab-content mt-3" id="myTabContent">
+                <div class="mb-3 float-right">
+                    <div class="btn-group mr-2">
+                        <button type="button" class="btn btn-info" data-toggle="modal" mat-button (click)="openDialog()">
+                        <i class="fa fa-plus"></i>New Survey
+                        </button>
+                    </div>
+<!--                     <div class="btn-group">
+                        <button type="button" class="btn btn-info">
+                          <i class="fas fa-sync fa-spin"></i><i class="fas fa-sync"></i>
+                        </button>
+                    </div> -->
+                </div>
+            </div>
 
-<div class="demo-button-container">
-    <button mat-raised-button (click)="addData()" class="demo-button">
-    Add data
-    </button>
-    <button
-    mat-raised-button
-    [disabled]="!dataToDisplay.length"
-    (click)="removeData()"
-    class="demo-button">
-    Remove data
-    </button>
-</div>
-    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8 demo-table">
-    <!-- Position Column -->
-    <ng-container matColumnDef="position">
-    <th mat-header-cell *matHeaderCellDef>No.</th>
-    <td mat-cell *matCellDef="let element">{{element.position}}</td>
-    </ng-container>
-    <!-- Name Column -->
-    <ng-container matColumnDef="name">
-    <th mat-header-cell *matHeaderCellDef>Имя опроса</th>
-    <td mat-cell *matCellDef="let element">{{element.name}}</td>
-    </ng-container>
-    <!-- Weight Column -->
-    <ng-container matColumnDef="weight">
-    <th mat-header-cell *matHeaderCellDef>Создано пользователем</th>
-    <td mat-cell *matCellDef="let element">
-        <a href="https://forms.gle/ULYPFEyWTC3vsVYs6" target="_blank">
-            {{element.weight}}
-        </a>
-    </td>
-    </ng-container>
-    <!-- Symbol Column -->
-    <ng-container matColumnDef="symbol">
-    <th mat-header-cell *matHeaderCellDef>Для</th>
-    <td mat-cell *matCellDef="let element">
-        {{element.symbol}}
-    </td>
-    </ng-container>
-    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-    </table>
+            <table class="table table-hover">
+                <thead class="table-borderless"> 
+                    <tr class="text-center">
+                        <th>ID</th>
+                        <th>TITLE</th>
+                        <th>DOCUMENT</th>
+                        <th>ADDRESS</th>
+                    </tr>
+                </thead>
+                <tbody *ngFor="let info of surveys">
+                    <tr class="text-center">
+                        <td>{{info.id}}</td>
+                        <td>{{info.title}}</td>
+                        <td><a href="{{info.url}}" target="_blank">{{info.url}}</a></td>
+                        <td>{{info.addressee}}</td>
+                    </tr>
+                </tbody>
+            </table>
 
-  </mat-drawer-content>
-</mat-drawer-container>
+        </mat-drawer-content>
+    </mat-drawer-container>
 <app-footer></app-footer>
