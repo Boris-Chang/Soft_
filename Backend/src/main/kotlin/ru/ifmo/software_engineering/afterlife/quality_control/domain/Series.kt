@@ -15,4 +15,6 @@ data class Series(
     val name: String,
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     val values: List<SeriesValue>,
-)
+) {
+    fun withUpdatedName(name: String) = copy(name = name)
+}

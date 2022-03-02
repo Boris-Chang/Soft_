@@ -19,4 +19,6 @@ data class IdentityImpl(
 data class Principal(
         val identity: Identity,
         val roles: List<String>
-)
+) {
+    fun isInRole(role: String) = roles.contains(role)
+}
