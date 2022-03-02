@@ -10,8 +10,9 @@ data class Measurement(
     val title: String,
     val captionForX: String,
     val captionForY: String,
+    val threshold: Threshold?
 ) {
-    private constructor() : this (0, "", "", "")
+    private constructor() : this (0, "", "", "", null)
 
     companion object {
         val Empty = Measurement()
